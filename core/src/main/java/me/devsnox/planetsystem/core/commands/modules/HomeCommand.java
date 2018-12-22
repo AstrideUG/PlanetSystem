@@ -9,7 +9,6 @@ public class HomeCommand implements CommandModule {
     @Override
     public void execute(PlanetPlayer player, String[] args) {
         Planet planet = player.getOwnedPlanet();
-
         player.getPlayer().teleport(planet.getSpawnLocation());
     }
 }

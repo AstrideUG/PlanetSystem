@@ -7,13 +7,18 @@ import java.util.UUID;
 
 public interface Planet {
 
-    Integer getId();
+    int getId();
 
+    Location getMiddle();
     Location getSpawnLocation();
+
+    void setSpawnLocation(Location location);
 
     List<UUID> getMembers();
 
-    Integer getLevel();
-    Integer getTotalExp();
-    Integer getExpToNextLevel();
+    int getLevel();
+
+    int getTotalExp();
+
+    int getExpToNextLevel();
 }
