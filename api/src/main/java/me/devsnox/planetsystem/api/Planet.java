@@ -1,6 +1,7 @@
 package me.devsnox.planetsystem.api;
 
-import javax.xml.stream.Location;
+import org.bukkit.Location;
+
 import java.util.List;
 import java.util.UUID;
 
