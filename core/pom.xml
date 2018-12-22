@@ -11,5 +11,11 @@
 
     <artifactId>planetsystem.core</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>me.devsnox</groupId>
+            <artifactId>planetsystem.api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
