@@ -1,5 +1,8 @@
 package me.devsnox.planetsystem.api;
 
+import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.api.player.PlanetPlayer;
+
 import java.util.UUID;
 
 public interface PlanetAPI {
