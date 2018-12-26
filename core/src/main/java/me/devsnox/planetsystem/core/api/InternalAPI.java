@@ -1,11 +1,14 @@
 package me.devsnox.planetsystem.core.api;
 
-import me.devsnox.planetsystem.api.Planet;
-import me.devsnox.planetsystem.api.PlanetPlayer;
+import me.devsnox.planetsystem.api.PlanetAPI;
+import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.api.player.PlanetPlayer;
 
 import java.util.UUID;
 
 public interface InternalAPI {
+
+    PlanetAPI getPlanetAPI();
 
     InternalPlanet getInternalPlanet(UUID uuid);
 
