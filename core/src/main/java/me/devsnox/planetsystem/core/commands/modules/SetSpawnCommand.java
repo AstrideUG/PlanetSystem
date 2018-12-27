@@ -6,12 +6,8 @@ import me.devsnox.planetsystem.core.commands.PlanetCommandModule;
 public class SetSpawnCommand implements PlanetCommandModule {
 
     @Override
-    public void execute(PlanetPlayer player, String[] args) {
-        if (player.hasPlanet()) {
-            player.getPlanet().setSpawnLocation(player.getPlayer().getLocation());
-            player.getLogger().log("");
-        } else {
-            player.getLogger().log("");
-        }
+    public void execute(final PlanetPlayer player, final String[] args) {
+        player.getPlanet().setSpawnLocation(player.getPlayer().getLocation());
+        player.getLogger().log("");
     }
 }

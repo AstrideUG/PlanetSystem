@@ -29,7 +29,7 @@ public class PlanetSystem extends JavaPlugin {
     }
 
     private void registerListeners() {
-        PluginManager pluginManager = Bukkit.getPluginManager();
+        final PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new PlanetListener(), this);
         pluginManager.registerEvents(new PlayerListener(), this);
     }

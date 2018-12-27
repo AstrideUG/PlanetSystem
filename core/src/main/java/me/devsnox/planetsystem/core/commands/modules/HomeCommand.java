@@ -6,12 +6,8 @@ import me.devsnox.planetsystem.core.commands.PlanetCommandModule;
 public class HomeCommand implements PlanetCommandModule {
 
     @Override
-    public void execute(PlanetPlayer player, String[] args) {
-        if(player.hasPlanet()) {
-            player.getPlayer().teleport(player.getPlanet().getSpawnLocation());
-            player.getLogger().log(""); //TODO: Add message-key
-        } else {
-            player.getLogger().log(""); //TODO: Add message-key
-        }
+    public void execute(final PlanetPlayer player, final String[] args) {
+        player.getPlayer().teleport(player.getPlanet().getSpawnLocation().toBukkitLocation());
+        player.getLogger().log(""); //TODO: Add message-key
     }
 }

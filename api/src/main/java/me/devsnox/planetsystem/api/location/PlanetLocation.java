@@ -1,6 +1,7 @@
 package me.devsnox.planetsystem.api.location;
 
-import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.api.PlanetFactory;
+import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import org.bukkit.Location;
 
 import java.util.Objects;
@@ -11,29 +12,43 @@ public interface PlanetLocation {
     UUID getPlanetID();
 
     double getX();
+
     void setX(double x);
 
     double getY();
+
     void setY(double y);
 
     double getZ();
+
     void setZ(double z);
 
     float getYaw();
+
     void setYaw(float yaw);
 
     float getPitch();
+
     void setPitch(float pitch);
 
-    static void createFromBukkitLocation(Planet planet, Location location) {
-        Factory.createFromBukkitLocation(planet, location);
+    default Location toBukkitLocation() {
+        final Location location = PlanetFactory.planetAPI.getPlanet(this.getPlanetID()).load().getMiddle().subtract(this.getX(), this.getY(), this.getZ());
+
+        location.setYaw(this.getYaw());
+        location.setPitch(this.getPitch());
+
+        return location;
+    }
+
+    static PlanetLocation createFromBukkitLocation(final LoadedPlanet planet, final Location location) {
+        return Factory.createFromBukkitLocation(planet, location);
     }
 }
 
 final class Factory {
 
-    static PlanetLocation createFromBukkitLocation(Planet planet, Location location) {
-        Location finalLocation = planet.getMiddle().add(location);
+    static PlanetLocation createFromBukkitLocation(final LoadedPlanet planet, final Location location) {
+        final Location finalLocation = planet.getMiddle().add(location);
         return new PlanetLocationImpl(planet.getUniqueID(), finalLocation.getX(), finalLocation.getY(), finalLocation.getZ(), finalLocation.getYaw(), finalLocation.getPitch());
     }
 }
@@ -49,7 +64,7 @@ class PlanetLocationImpl implements PlanetLocation {
     private float yaw;
     private float pitch;
 
-    public PlanetLocationImpl(UUID planetID, double x, double y, double z, float yaw, float pitch) {
+    public PlanetLocationImpl(final UUID planetID, final double x, final double y, final double z, final float yaw, final float pitch) {
         this.planetID = planetID;
         this.x = x;
         this.y = y;
@@ -63,7 +78,7 @@ class PlanetLocationImpl implements PlanetLocation {
         return planetID;
     }
 
-    public void setPlanetID(UUID planetID) {
+    public void setPlanetID(final UUID planetID) {
         this.planetID = planetID;
     }
 
@@ -73,7 +88,7 @@ class PlanetLocationImpl implements PlanetLocation {
     }
 
     @Override
-    public void setX(double x) {
+    public void setX(final double x) {
         this.x = x;
     }
 
@@ -83,7 +98,7 @@ class PlanetLocationImpl implements PlanetLocation {
     }
 
     @Override
-    public void setY(double y) {
+    public void setY(final double y) {
         this.y = y;
     }
 
@@ -93,7 +108,7 @@ class PlanetLocationImpl implements PlanetLocation {
     }
 
     @Override
-    public void setZ(double z) {
+    public void setZ(final double z) {
         this.z = z;
     }
 
@@ -103,7 +118,7 @@ class PlanetLocationImpl implements PlanetLocation {
     }
 
     @Override
-    public void setYaw(float yaw) {
+    public void setYaw(final float yaw) {
         this.yaw = yaw;
     }
 
@@ -113,16 +128,16 @@ class PlanetLocationImpl implements PlanetLocation {
     }
 
     @Override
-    public void setPitch(float pitch) {
+    public void setPitch(final float pitch) {
         this.pitch = pitch;
     }
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PlanetLocationImpl that = (PlanetLocationImpl) o;
+        final PlanetLocationImpl that = (PlanetLocationImpl) o;
         return Double.compare(that.x, x) == 0 &&
                 Double.compare(that.y, y) == 0 &&
                 Double.compare(that.z, z) == 0 &&

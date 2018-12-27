@@ -1,8 +1,5 @@
 package me.devsnox.planetsystem.core.listeners;
 
-import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI;
-import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
-import me.devsnox.planetsystem.core.api.InternalFactory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -12,18 +9,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerListener implements Listener {
 
     @EventHandler
-    public void onLogin(AsyncPlayerPreLoginEvent event) {
+    public void onLogin(final AsyncPlayerPreLoginEvent event) {
 
     }
 
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        InternalFactory.internalAPI.loadPlayer(event.getPlayer().getUniqueId());
+    public void onJoin(final PlayerJoinEvent event) {
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        InternalFactory.internalAPI.savePlayer(event.getPlayer().getUniqueId());
+    public void onQuit(final PlayerQuitEvent event) {
     }
 }

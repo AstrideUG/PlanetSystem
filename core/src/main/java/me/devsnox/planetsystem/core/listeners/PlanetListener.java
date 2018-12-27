@@ -2,11 +2,7 @@ package me.devsnox.planetsystem.core.listeners;
 
 import me.devsnox.planetsystem.api.PlanetAPI;
 import me.devsnox.planetsystem.api.PlanetFactory;
-import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
-import me.devsnox.planetsystem.core.api.InternalAPI;
-import me.devsnox.planetsystem.core.api.InternalFactory;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

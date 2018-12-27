@@ -1,11 +1,12 @@
 package me.devsnox.planetsystem.api.player;
 
-import me.devsnox.planetsystem.api.planet.PlanetInfo;
+import me.devsnox.planetsystem.api.planet.Planet;
+
+import java.util.UUID;
 
 public interface OfflinePlanetPlayer {
 
-    boolean hasPlanet();
+    UUID getUUID();
 
-    PlanetInfo getPlanetInfo();
-
+    Planet getPlanet();
 }
