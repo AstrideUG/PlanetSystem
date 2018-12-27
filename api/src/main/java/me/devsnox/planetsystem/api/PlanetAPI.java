@@ -1,7 +1,6 @@
 package me.devsnox.planetsystem.api;
 
 import com.sun.istack.internal.Nullable;
-import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
 import org.bukkit.Location;
@@ -15,7 +14,7 @@ public interface PlanetAPI {
     Planet getPlanet(UUID uuid);
 
     @Nullable
-    LoadedPlanet getPlanet(Location location);
+    void getPlanet(Location location);
 
     /**
      * Can only be used when the player is online

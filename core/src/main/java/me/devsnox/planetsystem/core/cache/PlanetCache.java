@@ -1,9 +1,9 @@
 package me.devsnox.planetsystem.core.cache;
 
-import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PlanetCache extends HashMap<UUID, Planet> {
+public class PlanetCache extends HashMap<UUID, LoadedPlanet> {
 }

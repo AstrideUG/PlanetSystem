@@ -4,16 +4,16 @@ import org.bukkit.*;
 
 import java.io.File;
 
-public final class GridSystem {
+public final class GridHandler {
 
     private final World world;
 
     private final int maxSize;
 
-    private int stage;
+    private final int stage;
 
-    public GridSystem(String name, int maxSize) {
-        File file = new File(Bukkit.getWorldContainer(), name);
+    public GridHandler(final String name, final int maxSize) {
+        final File file = new File(Bukkit.getWorldContainer(), name);
 
         if (file.exists() && file.isDirectory()) {
             //noinspection ResultOfMethodCallIgnored
@@ -26,11 +26,11 @@ public final class GridSystem {
     }
 
     public Location getEmptyLocation() {
-        int x = this.stage * this.maxSize;
+        final int x = this.stage * this.maxSize;
         return new Location(world, x, 126, 0);
     }
 
-    private World generateVoidWorld(String name) {
+    private World generateVoidWorld(final String name) {
         return WorldCreator.name(name).type(WorldType.NORMAL)
                 .generateStructures(false)
                 .environment(World.Environment.NORMAL)

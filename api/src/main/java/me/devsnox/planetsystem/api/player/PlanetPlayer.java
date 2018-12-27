@@ -5,12 +5,10 @@ import me.devsnox.planetsystem.api.PlanetFactory;
 import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.log.Logger;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
-import me.devsnox.planetsystem.api.planet.Planet;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface PlanetPlayer extends OfflinePlanetPlayer {
@@ -30,8 +28,6 @@ public interface PlanetPlayer extends OfflinePlanetPlayer {
     default boolean canBuild(final Block block) {
         return canBuild(block.getLocation());
     }
-
-    List<Planet> getMemberedPlanets();
 
     @Nullable
     default PlanetLocation getLocation() {

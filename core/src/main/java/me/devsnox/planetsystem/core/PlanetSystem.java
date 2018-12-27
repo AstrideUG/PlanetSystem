@@ -1,6 +1,9 @@
 package me.devsnox.planetsystem.core;
 
+import me.devsnox.planetsystem.core.cache.PlanetCache;
+import me.devsnox.planetsystem.core.cache.PlayerCache;
 import me.devsnox.planetsystem.core.commands.PlanetCommand;
+import me.devsnox.planetsystem.core.database.DatabaseHandler;
 import me.devsnox.planetsystem.core.listeners.PlanetListener;
 import me.devsnox.planetsystem.core.listeners.PlayerListener;
 import org.bukkit.Bukkit;
@@ -11,10 +14,18 @@ import java.util.logging.Level;
 
 public class PlanetSystem extends JavaPlugin {
 
+    private DatabaseHandler databaseHandler;
+
+    private PlanetCache planetCache;
+    private PlayerCache playerCache;
+
     @Override
     public void onEnable() {
-        registerListeners();
-        registerCommands();
+        this.planetCache = new PlanetCache();
+        this.playerCache = new PlayerCache();
+
+        this.registerListeners();
+        this.registerCommands();
 
         this.getLogger().log(Level.INFO, ""); //TODO: Add message
     }

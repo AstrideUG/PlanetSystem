@@ -25,6 +25,6 @@ public interface Planet {
 
     void setSpawnLocation(PlanetLocation planetLocation);
 
-    //TODO: .
-    Future<> load();
+    //TODO:
+    void load(Consumer<LoadedPlanet> result);
 }

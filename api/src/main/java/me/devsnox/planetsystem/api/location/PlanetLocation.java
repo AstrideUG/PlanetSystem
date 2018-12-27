@@ -6,6 +6,7 @@ import org.bukkit.Location;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public interface PlanetLocation {
 
@@ -31,13 +32,15 @@ public interface PlanetLocation {
 
     void setPitch(float pitch);
 
-    default Location toBukkitLocation() {
-        final Location location = PlanetFactory.planetAPI.getPlanet(this.getPlanetID()).load().getMiddle().subtract(this.getX(), this.getY(), this.getZ());
+    default void toBukkitLocation(final Consumer<Location> request) {
+        PlanetFactory.planetAPI.getPlanet(this.getPlanetID()).load(loadedPlanet -> {
+            final Location location = loadedPlanet.getMiddle().subtract(getX(), getY(), getZ());
 
-        location.setYaw(this.getYaw());
-        location.setPitch(this.getPitch());
+            location.setYaw(getYaw());
+            location.setPitch(getPitch());
 
-        return location;
+            request.accept(location);
+        });
     }
 
     static PlanetLocation createFromBukkitLocation(final LoadedPlanet planet, final Location location) {

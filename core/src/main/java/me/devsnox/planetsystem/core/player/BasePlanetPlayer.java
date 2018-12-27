@@ -33,7 +33,7 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
 
     @Override
     public boolean canBuild(final Location location) {
-        if (this.getPlanet().isInside(player)) return true;
+        if (this.getPlanet().getInner().isInside(player)) return true;
         else return PlanetFactory.planetAPI.getPlanet(location).getMembers().contains(this.getUUID());
     }
 
