@@ -1,6 +1,9 @@
 package me.devsnox.planetsystem.core.listeners;
 
+import me.devsnox.planetsystem.api.PlanetAPI;
+import me.devsnox.planetsystem.api.PlanetFactory;
 import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.api.player.PlanetPlayer;
 import me.devsnox.planetsystem.core.api.InternalAPI;
 import me.devsnox.planetsystem.core.api.InternalFactory;
 import org.bukkit.entity.Player;
@@ -12,29 +15,21 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class PlanetListener implements Listener {
 
-    private InternalAPI internalAPI;
+    private PlanetAPI planetAPI;
 
     public PlanetListener() {
-        this.internalAPI = InternalFactory.internalAPI;
+        this.planetAPI = PlanetFactory.planetAPI;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockPlace(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
-        Planet planet = this.internalAPI.getPlanetAPI().getPlanet(player.getUniqueId());
-
-        if (!planet.isInside(event.getBlock())) {
-            event.setBuild(false);
-        }
+        PlanetPlayer player = this.planetAPI.getPlayer(event.getPlayer());
+        if(!player.canBuild(event.getBlock())) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
-        Planet planet = this.internalAPI.getPlanetAPI().getPlanet(player.getUniqueId());
-
-        if (!planet.isInside(event.getBlock())) {
-            event.setCancelled(true);
-        }
+        PlanetPlayer player = this.planetAPI.getPlayer(event.getPlayer());
+        if(!player.canBuild(event.getBlock())) event.setCancelled(true);
     }
 }

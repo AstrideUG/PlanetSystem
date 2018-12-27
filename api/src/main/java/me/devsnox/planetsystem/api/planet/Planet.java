@@ -1,39 +1,30 @@
 package me.devsnox.planetsystem.api.planet;
 
+import com.boydti.fawe.object.schematic.Schematic;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-import java.util.UUID;
-
-public interface Planet {
-
-    //TODO: Change to ObjectId (Hex-String)
-    int getId();
+public interface Planet extends PlanetInfo {
 
     int getSize();
-
     void setSize(int size);
 
-    Location getX();
-
-    Location getZ();
-
-    boolean isInside(Player player);
+    Location getMin();
+    Location getMax();
 
     boolean isInside(Location location);
+    default boolean isInside(Player player) {
+        return isInside(player.getLocation());
+    }
+    default boolean isInside(Block block) {
+        return isInside(block.getLocation());
+    }
 
-    boolean isInside(Block block);
-
-    Location getCenter();
+    Location getMiddle();
 
     Location getSpawnLocation();
     void setSpawnLocation(Location location);
 
-    List<UUID> getMembers();
-
-    int getLevel();
-    int getTotalExp();
-    int getExpToNextLevel();
+    Schematic getSchematic();
 }
