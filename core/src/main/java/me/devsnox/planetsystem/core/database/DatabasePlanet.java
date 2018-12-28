@@ -80,6 +80,6 @@ public class DatabasePlanet {
     }
 
     public BasePlanet toBasePlanet() {
-        return new BasePlanet(this.uniqueId, this.ownerUniqueId, this.members, this.size, this.planetLocation);
+        return new BasePlanet(this.uniqueId, this.name, this.ownerUniqueId, this.members, this.size, this.planetLocation);
     }
 }

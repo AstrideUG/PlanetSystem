@@ -1,11 +1,9 @@
 package me.devsnox.planetsystem.core;
 
 import com.boydti.fawe.FaweAPI;
-import com.google.common.collect.Sets;
 import com.sk89q.worldedit.Vector;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
-import me.devsnox.planetsystem.api.PlanetFactory;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
@@ -26,9 +24,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class BaseInternalHandler implements InternalHandler {
 
@@ -57,13 +53,13 @@ public class BaseInternalHandler implements InternalHandler {
         this.saveTask.runTaskTimer(this.plugin, 0, 20 * 60);
     }
 
-    public void loadPlayer(UUID uuid, Consumer<PlanetPlayer> request) {
+    public void loadPlayer(final UUID uuid, final Consumer<PlanetPlayer> request) {
         final DatabasePlayer databasePlayer = this.databaseHandler.getPlayer(uuid);
 
         this.loadPlanetByPlanetId(databasePlayer.getPlanetUniqueId(), loadedPlanet -> {
             final List<Planet> planetList = new ArrayList<>();
 
-            PlanetPlayer planetPlayer = new BasePlanetPlayer(Bukkit.getPlayer(uuid), loadedPlanet, planetList);
+            final PlanetPlayer planetPlayer = new BasePlanetPlayer(Bukkit.getPlayer(uuid), loadedPlanet, planetList);
 
             request.accept(planetPlayer);
             cacheHandler.getPlayerCache().put(uuid, planetPlayer);
@@ -84,7 +80,8 @@ public class BaseInternalHandler implements InternalHandler {
     }
 
 
-    public void loadPlanetByPlanetId(final UUID planetId, Consumer<LoadedPlanet> request) {
+    @Override
+    public void loadPlanetByPlanetId(final UUID planetId, final Consumer<LoadedPlanet> request) {
         final Planet planet = this.databaseHandler.getPlanet(planetId).toBasePlanet();
         this.preparePlanet(planet, loadedPlanet -> {
             cacheHandler.getPlanetCache().put(loadedPlanet.getUniqueID(), loadedPlanet);
@@ -116,7 +113,7 @@ public class BaseInternalHandler implements InternalHandler {
         });
     }
 
-    private UUID getPlanetIdByPlayerUUID(UUID uuid) {
+    private UUID getPlanetIdByPlayerUUID(final UUID uuid) {
         if (this.cacheHandler.getPlayerCache().containsKey(uuid)) {
             return this.cacheHandler.getPlayerCache().get(uuid).getPlanet().getUniqueID();
         }
@@ -124,49 +121,49 @@ public class BaseInternalHandler implements InternalHandler {
     }
 
     @Override
-    public void autoLoadPlayer(UUID uuid, Consumer<PlanetPlayer> request) {
+    public void autoLoadPlayer(final UUID uuid, final Consumer<PlanetPlayer> request) {
         this.loadPlayer(uuid, request);
     }
 
     @Override
-    public void autoSavePlayer(UUID uuid) {
+    public void autoSavePlayer(final UUID uuid) {
         this.autoSavePlanetByPlayerId(uuid);
         this.savePlayer(uuid);
     }
 
     @Override
-    public boolean isPlanetLoadedByPlanetId(UUID uuid) {
+    public boolean isPlanetLoadedByPlanetId(final UUID uuid) {
         return false;
     }
 
     @Override
-    public boolean isPlanetLoadedByPlayerId(UUID uuid) {
+    public boolean isPlanetLoadedByPlayerId(final UUID uuid) {
         return false;
     }
 
     @Override
-    public LoadedPlanet getLoadedPlanetByPlanetId(UUID uuid) {
+    public LoadedPlanet getLoadedPlanetByPlanetId(final UUID uuid) {
         return this.cacheHandler.getPlanetCache().get(uuid);
     }
 
     @Override
-    public LoadedPlanet getLoadedPlanetByPlayerId(UUID uuid) {
+    public LoadedPlanet getLoadedPlanetByPlayerId(final UUID uuid) {
         return this.getLoadedPlanetByPlanetId(this.getPlanetIdByPlayerUUID(uuid));
     }
 
     @Override
-    public void autoLoadPlanetByPlayerId(UUID uuid, Consumer<LoadedPlanet> request) {
+    public void autoLoadPlanetByPlayerId(final UUID uuid, final Consumer<LoadedPlanet> request) {
 
     }
 
     @Override
-    public void autoSavePlanetByPlayerId(UUID uuid) {
+    public void autoSavePlanetByPlayerId(final UUID uuid) {
         this.savePlanetByPlayerId(uuid);
         this.cacheHandler.getPlanetCache().remove(this.cacheHandler.getPlayerCache().get(uuid).getPlanet().getUniqueID());
     }
 
     @Override
-    public Planet getPlanetByPlayerId(UUID uuid) {
+    public Planet getPlanetByPlayerId(final UUID uuid) {
         if (this.cacheHandler.getPlayerCache().containsKey(uuid)) {
             return this.getPlayer(uuid).getPlanet();
         } else {
@@ -180,7 +177,7 @@ public class BaseInternalHandler implements InternalHandler {
     }
 
     @Override
-    public PlanetPlayer getPlayer(UUID uuid) {
+    public PlanetPlayer getPlayer(final UUID uuid) {
         return this.cacheHandler.getPlayerCache().get(uuid);
     }
 

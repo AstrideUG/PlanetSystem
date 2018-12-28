@@ -7,11 +7,11 @@ import me.devsnox.planetsystem.api.log.Logger;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
-import me.devsnox.planetsystem.core.log.BaseKeyLogger;
+import me.devsnox.planetsystem.core.log.BasePlayerKeyLogger;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetPlayer {
@@ -24,7 +24,7 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
         super(player.getUniqueId(), loadedPlanet, memberedPlanets);
         this.player = player;
         this.memberedPlanets = memberedPlanets;
-        this.logger = new BaseKeyLogger();
+        this.logger = new BasePlayerKeyLogger(player, new HashMap<>());
     }
 
     @Override
