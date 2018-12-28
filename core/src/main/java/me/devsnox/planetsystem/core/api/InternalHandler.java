@@ -1,30 +1,26 @@
 package me.devsnox.planetsystem.core.api;
 
+import me.devsnox.planetsystem.api.planet.LoadedPlanet;
+import me.devsnox.planetsystem.api.planet.Planet;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 public interface InternalHandler {
 
-    void loadPlayer(Player player);
+    void autoLoadPlayer(UUID uuid);
 
-    void savePlayer(UUID uuid);
+    void autoSavePlayer(UUID uuid);
 
+    boolean isPlanetLoadedByPlanetId(UUID uuid);
 
-    boolean isPlanetLoaded(UUID planetId);
+    boolean isPlanetLoadedByPlayerId(UUID uuid);
 
-    boolean isPlanetLoaded(Player player);
+    LoadedPlanet getLoadedPlanetByPlanetId(UUID uuid);
 
-    void getLoadedPlanet(UUID planetId);
+    LoadedPlanet getLoadedPlanetByPlayerId(UUID uuid);
 
-    void getLoadedPlanet(Player player);
+    void autoLoadPlanetByPlayerId(UUID uuid);
 
-    void loadPlanet(UUID planetId);
-
-    void loadPlanet(Player player);
-
-    void savePlanet(UUID planetId);
-
-    void savePlanet(Player player);
-
+    void autoSavePlanetByPlayerId(UUID uuid);
 }

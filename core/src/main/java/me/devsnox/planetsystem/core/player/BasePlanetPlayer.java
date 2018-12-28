@@ -1,6 +1,7 @@
 package me.devsnox.planetsystem.core.player;
 
 import me.devsnox.planetsystem.api.PlanetFactory;
+import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.log.Logger;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
@@ -34,7 +35,12 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
     @Override
     public boolean canBuild(final Location location) {
         if (this.getPlanet().getInner().isInside(player)) return true;
-        else return PlanetFactory.planetAPI.getPlanet(location).getMembers().contains(this.getUUID());
+        else return PlanetFactory.planetAPI.getPlanet(location).getMembers().contains(player.getUniqueId());
+    }
+
+    @Override
+    public PlanetLocation getLocation() {
+        return null; //TODO:
     }
 
     @Override

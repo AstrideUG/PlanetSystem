@@ -7,6 +7,7 @@ import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
 import me.devsnox.planetsystem.api.PlanetFactory;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.api.player.PlanetPlayer;
 import me.devsnox.planetsystem.core.api.InternalHandler;
 import me.devsnox.planetsystem.core.cache.CacheHandler;
 import me.devsnox.planetsystem.core.config.ConfigHandler;
@@ -23,6 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class BaseInternalHandler implements InternalHandler {
@@ -52,59 +54,52 @@ public class BaseInternalHandler implements InternalHandler {
         this.saveTask.runTaskTimer(this.plugin, 0, 20 * 60);
     }
 
-    @Override
-    public void loadPlayer(final Player player) {
+    public BasePlanetPlayer loadPlayer(final Player player,) {
         final DatabasePlayer databasePlayer = this.databaseHandler.getPlayer(player.getUniqueId());
+
         PlanetFactory.planetAPI.getPlanet(player.getUniqueId()).load(loadedPlanet -> {
             final List<Planet> planetList = new ArrayList<>();
 
             databasePlayer.getMemberedPlanets().forEach(uuid -> planetList.add(PlanetFactory.planetAPI.getPlanet(uuid)));
-            cacheHandler.getPlayerCache().put(player.getUniqueId(), new BasePlanetPlayer(player, loadedPlanet, planetList));
         });
     }
 
-    @Override
     public void savePlayer(final UUID uuid) {
-
+        databaseHandler.savePlayer(((BasePlanetPlayer) planetPlayer).toDatabasePlayer());
     }
 
-    @Override
+
     public boolean isPlanetLoaded(final UUID uuid) {
         return this.cacheHandler.getPlanetCache().containsKey(uuid);
     }
 
-    @Override
     public boolean isPlanetLoaded(final Player player) {
-        return false;
+        return isPlanetLoaded(this.getPlanetIdByPlayerUUID(player.getUniqueId()));
     }
 
-    @Override
-    public void getLoadedPlanet(final UUID planetId) {
-
+    public LoadedPlanet getLoadedPlanet(final UUID planetId) {
+        return this.cacheHandler.getPlanetCache().get(planetId);
     }
 
-    @Override
-    public void getLoadedPlanet(final Player player) {
-
+    public LoadedPlanet getLoadedPlanet(final Player player) {
+        return this.getLoadedPlanet(this.getPlanetIdByPlayerUUID(player.getUniqueId()));
     }
 
-    @Override
     public void loadPlanet(final UUID planetId) {
         final Planet planet = this.databaseHandler.getPlanet(planetId).toBasePlanet();
         this.preparePlanet(planet, loadedPlanet -> cacheHandler.getPlanetCache().put(loadedPlanet.getUniqueID(), loadedPlanet));
     }
 
-    @Override
-    public void loadPlanet(final Player player) {
-
+    public void loadPlanetByPlayerId(final UUID uuid) {
+        if (this.cacheHandler.getPlayerCache().containsKey(uuid)) {
+            this.loadPlanet(getPlanetIdByPlayerUUID(uuid));
+        }
     }
 
-    @Override
     public void savePlanet(final UUID planetId) {
         this.dynamicNetworkAPI.saveSchematic(planetId, this.cacheHandler.getPlanetCache().get(planetId).getSchematic());
     }
 
-    @Override
     public void savePlanet(final Player player) {
         this.savePlanet(this.cacheHandler.getPlayerCache().get(player.getUniqueId()).getPlanet().getUniqueID());
     }
@@ -118,6 +113,52 @@ public class BaseInternalHandler implements InternalHandler {
         });
     }
 
+    private UUID getPlanetIdByPlayerUUID(UUID uuid) {
+        if (this.cacheHandler.getPlayerCache().containsKey(uuid)) {
+            return this.cacheHandler.getPlayerCache().get(uuid).getPlanet().getUniqueID();
+        }
+        throw new NullPointerException(); //TODO: Custom exception
+    }
+
+    @Override
+    public void autoLoadPlayer(UUID uuid) {
+        cacheHandler.getPlayerCache().put(player.getUniqueId(), new BasePlanetPlayer(player, loadedPlanet, planetList));
+    }
+
+    @Override
+    public void autoSavePlayer(UUID uuid) {
+
+    }
+
+    @Override
+    public boolean isPlanetLoadedByPlanetId(UUID uuid) {
+        return false;
+    }
+
+    @Override
+    public boolean isPlanetLoadedByPlayerId(UUID uuid) {
+        return false;
+    }
+
+    @Override
+    public LoadedPlanet getLoadedPlanetByPlanetId() {
+        return null;
+    }
+
+    @Override
+    public LoadedPlanet getLoadedPlanetByPlayerId(UUID uuid) {
+        return null;
+    }
+
+    @Override
+    public void autoLoadPlanetByPlayerId(UUID uuid) {
+
+    }
+
+    @Override
+    public void autoSavePlanetByPlayerId(UUID uuid) {
+
+    }
 
     private class SaveTask extends BukkitRunnable {
 
@@ -125,11 +166,10 @@ public class BaseInternalHandler implements InternalHandler {
         public void run() {
             if (cacheHandler.getPlanetCache().size() != 0) {
                 cacheHandler.getPlanetCache().forEach((uuid, planet) -> dynamicNetworkAPI.saveSchematic(uuid, planet.getSchematic()));
-            }
-
-            if (cacheHandler.getPlayerCache().size() != 0) {
-
-                cacheHandler.getPlayerCache().forEach();
+            } else if (cacheHandler.getPlayerCache().size() != 0) {
+                cacheHandler.getPlayerCache().forEach((uuid, planetPlayer) -> {
+                    databaseHandler.savePlayer(((BasePlanetPlayer) planetPlayer).toDatabasePlayer());
+                });
             }
         }
     }

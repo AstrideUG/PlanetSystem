@@ -1,20 +1,21 @@
 package me.devsnox.planetsystem.api;
 
-import com.sun.istack.internal.Nullable;
+import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.Set;
 import java.util.UUID;
 
 public interface PlanetAPI {
 
     Planet getPlanet(UUID uuid);
 
-    @Nullable
-    void getPlanet(Location location);
+
+    Planet getPlanet(Location location);
 
     /**
      * Can only be used when the player is online
@@ -28,7 +29,7 @@ public interface PlanetAPI {
         return getPlayer(player.getUniqueId());
     }
 
-    boolean isInPlanetWorld(Player player);
-
     World getWorld();
+
+    Set<LoadedPlanet> getLoadedPlanets();
 }
