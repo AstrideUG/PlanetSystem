@@ -71,6 +71,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
+                                    <include>me.devsnox:planetsystem.api</include>
                                     <include>org.mongodb</include>
                                     <include>org.mongodb.morphia</include>
                                 </includes>
