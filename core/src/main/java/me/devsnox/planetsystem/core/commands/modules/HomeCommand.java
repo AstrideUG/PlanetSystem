@@ -10,7 +10,7 @@ public class HomeCommand implements PlanetCommandModule {
     public void execute(final PlanetPlayer player, final String[] args) {
         player.getPlanet().getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> {
             player.getPlayer().teleport(location);
-            player.getLogger().log("Commands.Home.Teleport.Success");
+            player.getLogger().info("Commands.Home.Teleport.Success");
         }));
     }
 }

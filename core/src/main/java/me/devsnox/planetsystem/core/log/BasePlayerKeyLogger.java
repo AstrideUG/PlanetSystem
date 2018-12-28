@@ -19,7 +19,8 @@ public class BasePlayerKeyLogger extends BasePlayerLogger implements PlayerKeyLo
 
     @Override
     public Object getValue(Object key) {
-        return mapper.get(key);
+        Object o = mapper.get(key);
+        return o == null ? key : o;
     }
 
     @Override
