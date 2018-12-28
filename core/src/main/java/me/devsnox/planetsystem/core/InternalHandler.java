@@ -1,8 +1,10 @@
 package me.devsnox.planetsystem.core;
 
+import jdk.internal.jline.internal.Nullable;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
+import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.core.cache.CacheHandler;
 import me.devsnox.planetsystem.core.config.ConfigHandler;
 import me.devsnox.planetsystem.core.database.DatabaseHandler;
@@ -11,7 +13,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class InternalHandler {
 
@@ -40,28 +41,44 @@ public class InternalHandler {
         this.saveTask.runTaskTimer(this.plugin, 0, 20 * 60);
     }
 
-    public void loadPlanet(final UUID planetId, final Consumer<LoadedPlanet> result) {
+    public boolean isPlanetLoaded(UUID uuid) {
+        return this.cacheHandler.getPlanetCache().containsKey(uuid);
+    }
+
+    @Nullable
+    public LoadedPlanet getPlanet() {
+
+    }
+
+    public LoadedPlanet getLoadedPlanet(UUID uuid) {
+        if (this.cacheHandler.getPlanetCache().containsKey())
+    }
+
+    public void loadPlanet(final UUID planetId) {
         this.dynamicNetworkAPI.getSchematic(planetId, schematic -> {
 
         });
-    }
-
-    private void preparePlanet() {
-
     }
 
     public void savePlanet(final UUID planetId) {
         this.dynamicNetworkAPI.saveSchematic(planetId, this.cacheHandler.getPlanetCache().get(planetId).getSchematic());
     }
 
+    private void preparePlanet(Planet planet) {
+
+    }
+
+
     private class SaveTask extends BukkitRunnable {
 
         @Override
         public void run() {
             if (cacheHandler.getPlanetCache().size() != 0) {
-                cacheHandler.getPlanetCache().forEach((uuid, planet) -> {
-                    dynamicNetworkAPI.saveSchematic(uuid, planet.getSchematic());
-                });
+                cacheHandler.getPlanetCache().forEach((uuid, planet) -> dynamicNetworkAPI.saveSchematic(uuid, planet.getSchematic()));
+            }
+
+            if (cacheHandler.getPlayerCache().size() != 0) {
+                databaseHandler.savePlayer();
             }
         }
     }

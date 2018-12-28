@@ -12,11 +12,12 @@ public class DatabaseHandler {
     private final Morphia morphia;
 
     private final Datastore datastore;
+
     private final PlanetDAO planetDAO;
     private final PlayerDAO playerDAO;
 
     public DatabaseHandler() {
-        this.mongoClient = null;
+        this.mongoClient = null; //TODO: Initialization of MongoClient
 
         this.morphia = new Morphia();
         this.datastore = this.morphia.createDatastore(this.mongoClient, "cosmic");
@@ -36,5 +37,9 @@ public class DatabaseHandler {
 
     public DatabasePlayer getPlayer(final UUID uuid) {
         return this.playerDAO.findOne("uuid", uuid);
+    }
+
+    public void savePlayer(DatabasePlayer databasePlayer) {
+        this.playerDAO.save(databasePlayer);
     }
 }
