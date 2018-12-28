@@ -1,6 +1,6 @@
 package me.devsnox.planetsystem.api.events;
 
-import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -13,12 +13,16 @@ public class PlanetChangeOwnerEvent extends Event {
     private final UUID oldOwner;
     private final UUID newOwner;
 
-    private final Planet planet;
+    private final LoadedPlanet planet;
 
-    public PlanetChangeOwnerEvent(final UUID newOwner, final Planet planet) {
+    public PlanetChangeOwnerEvent(final UUID newOwner, final LoadedPlanet planet) {
         this.oldOwner = planet.getOwnerUniqueID();
         this.newOwner = newOwner;
         this.planet = planet;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     @Override
@@ -26,8 +30,8 @@ public class PlanetChangeOwnerEvent extends Event {
         return handlers;
     }
 
-    public Planet getPlanet() {
-        return planet;
+    public LoadedPlanet getPlanet() {
+        return this.planet;
     }
 
     public UUID getOldOwner() {
@@ -35,10 +39,6 @@ public class PlanetChangeOwnerEvent extends Event {
     }
 
     public UUID getNewOwner() {
-        return newOwner;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+        return this.newOwner;
     }
 }

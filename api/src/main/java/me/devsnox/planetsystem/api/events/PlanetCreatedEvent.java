@@ -4,12 +4,12 @@ import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlanetDeleteEvent extends Event {
+public class PlanetCreatedEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private final LoadedPlanet planet;
 
-    public PlanetDeleteEvent(final LoadedPlanet planet) {
+    public PlanetCreatedEvent(final LoadedPlanet planet) {
         this.planet = planet;
     }
 
