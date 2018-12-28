@@ -13,6 +13,6 @@ public class VisitCommand implements PlanetCommandModule {
 
             }
         });
-        else player.getLogger().log(Logger.Level.WARNING, ""); //TODO: ...
+        else player.getLogger().log(Logger.Level.WARNING, "Commands.Visit.Failed.ArgsSizeIs0");
     }
 }

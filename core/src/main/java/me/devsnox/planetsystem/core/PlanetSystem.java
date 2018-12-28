@@ -1,5 +1,6 @@
 package me.devsnox.planetsystem.core;
 
+import me.devsnox.planetsystem.core.api.InternalHandler;
 import me.devsnox.planetsystem.core.cache.PlanetCache;
 import me.devsnox.planetsystem.core.cache.PlayerCache;
 import me.devsnox.planetsystem.core.commands.PlanetCommand;
@@ -16,23 +17,21 @@ public class PlanetSystem extends JavaPlugin {
 
     private DatabaseHandler databaseHandler;
 
-    private PlanetCache planetCache;
-    private PlayerCache playerCache;
+    private BaseInternalHandler baseInternalHandler;
 
     @Override
     public void onEnable() {
-        this.planetCache = new PlanetCache();
-        this.playerCache = new PlayerCache();
+        this.baseInternalHandler = new BaseInternalHandler(this);
 
         this.registerListeners();
         this.registerCommands();
 
-        this.getLogger().log(Level.INFO, ""); //TODO: Add message
+        this.getLogger().log(Level.INFO, "PlanetSystem started");
     }
 
     @Override
     public void onDisable() {
-        this.getLogger().log(Level.INFO, ""); //TODO: Add message
+        this.getLogger().log(Level.INFO, "PlanetSystem stopped");
     }
 
     private void registerCommands() {

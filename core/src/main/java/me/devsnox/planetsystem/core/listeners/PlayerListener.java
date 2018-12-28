@@ -1,6 +1,6 @@
 package me.devsnox.planetsystem.core.listeners;
 
-import me.devsnox.planetsystem.api.PlanetFactory;
+import me.devsnox.planetsystem.core.InternalFactory;
 import me.devsnox.planetsystem.core.api.InternalHandler;
 import me.devsnox.planetsystem.core.utils.ThreadUtils;
 import org.bukkit.entity.Player;
@@ -13,17 +13,19 @@ public class PlayerListener implements Listener {
 
     private InternalHandler internalHandler;
 
-    public PlayerListener(InternalHandler internalHandler) {
-
+    public PlayerListener() {
+        this.internalHandler = InternalFactory.internalHandler;
     }
 
     @EventHandler
     public void onJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
-        this.internalHandler.autoLoadPlanetByPlayerId(event.getPlayer().getUniqueId());
-
-        PlanetFactory.planetAPI.getPlanet(player.getUniqueId()).load(loadedPlanet -> loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location)))); //TODO: Result
+        this.internalHandler.autoLoadPlanetByPlayerId(event.getPlayer().getUniqueId(), loadedPlanet -> {
+            if (!player.hasPlayedBefore()) {
+                loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location)));
+            }
+        });
     }
 
     @EventHandler

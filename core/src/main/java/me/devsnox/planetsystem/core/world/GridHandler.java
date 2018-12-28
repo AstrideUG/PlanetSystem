@@ -41,4 +41,8 @@ public final class GridHandler {
     public int getMaxSize() {
         return maxSize;
     }
+
+    public World getWorld() {
+        return world;
+    }
 }

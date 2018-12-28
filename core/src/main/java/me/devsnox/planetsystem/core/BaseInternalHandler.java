@@ -1,6 +1,7 @@
 package me.devsnox.planetsystem.core;
 
 import com.boydti.fawe.FaweAPI;
+import com.google.common.collect.Sets;
 import com.sk89q.worldedit.Vector;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
@@ -14,18 +15,20 @@ import me.devsnox.planetsystem.core.config.ConfigHandler;
 import me.devsnox.planetsystem.core.database.DatabaseHandler;
 import me.devsnox.planetsystem.core.database.DatabasePlayer;
 import me.devsnox.planetsystem.core.planet.BaseLoadedPlanet;
+import me.devsnox.planetsystem.core.planet.BasePlanet;
 import me.devsnox.planetsystem.core.player.BasePlanetPlayer;
 import me.devsnox.planetsystem.core.world.GridHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class BaseInternalHandler implements InternalHandler {
 
@@ -54,54 +57,54 @@ public class BaseInternalHandler implements InternalHandler {
         this.saveTask.runTaskTimer(this.plugin, 0, 20 * 60);
     }
 
-    public BasePlanetPlayer loadPlayer(final Player player,) {
-        final DatabasePlayer databasePlayer = this.databaseHandler.getPlayer(player.getUniqueId());
+    public void loadPlayer(UUID uuid, Consumer<PlanetPlayer> request) {
+        final DatabasePlayer databasePlayer = this.databaseHandler.getPlayer(uuid);
 
-        PlanetFactory.planetAPI.getPlanet(player.getUniqueId()).load(loadedPlanet -> {
+        this.loadPlanetByPlanetId(databasePlayer.getPlanetUniqueId(), loadedPlanet -> {
             final List<Planet> planetList = new ArrayList<>();
 
-            databasePlayer.getMemberedPlanets().forEach(uuid -> planetList.add(PlanetFactory.planetAPI.getPlanet(uuid)));
+            PlanetPlayer planetPlayer = new BasePlanetPlayer(Bukkit.getPlayer(uuid), loadedPlanet, planetList);
+
+            request.accept(planetPlayer);
+            cacheHandler.getPlayerCache().put(uuid, planetPlayer);
         });
     }
 
     public void savePlayer(final UUID uuid) {
-        databaseHandler.savePlayer(((BasePlanetPlayer) planetPlayer).toDatabasePlayer());
+        databaseHandler.savePlayer(((BasePlanetPlayer) this.cacheHandler.getPlayerCache().get(uuid)).toDatabasePlayer());
     }
 
 
-    public boolean isPlanetLoaded(final UUID uuid) {
+    public boolean checkIfPlanetIsLoadedByPlanetId(final UUID uuid) {
         return this.cacheHandler.getPlanetCache().containsKey(uuid);
     }
 
-    public boolean isPlanetLoaded(final Player player) {
-        return isPlanetLoaded(this.getPlanetIdByPlayerUUID(player.getUniqueId()));
+    public boolean checkIfPlanetIsLoadedByPlayerId(final Player player) {
+        return checkIfPlanetIsLoadedByPlanetId(this.getPlanetIdByPlayerUUID(player.getUniqueId()));
     }
 
-    public LoadedPlanet getLoadedPlanet(final UUID planetId) {
-        return this.cacheHandler.getPlanetCache().get(planetId);
-    }
 
-    public LoadedPlanet getLoadedPlanet(final Player player) {
-        return this.getLoadedPlanet(this.getPlanetIdByPlayerUUID(player.getUniqueId()));
-    }
-
-    public void loadPlanet(final UUID planetId) {
+    public void loadPlanetByPlanetId(final UUID planetId, Consumer<LoadedPlanet> request) {
         final Planet planet = this.databaseHandler.getPlanet(planetId).toBasePlanet();
-        this.preparePlanet(planet, loadedPlanet -> cacheHandler.getPlanetCache().put(loadedPlanet.getUniqueID(), loadedPlanet));
+        this.preparePlanet(planet, loadedPlanet -> {
+            cacheHandler.getPlanetCache().put(loadedPlanet.getUniqueID(), loadedPlanet);
+            request.accept(loadedPlanet);
+        });
     }
 
-    public void loadPlanetByPlayerId(final UUID uuid) {
+    /*public void loadPlanetByPlayerId(final UUID uuid, Consumer<LoadedPlanet> request) {
         if (this.cacheHandler.getPlayerCache().containsKey(uuid)) {
-            this.loadPlanet(getPlanetIdByPlayerUUID(uuid));
+            this.loadPlanetByPlanetId(getPlanetIdByPlayerUUID(uuid), request);
         }
-    }
+    }*/
 
-    public void savePlanet(final UUID planetId) {
+    public void savePlanetByPlanetId(final UUID planetId) {
         this.dynamicNetworkAPI.saveSchematic(planetId, this.cacheHandler.getPlanetCache().get(planetId).getSchematic());
+        this.databaseHandler.savePlanet(((BasePlanet) this.cacheHandler.getPlanetCache().get(planetId)).toDatabasePlanet());
     }
 
-    public void savePlanet(final Player player) {
-        this.savePlanet(this.cacheHandler.getPlayerCache().get(player.getUniqueId()).getPlanet().getUniqueID());
+    public void savePlanetByPlayerId(final UUID uuid) {
+        this.savePlanetByPlanetId(this.cacheHandler.getPlayerCache().get(uuid).getPlanet().getUniqueID());
     }
 
     private void preparePlanet(final Planet planet, final Consumer<LoadedPlanet> result) {
@@ -121,13 +124,14 @@ public class BaseInternalHandler implements InternalHandler {
     }
 
     @Override
-    public void autoLoadPlayer(UUID uuid) {
-        cacheHandler.getPlayerCache().put(player.getUniqueId(), new BasePlanetPlayer(player, loadedPlanet, planetList));
+    public void autoLoadPlayer(UUID uuid, Consumer<PlanetPlayer> request) {
+        this.loadPlayer(uuid, request);
     }
 
     @Override
     public void autoSavePlayer(UUID uuid) {
-
+        this.autoSavePlanetByPlayerId(uuid);
+        this.savePlayer(uuid);
     }
 
     @Override
@@ -141,23 +145,48 @@ public class BaseInternalHandler implements InternalHandler {
     }
 
     @Override
-    public LoadedPlanet getLoadedPlanetByPlanetId() {
-        return null;
+    public LoadedPlanet getLoadedPlanetByPlanetId(UUID uuid) {
+        return this.cacheHandler.getPlanetCache().get(uuid);
     }
 
     @Override
     public LoadedPlanet getLoadedPlanetByPlayerId(UUID uuid) {
-        return null;
+        return this.getLoadedPlanetByPlanetId(this.getPlanetIdByPlayerUUID(uuid));
     }
 
     @Override
-    public void autoLoadPlanetByPlayerId(UUID uuid) {
+    public void autoLoadPlanetByPlayerId(UUID uuid, Consumer<LoadedPlanet> request) {
 
     }
 
     @Override
     public void autoSavePlanetByPlayerId(UUID uuid) {
+        this.savePlanetByPlayerId(uuid);
+        this.cacheHandler.getPlanetCache().remove(this.cacheHandler.getPlayerCache().get(uuid).getPlanet().getUniqueID());
+    }
 
+    @Override
+    public Planet getPlanetByPlayerId(UUID uuid) {
+        if (this.cacheHandler.getPlayerCache().containsKey(uuid)) {
+            return this.getPlayer(uuid).getPlanet();
+        } else {
+            return this.databaseHandler.getPlanet(uuid).toBasePlanet();
+        }
+    }
+
+    @Override
+    public World getWorld() {
+        return this.gridHandler.getWorld();
+    }
+
+    @Override
+    public PlanetPlayer getPlayer(UUID uuid) {
+        return this.cacheHandler.getPlayerCache().get(uuid);
+    }
+
+    @Override
+    public Set<LoadedPlanet> getLoadedPlanets() {
+        return new HashSet<>(this.cacheHandler.getPlanetCache().values());
     }
 
     private class SaveTask extends BukkitRunnable {
@@ -165,11 +194,9 @@ public class BaseInternalHandler implements InternalHandler {
         @Override
         public void run() {
             if (cacheHandler.getPlanetCache().size() != 0) {
-                cacheHandler.getPlanetCache().forEach((uuid, planet) -> dynamicNetworkAPI.saveSchematic(uuid, planet.getSchematic()));
+                cacheHandler.getPlanetCache().forEach((uuid, planet) -> savePlanetByPlanetId(uuid));
             } else if (cacheHandler.getPlayerCache().size() != 0) {
-                cacheHandler.getPlayerCache().forEach((uuid, planetPlayer) -> {
-                    databaseHandler.savePlayer(((BasePlanetPlayer) planetPlayer).toDatabasePlayer());
-                });
+                cacheHandler.getPlayerCache().forEach((uuid, planetPlayer) -> savePlayer(uuid));
             }
         }
     }

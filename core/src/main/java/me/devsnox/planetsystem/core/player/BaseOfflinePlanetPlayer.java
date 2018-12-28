@@ -1,5 +1,6 @@
 package me.devsnox.planetsystem.core.player;
 
+import lombok.NonNull;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.OfflinePlanetPlayer;
 import me.devsnox.planetsystem.core.database.DatabasePlayer;
@@ -15,7 +16,7 @@ public class BaseOfflinePlanetPlayer implements OfflinePlanetPlayer {
     private final Planet planet;
     private final List<Planet> memberedPlanets;
 
-    public BaseOfflinePlanetPlayer(final UUID uuid, final Planet planet, final List<Planet> memberedPlanets) { //TODO: Add lombok null check
+    public BaseOfflinePlanetPlayer(@NonNull final UUID uuid, @NonNull final Planet planet, @NonNull final List<Planet> memberedPlanets) {
         this.uuid = uuid;
         this.planet = planet;
         this.memberedPlanets = memberedPlanets;
