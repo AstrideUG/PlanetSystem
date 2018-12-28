@@ -4,20 +4,12 @@ import me.devsnox.planetsystem.api.planet.Planet;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import java.util.UUID;
-
-public class PlanetChangeOwnerEvent extends Event {
+public class PlanetCreateEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
-
-    private final UUID oldOwner;
-    private final UUID newOwner;
-
     private final Planet planet;
 
-    public PlanetChangeOwnerEvent(final UUID newOwner, final Planet planet) {
-        this.oldOwner = planet.getOwnerUniqueID();
-        this.newOwner = newOwner;
+    public PlanetCreateEvent(final Planet planet) {
         this.planet = planet;
     }
 
@@ -28,14 +20,6 @@ public class PlanetChangeOwnerEvent extends Event {
 
     public Planet getPlanet() {
         return planet;
-    }
-
-    public UUID getOldOwner() {
-        return this.oldOwner;
-    }
-
-    public UUID getNewOwner() {
-        return newOwner;
     }
 
     public static HandlerList getHandlerList() {

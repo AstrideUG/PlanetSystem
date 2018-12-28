@@ -16,7 +16,7 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
     private final List<Planet> memberedPlanets;
 
     public BasePlanetPlayer(final Player player, final LoadedPlanet loadedPlanet, final List<Planet> memberedPlanets) {
-        super(player.getUniqueId(), loadedPlanet);
+        super(player.getUniqueId(), loadedPlanet, memberedPlanets);
         this.player = player;
         this.memberedPlanets = memberedPlanets;
     }

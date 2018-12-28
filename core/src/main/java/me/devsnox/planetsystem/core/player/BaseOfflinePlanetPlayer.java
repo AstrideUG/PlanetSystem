@@ -4,6 +4,7 @@ import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.OfflinePlanetPlayer;
 import me.devsnox.planetsystem.core.database.DatabasePlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -12,9 +13,9 @@ public class BaseOfflinePlanetPlayer implements OfflinePlanetPlayer {
 
     private final UUID uuid;
     private final Planet planet;
-    private List<Planet> memberedPlanets;
+    private final List<Planet> memberedPlanets;
 
-    public BaseOfflinePlanetPlayer(final UUID uuid, final Planet planet, List<Planet> memberedPlanets) { //TODO: Add lombok null check
+    public BaseOfflinePlanetPlayer(final UUID uuid, final Planet planet, final List<Planet> memberedPlanets) { //TODO: Add lombok null check
         this.uuid = uuid;
         this.planet = planet;
         this.memberedPlanets = memberedPlanets;
@@ -36,10 +37,10 @@ public class BaseOfflinePlanetPlayer implements OfflinePlanetPlayer {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BaseOfflinePlanetPlayer that = (BaseOfflinePlanetPlayer) o;
+        final BaseOfflinePlanetPlayer that = (BaseOfflinePlanetPlayer) o;
         return uuid.equals(that.uuid) &&
                 planet.equals(that.planet) &&
                 memberedPlanets.equals(that.memberedPlanets);
@@ -57,5 +58,13 @@ public class BaseOfflinePlanetPlayer implements OfflinePlanetPlayer {
                 ", planet=" + planet +
                 ", memberedPlanets=" + memberedPlanets +
                 '}';
+    }
+
+    public DatabasePlayer toDatabasePlayer() {
+        final List<UUID> planetIds = new ArrayList<>();
+
+        this.memberedPlanets.forEach(planet -> planetIds.add(planet.getUniqueID()));
+
+        return new DatabasePlayer(this.uuid, this.planet.getUniqueID(), planetIds);
     }
 }

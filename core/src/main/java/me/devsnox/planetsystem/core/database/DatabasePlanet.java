@@ -1,6 +1,7 @@
 package me.devsnox.planetsystem.core.database;
 
 import me.devsnox.planetsystem.api.location.PlanetLocation;
+import me.devsnox.planetsystem.core.planet.BasePlanet;
 import org.mongodb.morphia.annotations.*;
 
 import java.util.List;
@@ -76,5 +77,9 @@ public class DatabasePlanet {
 
     public void setPlanetLocation(final PlanetLocation planetLocation) {
         this.planetLocation = planetLocation;
+    }
+
+    public BasePlanet toBasePlanet() {
+        return new BasePlanet(this.uniqueId, this.ownerUniqueId, this.members, this.size, this.planetLocation);
     }
 }

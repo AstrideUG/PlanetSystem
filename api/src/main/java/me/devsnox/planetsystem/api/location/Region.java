@@ -26,5 +26,4 @@ public interface Region {
     default boolean isInside(final Block block) {
         return isInside(block.getLocation());
     }
-
 }

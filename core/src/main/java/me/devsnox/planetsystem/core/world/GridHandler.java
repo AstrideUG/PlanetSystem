@@ -37,4 +37,8 @@ public final class GridHandler {
                 .generator(new VoidWorldGenerator())
                 .createWorld();
     }
+
+    public int getMaxSize() {
+        return maxSize;
+    }
 }

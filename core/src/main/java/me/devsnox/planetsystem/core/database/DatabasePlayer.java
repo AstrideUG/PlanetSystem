@@ -25,6 +25,10 @@ public class DatabasePlayer {
         this.memberedPlanets = memberedPlanets;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
     public UUID getPlanetUniqueId() {
         return planetUniqueId;
     }
