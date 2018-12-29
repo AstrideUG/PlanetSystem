@@ -8,12 +8,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.UUID;
+
 public class PlayerListener implements Listener {
 
 
     @EventHandler
     public void onJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
+        //TODO: Better
+        Holder.Impl.holder.getDatabaseHandler().create(UUID.randomUUID(), player.getUniqueId());
+
         Holder.Impl.holder.getPlanetData().load(player.getUniqueId(), loadedPlanet -> {
             if (!player.hasPlayedBefore())
                 loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location)));

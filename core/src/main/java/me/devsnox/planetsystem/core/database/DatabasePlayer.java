@@ -14,9 +14,15 @@ public class DatabasePlayer implements me.devsnox.planetsystem.api.database.Data
 
     @Id
     @Indexed(options = @IndexOptions(unique = true))
-    private final UUID uuid;
-    private final UUID planetUniqueId;
-    private final List<UUID> memberedPlanets;
+    private UUID uuid;
+
+    private UUID planetUniqueId;
+
+    private List<UUID> memberedPlanets;
+
+    public DatabasePlayer() {
+
+    }
 
     public DatabasePlayer(final UUID uuid, final UUID planetUniqueId, final List<UUID> memberedPlanets) {
         this.uuid = uuid;

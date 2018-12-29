@@ -18,6 +18,7 @@ public class DatabasePlanet implements me.devsnox.planetsystem.api.database.Data
     @Indexed
     private String name;
 
+    @Indexed
     @Property("owner")
     private UUID ownerUniqueId;
 

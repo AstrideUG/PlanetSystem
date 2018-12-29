@@ -75,6 +75,10 @@ class PlanetLocationImpl implements PlanetLocation {
     private float yaw;
     private float pitch;
 
+    public PlanetLocationImpl() {
+
+    }
+
     public PlanetLocationImpl(final UUID planetID, final double x, final double y, final double z, final float yaw, final float pitch) {
         this.planetID = planetID;
         this.x = x;
