@@ -25,8 +25,8 @@ public final class GridHandler implements me.devsnox.planetsystem.api.handler.Gr
 
     @Override
     public Location getEmptyLocation() {
-        final int x = this.stage * this.maxSize;
-        final Location location = new Location(world, x, 126, 0);
+        final int x = this.stage * (this.maxSize / 2);
+        final Location location = new Location(world, x + 1, 126, 0);
 
         System.out.println(location);
 

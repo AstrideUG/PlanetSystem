@@ -16,12 +16,12 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        //TODO: Better
-        Holder.Impl.holder.getDatabaseHandler().create(UUID.randomUUID(), player.getUniqueId());
+        final UUID uniqueId = player.getUniqueId();
 
-        Holder.Impl.holder.getPlanetData().load(player.getUniqueId(), loadedPlanet -> {
-            loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location)));
-        });
+        Holder.Impl.holder.getDatabaseHandler().create(UUID.randomUUID(), uniqueId, aBoolean ->
+                Holder.Impl.holder.getPlanetData().load(uniqueId, loadedPlanet ->
+                        Holder.Impl.holder.getPlayerData().load(uniqueId, planetPlayer ->
+                                loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location))))));
     }
 
     @EventHandler

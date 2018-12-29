@@ -8,6 +8,7 @@ import org.mongodb.morphia.Morphia;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.DatabaseHandler {
 
@@ -41,7 +42,7 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
     }
 
     @Override
-    public void create(final UUID planet, final UUID player) {
+    public void create(final UUID planet, final UUID player, final Consumer<Boolean> result) {
         if (!this.playerDAO.exists("uuid", player)) {
 
             final DatabasePlayer databasePlayer = new DatabasePlayer(player, planet, Arrays.asList(planet));
@@ -49,7 +50,10 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
 
             final DatabasePlanet databasePlanet = new DatabasePlanet(planet, "Alpha Centauri", player, new ArrayList<>(), (byte) 8, PlanetLocation.createPlanetLocation(planet, 0, 0, 0, 0, 0));
             planetDAO.save(databasePlanet);
+
+            result.accept(true);
         }
+        result.accept(true);
     }
 
     @Override

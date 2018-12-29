@@ -4,6 +4,7 @@ import me.devsnox.planetsystem.api.database.DatabasePlanet;
 import me.devsnox.planetsystem.api.database.DatabasePlayer;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public interface DatabaseHandler {
 
@@ -11,7 +12,7 @@ public interface DatabaseHandler {
 
     void savePlanet(final DatabasePlanet databasePlanet);
 
-    void create(UUID planet, UUID player);
+    void create(UUID planet, UUID player, Consumer<Boolean> result);
 
     DatabasePlayer getPlayer(final UUID uuid);
 

@@ -10,13 +10,13 @@ public class BasePlayerLogger implements PlayerLogger {
 
     private final Player player;
 
-    public BasePlayerLogger(Player player) {
+    public BasePlayerLogger(final Player player) {
         this.player = player;
     }
 
     @Override
-    public void log(Level level, Object... message) {
-        String msg = Arrays.toString(message).substring(1, message.length - 1);
+    public void log(final Level level, final Object... message) {
+        final String msg = Arrays.toString(message);
         switch (level) {
             case INFO:
                 player.sendMessage(ChatColor.AQUA + msg + ".");

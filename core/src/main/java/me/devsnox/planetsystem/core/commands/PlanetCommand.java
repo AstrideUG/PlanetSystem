@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class PlanetCommand implements CommandExecutor {
 
-    private Map<String, PlanetCommandModule> commandModules;
+    private final Map<String, PlanetCommandModule> commandModules;
 
     public PlanetCommand() {
         this.commandModules = new HashMap<>();
@@ -26,14 +26,20 @@ public class PlanetCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if(commandSender instanceof Player) {
-            PlanetPlayer planetPlayer = Holder.Impl.holder.getPlayerData().getPlayer(((Player) commandSender).getUniqueId());
+    public boolean onCommand(final CommandSender commandSender, final Command command, final String s, final String[] args) {
+        if (commandSender instanceof Player) {
+            if (args.length > 0) {
+                final PlanetPlayer planetPlayer = Holder.Impl.holder.getPlayerData().getPlayer(((Player) commandSender).getUniqueId());
 
-            if(this.commandModules.containsKey(args[0].toLowerCase())) {
-                this.commandModules.get(args[0].toLowerCase()).execute(planetPlayer, Arrays.copyOfRange(args, 1, args.length));
+                System.out.println(planetPlayer);
+
+                if (this.commandModules.containsKey(args[0].toLowerCase())) {
+                    this.commandModules.get(args[0].toLowerCase()).execute(planetPlayer, Arrays.copyOfRange(args, 1, args.length));
+                } else {
+                    //TODO: Send help message
+                }
             } else {
-                //TODO: Send help message
+                //TODO: Insert all command help
             }
         } else {
             //TODO: Add error message (only players)

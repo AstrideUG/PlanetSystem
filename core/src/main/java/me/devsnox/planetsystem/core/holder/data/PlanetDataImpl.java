@@ -1,6 +1,7 @@
 package me.devsnox.planetsystem.core.holder.data;
 
-import com.sk89q.worldedit.WorldEditException;
+import com.boydti.fawe.FaweAPI;
+import com.sk89q.worldedit.Vector;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
 import me.devsnox.planetsystem.api.handler.GridHandler;
@@ -38,11 +39,7 @@ public final class PlanetDataImpl implements PlanetData {
         final BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(planet, location, grid.getMaxSize());
 
         this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic -> {
-            try {
-                schematic.paste(location);
-            } catch (final WorldEditException e) {
-                e.printStackTrace();
-            }
+            schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), new Vector(location.getX(), location.getY(), location.getZ()));
         });
 
         holder.getPlanetData().getLoadedPlanets().add(loadedPlanet);

@@ -1,9 +1,6 @@
 package me.devsnox.planetsystem.api.holder.data;
 
-import me.devsnox.planetsystem.api.planet.LoadedPlanet;
-import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
-import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -17,8 +14,9 @@ public interface PlayerData {
     void save(UUID uuid);
 
     @Nullable
-    default PlanetPlayer getPlayer(UUID uuid) {
-        for (PlanetPlayer player : getPlayers()) if (player.getUUID() == uuid) return player;
+    default PlanetPlayer getPlayer(final UUID uuid) {
+        System.out.println(getPlayers());
+        for (final PlanetPlayer player : getPlayers()) if (player.getUUID().equals(uuid)) return player;
         return null;
     }
 
