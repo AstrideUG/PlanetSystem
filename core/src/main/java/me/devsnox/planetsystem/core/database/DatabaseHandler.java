@@ -51,6 +51,7 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
             final DatabasePlanet databasePlanet = new DatabasePlanet(planet, "Alpha Centauri", player, new ArrayList<>(), (byte) 8, PlanetLocation.createPlanetLocation(planet, 0, 0, 0, 0, 0));
             planetDAO.save(databasePlanet);
 
+
             result.accept(true);
         }
         result.accept(true);

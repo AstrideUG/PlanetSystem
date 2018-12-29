@@ -9,6 +9,7 @@ import me.devsnox.planetsystem.core.location.BaseRegion;
 import org.bukkit.Location;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -26,8 +27,8 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
         super(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
         this.planet = planet;
         final byte size = planet.getSize();
-        this.inner = new BaseRegion(middle.subtract(size, size, size), middle.add(size, size, size));
-        this.outer = new BaseRegion(middle.subtract(maxSize, maxSize, maxSize), middle.add(maxSize, maxSize, maxSize));
+        this.inner = new BaseRegion(middle.clone().subtract(size, size, size), middle.clone().add(size, size, size));
+        this.outer = new BaseRegion(middle.clone().subtract(maxSize, maxSize, maxSize), middle.clone().add(maxSize, maxSize, maxSize));
         this.middle = middle;
     }
 
@@ -97,4 +98,30 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
         result.accept(this);
     }
 
+    @Override
+    public String toString() {
+        return "BaseLoadedPlanet{" +
+                "planet=" + planet +
+                ", inner=" + inner +
+                ", outer=" + outer +
+                ", middle=" + middle +
+                '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        final BaseLoadedPlanet that = (BaseLoadedPlanet) o;
+        return Objects.equals(planet, that.planet) &&
+                Objects.equals(inner, that.inner) &&
+                Objects.equals(outer, that.outer) &&
+                Objects.equals(middle, that.middle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), planet, inner, outer, middle);
+    }
 }

@@ -1,7 +1,9 @@
 package me.devsnox.planetsystem.core.listeners;
 
+import me.devsnox.planetsystem.api.events.PlanetCreatedEvent;
 import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.core.utils.ThreadUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,9 +21,11 @@ public class PlayerListener implements Listener {
         final UUID uniqueId = player.getUniqueId();
 
         Holder.Impl.holder.getDatabaseHandler().create(UUID.randomUUID(), uniqueId, aBoolean ->
-                Holder.Impl.holder.getPlanetData().load(uniqueId, loadedPlanet ->
-                        Holder.Impl.holder.getPlayerData().load(uniqueId, planetPlayer ->
-                                loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location))))));
+                Holder.Impl.holder.getPlanetData().load(uniqueId, loadedPlanet -> {
+                    Bukkit.getPluginManager().callEvent(new PlanetCreatedEvent(loadedPlanet));
+                    Holder.Impl.holder.getPlayerData().load(uniqueId, planetPlayer ->
+                            loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location))));
+                }));
     }
 
     @EventHandler

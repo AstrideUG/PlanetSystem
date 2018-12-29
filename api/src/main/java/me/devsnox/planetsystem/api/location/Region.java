@@ -14,9 +14,9 @@ public interface Region {
 
     default boolean isInside(final Location location) {
         //TODO: Better handling (using add and substract (comparing))
-        return getMin().getX() <= location.getX() && getMax().getX() >= location.getX() &&
-                getMin().getY() <= location.getY() && getMax().getY() >= location.getY() &&
-                getMin().getZ() <= location.getZ() && getMax().getZ() >= location.getZ();
+        return getMin().getX() >= location.getX() && getMax().getX() <= location.getX() &&
+                getMin().getY() >= location.getY() && getMax().getY() <= location.getY() &&
+                getMin().getZ() >= location.getZ() && getMax().getZ() <= location.getZ();
     }
 
     default boolean isInside(final Player player) {

@@ -44,6 +44,16 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
 
     @Override
     public boolean canBuild(final Location location) {
+//        System.out.println(location);
+//        System.out.println(getPlanet());
+//        System.out.println(getPlanet().getInner());
+//        System.out.println(getPlanet().getInner().isInside(player));
+//        System.out.println(getPlanet().getOuter());
+//        System.out.println(getPlanet().getOuter().isInside(player));
+//        System.out.println(Holder.Impl.holder.getPlanetData().getPlanet(location));
+//        System.out.println(Holder.Impl.holder.getPlanetData().getPlanet(location).getMembers());
+//        System.out.println(Holder.Impl.holder.getPlanetData().getPlanet(location).getMembers().contains(player.getUniqueId()));
+//
         if (this.getPlanet().getInner().isInside(player)) return true;
         else {
             final Planet planet = Holder.Impl.holder.getPlanetData().getPlanet(location);
