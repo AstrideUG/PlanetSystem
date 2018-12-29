@@ -16,9 +16,6 @@ public interface Holder {
 
     Set<LoadedPlanet> getLoadedPlanets();
 
-    @Nullable
-    PlanetPlayer getPlayer(UUID uuid);
-
     PlayerData getPlayerData();
 
     PlanetData getPlanetData();

@@ -1,7 +1,6 @@
 package me.devsnox.planetsystem.core.api.data;
 
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
-import me.devsnox.planetsystem.api.planet.Planet;
 
 import java.util.UUID;
 import java.util.function.Consumer;
