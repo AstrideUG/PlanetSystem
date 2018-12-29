@@ -11,16 +11,20 @@ import java.util.UUID;
 @Entity(value = "planets", noClassnameStored = true)
 public class DatabasePlanet implements me.devsnox.planetsystem.api.database.DatabasePlanet {
 
-    @Id()
+    @Id
     @Indexed(options = @IndexOptions(unique = true))
-    @Property(value = "uuid")
-    private UUID uniqueId;
+    private UUID uuid;
+
     @Indexed
     private String name;
-    @Property
+
+    @Property("owner")
     private UUID ownerUniqueId;
+
     private List<UUID> members;
+
     private byte size;
+
     private PlanetLocation planetLocation;
 
     public DatabasePlanet() {
@@ -28,7 +32,7 @@ public class DatabasePlanet implements me.devsnox.planetsystem.api.database.Data
     }
 
     public DatabasePlanet(final UUID uniqueId, final String name, final UUID ownerUniqueId, final List<UUID> members, final byte size, final PlanetLocation planetLocation) {
-        this.uniqueId = uniqueId;
+        this.uuid = uniqueId;
         this.name = name;
         this.ownerUniqueId = ownerUniqueId;
         this.members = members;
@@ -36,7 +40,7 @@ public class DatabasePlanet implements me.devsnox.planetsystem.api.database.Data
         this.planetLocation = planetLocation;
     }
 
-    public static DatabasePlanet by(Planet planet) {
+    public static DatabasePlanet by(final Planet planet) {
         return new DatabasePlanet(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
     }
 
@@ -81,7 +85,7 @@ public class DatabasePlanet implements me.devsnox.planetsystem.api.database.Data
     }
 
     public BasePlanet toBasePlanet() {
-        return new BasePlanet(this.uniqueId, this.name, this.ownerUniqueId, this.members, this.size, this.planetLocation);
+        return new BasePlanet(this.uuid, this.name, this.ownerUniqueId, this.members, this.size, this.planetLocation);
     }
 
     @Override

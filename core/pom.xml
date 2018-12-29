@@ -28,10 +28,11 @@
             <artifactId>morphia</artifactId>
             <version>1.3.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.4.2</version>
+            <version>3.9.1</version>
         </dependency>
         <dependency>
             <groupId>me.devsnox</groupId>
@@ -53,6 +54,11 @@
             <artifactId>worldedit-bukkit</artifactId>
             <version>6.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.darkdevelopers.darkbedrock</groupId>
+            <artifactId>Darkness</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

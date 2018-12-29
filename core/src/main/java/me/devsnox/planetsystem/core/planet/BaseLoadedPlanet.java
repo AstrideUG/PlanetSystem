@@ -5,7 +5,6 @@ import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.location.Region;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
-import me.devsnox.planetsystem.core.database.DatabasePlanet;
 import me.devsnox.planetsystem.core.location.BaseRegion;
 import org.bukkit.Location;
 
@@ -13,7 +12,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class BaseLoadedPlanet implements LoadedPlanet {
+//TODO: Improve BasePlanet / Planet usage
+public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
 
     private final Planet planet;
 
@@ -23,8 +23,9 @@ public class BaseLoadedPlanet implements LoadedPlanet {
     private final Location middle;
 
     public BaseLoadedPlanet(final Planet planet, final Location middle, final int maxSize) {
+        super(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
         this.planet = planet;
-        byte size = planet.getSize();
+        final byte size = planet.getSize();
         this.inner = new BaseRegion(middle.subtract(size, size, size), middle.add(size, size, size));
         this.outer = new BaseRegion(middle.subtract(maxSize, maxSize, maxSize), middle.add(maxSize, maxSize, maxSize));
         this.middle = middle;

@@ -46,6 +46,10 @@ public interface PlanetLocation {
     static PlanetLocation createFromBukkitLocation(final LoadedPlanet planet, final Location location) {
         return Factory.createFromBukkitLocation(planet, location);
     }
+
+    static PlanetLocation createPlanetLocation(final UUID planetId, final double x, final double y, final double z, final float yaw, final float pitch) {
+        return Factory.createPlanetLocation(planetId, x, y, z, yaw, pitch);
+    }
 }
 
 final class Factory {
@@ -53,6 +57,10 @@ final class Factory {
     static PlanetLocation createFromBukkitLocation(final LoadedPlanet planet, final Location location) {
         final Location finalLocation = planet.getMiddle().add(location);
         return new PlanetLocationImpl(planet.getUniqueID(), finalLocation.getX(), finalLocation.getY(), finalLocation.getZ(), finalLocation.getYaw(), finalLocation.getPitch());
+    }
+
+    static PlanetLocation createPlanetLocation(final UUID planetId, final double x, final double y, final double z, final float yaw, final float pitch) {
+        return new PlanetLocationImpl(planetId, x, y, z, yaw, pitch);
     }
 }
 
