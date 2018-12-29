@@ -20,7 +20,7 @@ public class BasePlanet implements Planet {
     private byte size;
     private PlanetLocation spawnLocation;
 
-    public BasePlanet(@NonNull final UUID uniqueID, @NonNull final String name, @NonNull final UUID ownerUniqueID, @NonNull final List<UUID> members, final byte size, @NonNull final PlanetLocation spawnLocation) {
+    public BasePlanet(@NonNull final UUID uniqueID, @NonNull final String name, @NonNull final UUID ownerUniqueID, final List<UUID> members, final byte size, @NonNull final PlanetLocation spawnLocation) {
         this.uniqueID = uniqueID;
         this.name = name;
         this.ownerUniqueID = ownerUniqueID;
@@ -76,10 +76,10 @@ public class BasePlanet implements Planet {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BasePlanet that = (BasePlanet) o;
+        final BasePlanet that = (BasePlanet) o;
         return size == that.size &&
                 Objects.equals(uniqueID, that.uniqueID) &&
                 Objects.equals(name, that.name) &&

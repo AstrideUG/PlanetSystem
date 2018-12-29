@@ -1,14 +1,13 @@
 package me.devsnox.planetsystem.core.holder.data;
 
-import com.boydti.fawe.FaweAPI;
-import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.WorldEditException;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
 import me.devsnox.planetsystem.api.handler.GridHandler;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.holder.data.PlanetData;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
-import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.core.database.DatabasePlanet;
 import me.devsnox.planetsystem.core.planet.BaseLoadedPlanet;
 import org.bukkit.Location;
@@ -31,7 +30,7 @@ public final class PlanetDataImpl implements PlanetData {
     }
 
     @Override
-    public void load(UUID owner, Consumer<LoadedPlanet> request) {
+    public void load(final UUID owner, final Consumer<LoadedPlanet> request) {
         final Planet planet = holder.getDatabaseHandler().getPlanet(owner).toPlanet();
 
         this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic -> {
@@ -39,7 +38,11 @@ public final class PlanetDataImpl implements PlanetData {
             final Location location = grid.getEmptyLocation();
             final BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(planet, location, grid.getMaxSize());
 
-            schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), new Vector(location.getX(), location.getY(), location.getZ()));
+            try {
+                schematic.paste(location);
+            } catch (final WorldEditException e) {
+                e.printStackTrace();
+            }
 
             holder.getPlanetData().getLoadedPlanets().add(loadedPlanet);
             request.accept(loadedPlanet);
@@ -47,12 +50,12 @@ public final class PlanetDataImpl implements PlanetData {
     }
 
     @Override
-    public void save(UUID owner) {
+    public void save(final UUID owner) {
         final LoadedPlanet loadedPlanet = holder.getPlanetData().getLoadedPlanet(owner);
         if (loadedPlanet == null) return;
         final DatabasePlanet databasePlanet = DatabasePlanet.by(loadedPlanet);
 
-        this.dynamicNetworkAPI.saveSchematic(owner, loadedPlanet.getSchematic());
+        //TODO: Save Method!!! //this.dynamicNetworkAPI.saveSchematic(owner, loadedPlanet.getSchematic());
         this.holder.getDatabaseHandler().savePlanet(databasePlanet);
     }
 

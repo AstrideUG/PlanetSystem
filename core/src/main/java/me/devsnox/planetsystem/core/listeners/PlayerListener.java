@@ -20,8 +20,7 @@ public class PlayerListener implements Listener {
         Holder.Impl.holder.getDatabaseHandler().create(UUID.randomUUID(), player.getUniqueId());
 
         Holder.Impl.holder.getPlanetData().load(player.getUniqueId(), loadedPlanet -> {
-            if (!player.hasPlayedBefore())
-                loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location)));
+            loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location)));
         });
     }
 
