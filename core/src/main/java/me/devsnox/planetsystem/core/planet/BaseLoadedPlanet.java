@@ -1,6 +1,10 @@
 package me.devsnox.planetsystem.core.planet;
 
 import com.boydti.fawe.object.schematic.Schematic;
+import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.location.Region;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
@@ -50,7 +54,12 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
 
     @Override
     public Schematic getSchematic() {
-        return null; //TODO: Create schematic
+        final Location vector = inner.getMin();
+        final Location vector1 = inner.getMax();
+        final Vector bot = new Vector(vector.getX(), vector.getY(), vector.getZ()); //MUST be a whole number eg integer
+        final Vector top = new Vector(vector1.getX(), vector1.getY(), vector1.getZ()); //MUST be a whole number eg integer
+        final CuboidRegion region = new CuboidRegion(new BukkitWorld(Holder.Impl.holder.getWorld()), bot, top);
+        return new Schematic(region);
     }
 
     @Override

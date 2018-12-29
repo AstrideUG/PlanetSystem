@@ -8,7 +8,7 @@ public final class GridHandler implements me.devsnox.planetsystem.api.handler.Gr
 
     private final World world;
     private final int maxSize;
-    private final int stage;
+    private int stage;
 
     public GridHandler(final String name, final int maxSize) {
         final File file = new File(Bukkit.getWorldContainer(), name);
@@ -20,17 +20,13 @@ public final class GridHandler implements me.devsnox.planetsystem.api.handler.Gr
 
         this.world = generateVoidWorld(name);
         this.maxSize = maxSize;
-        this.stage = 1;
+        this.stage = 0;
     }
 
     @Override
     public Location getEmptyLocation() {
-        final int x = this.stage * (this.maxSize / 2);
-        final Location location = new Location(world, x + 1, 126, 0);
-
-        System.out.println(location);
-
-        return location;
+        final int x = this.stage++ * (this.maxSize / 2);
+        return new Location(world, x + 1, 126, 0);
     }
 
     private World generateVoidWorld(final String name) {

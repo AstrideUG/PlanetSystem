@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetPlayer {
 
@@ -44,20 +45,20 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
 
     @Override
     public boolean canBuild(final Location location) {
-//        System.out.println(location);
-//        System.out.println(getPlanet());
-//        System.out.println(getPlanet().getInner());
-//        System.out.println(getPlanet().getInner().isInside(player));
-//        System.out.println(getPlanet().getOuter());
-//        System.out.println(getPlanet().getOuter().isInside(player));
+        System.out.println(location);
+        System.out.println(getPlanet());
+        System.out.println(getPlanet().getInner());
+        System.out.println(getPlanet().getInner().isInside(location));
+        System.out.println(getPlanet().getOuter());
+        System.out.println(getPlanet().getOuter().isInside(location));
 //        System.out.println(Holder.Impl.holder.getPlanetData().getPlanet(location));
 //        System.out.println(Holder.Impl.holder.getPlanetData().getPlanet(location).getMembers());
 //        System.out.println(Holder.Impl.holder.getPlanetData().getPlanet(location).getMembers().contains(player.getUniqueId()));
 //
-        if (this.getPlanet().getInner().isInside(player)) return true;
+        if (this.getPlanet().getInner().isInside(location)) return true;
         else {
             final Planet planet = Holder.Impl.holder.getPlanetData().getPlanet(location);
-            if (planet == null) return false;
+            if (planet == null || planet.getMembers() == null) return false;
             return planet.getMembers().contains(player.getUniqueId());
         }
     }
@@ -77,4 +78,28 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
         return logger;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        final BasePlanetPlayer that = (BasePlanetPlayer) o;
+        return Objects.equals(player, that.player) &&
+                Objects.equals(memberedPlanets, that.memberedPlanets) &&
+                Objects.equals(logger, that.logger);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), player, memberedPlanets, logger);
+    }
+
+    @Override
+    public String toString() {
+        return "BasePlanetPlayer{" +
+                "player=" + player +
+                ", memberedPlanets=" + memberedPlanets +
+                ", logger=" + logger +
+                '}';
+    }
 }

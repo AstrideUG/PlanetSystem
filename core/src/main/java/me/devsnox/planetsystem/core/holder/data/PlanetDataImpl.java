@@ -52,7 +52,7 @@ public final class PlanetDataImpl implements PlanetData {
         if (loadedPlanet == null) return;
         final DatabasePlanet databasePlanet = DatabasePlanet.by(loadedPlanet);
 
-        //TODO: Save Method!!! //this.dynamicNetworkAPI.saveSchematic(owner, loadedPlanet.getSchematic());
+        this.dynamicNetworkAPI.saveSchematic(owner, loadedPlanet.getSchematic());
         this.holder.getDatabaseHandler().savePlanet(databasePlanet);
     }
 
