@@ -1,11 +1,10 @@
 package me.devsnox.planetsystem.core.planet;
 
 import lombok.NonNull;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
-import me.devsnox.planetsystem.core.InternalFactory;
-import me.devsnox.planetsystem.core.database.DatabasePlanet;
 
 import java.util.List;
 import java.util.Objects;
@@ -73,30 +72,32 @@ public class BasePlanet implements Planet {
 
     @Override
     public void load(final Consumer<LoadedPlanet> result) {
-        InternalFactory.internalHandler.loadPlanetByPlanetId(this.uniqueID, result);
+        Holder.Impl.holder.getPlanetData().load(this.uniqueID, result);
     }
 
-    @Override //TODO: re-create
-    public boolean equals(final Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final BasePlanet that = (BasePlanet) o;
+        BasePlanet that = (BasePlanet) o;
         return size == that.size &&
-                uniqueID.equals(that.uniqueID) &&
-                ownerUniqueID.equals(that.ownerUniqueID) &&
-                members.equals(that.members) &&
-                spawnLocation.equals(that.spawnLocation);
+                Objects.equals(uniqueID, that.uniqueID) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(ownerUniqueID, that.ownerUniqueID) &&
+                Objects.equals(members, that.members) &&
+                Objects.equals(spawnLocation, that.spawnLocation);
     }
 
-    @Override //TODO: re-create
+    @Override
     public int hashCode() {
-        return Objects.hash(uniqueID, ownerUniqueID, members, size, spawnLocation);
+        return Objects.hash(uniqueID, name, ownerUniqueID, members, size, spawnLocation);
     }
 
-    @Override //TODO: re-create
+    @Override
     public String toString() {
         return "BasePlanet{" +
                 "uniqueID=" + uniqueID +
+                ", name='" + name + '\'' +
                 ", ownerUniqueID=" + ownerUniqueID +
                 ", members=" + members +
                 ", size=" + size +
@@ -104,7 +105,4 @@ public class BasePlanet implements Planet {
                 '}';
     }
 
-    public DatabasePlanet toDatabasePlanet() {
-        return new DatabasePlanet(this.uniqueID, this.name, this.ownerUniqueID, this.members, this.size, this.spawnLocation);
-    }
 }

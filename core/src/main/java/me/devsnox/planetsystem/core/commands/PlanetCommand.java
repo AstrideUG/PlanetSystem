@@ -1,7 +1,6 @@
 package me.devsnox.planetsystem.core.commands;
 
-import me.devsnox.planetsystem.api.PlanetAPI;
-import me.devsnox.planetsystem.api.PlanetFactory;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
 import me.devsnox.planetsystem.core.commands.modules.*;
 import org.bukkit.command.Command;
@@ -12,7 +11,6 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class PlanetCommand implements CommandExecutor {
 
@@ -30,8 +28,7 @@ public class PlanetCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player) {
-            PlanetAPI planetAPI = PlanetFactory.planetAPI;
-            PlanetPlayer planetPlayer = planetAPI.getPlayer((Player) commandSender);
+            PlanetPlayer planetPlayer = Holder.Impl.holder.getPlayerData().getPlayer(((Player) commandSender).getUniqueId());
 
             if(this.commandModules.containsKey(args[0].toLowerCase())) {
                 this.commandModules.get(args[0].toLowerCase()).execute(planetPlayer, Arrays.copyOfRange(args, 1, args.length));

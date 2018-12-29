@@ -1,6 +1,6 @@
 package me.devsnox.planetsystem.core.commands.modules;
 
-import me.devsnox.planetsystem.api.PlanetFactory;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.log.Logger;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
 import me.devsnox.planetsystem.core.commands.PlanetCommandModule;
@@ -31,7 +31,7 @@ public class KickCommand implements PlanetCommandModule {
             if (player.getPlanet().getMembers().contains(uuid)) {
                 player.getPlanet().getMembers().remove(uuid);
                 logger.successes("Commands.Kick.Player.Successes");
-                PlanetFactory.planetAPI.getPlayer(player.getUUID()).getLogger().successes("Commands.Kick.Target.Successes");
+                Holder.Impl.holder.getPlayerData().getPlayer(player.getUUID()).getLogger().successes("Commands.Kick.Target.Successes");
             } else logger.warn(prefix + "IsAlreadyAPlanetMember");
         } else logger.warn(prefix + "ArgsSizeIsNot1");
     }

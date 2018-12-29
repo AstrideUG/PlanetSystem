@@ -5,9 +5,9 @@ import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.location.Region;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
+import me.devsnox.planetsystem.core.database.DatabasePlanet;
 import me.devsnox.planetsystem.core.location.BaseRegion;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.UUID;
@@ -95,4 +95,5 @@ public class BaseLoadedPlanet implements LoadedPlanet {
     public void load(final Consumer<LoadedPlanet> result) {
         result.accept(this);
     }
+
 }

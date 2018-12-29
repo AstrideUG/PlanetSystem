@@ -27,4 +27,5 @@ public class VoidWorldGenerator extends ChunkGenerator {
     public Location getFixedSpawnLocation(World world, Random random) {
         return new Location(world, 0, 128, 0);
     }
+
 }

@@ -1,6 +1,6 @@
 package me.devsnox.planetsystem.core.player;
 
-import me.devsnox.planetsystem.api.PlanetFactory;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.log.KeyLogger;
 import me.devsnox.planetsystem.api.log.Logger;
@@ -29,7 +29,7 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
 
     @Override
     public Player getPlayer() {
-        return null;
+        return player;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
     @Override
     public boolean canBuild(final Location location) {
         if (this.getPlanet().getInner().isInside(player)) return true;
-        else return PlanetFactory.planetAPI.getPlanet(location).getMembers().contains(player.getUniqueId());
+        else return Holder.Impl.holder.getPlanetData().getPlanet(location).getMembers().contains(player.getUniqueId());
     }
 
     @Override
@@ -62,4 +62,5 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
     public Logger getLogger() {
         return logger;
     }
+
 }

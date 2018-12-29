@@ -1,6 +1,6 @@
 package me.devsnox.planetsystem.api.location;
 
-import me.devsnox.planetsystem.api.PlanetFactory;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import org.bukkit.Location;
 
@@ -33,7 +33,7 @@ public interface PlanetLocation {
     void setPitch(float pitch);
 
     default void toBukkitLocation(final Consumer<Location> request) {
-        PlanetFactory.planetAPI.getPlanet(this.getPlanetID()).load(loadedPlanet -> {
+        Holder.Impl.holder.getPlanetData().load(this.getPlanetID(), loadedPlanet -> {
             final Location location = loadedPlanet.getMiddle().subtract(getX(), getY(), getZ());
 
             location.setYaw(getYaw());

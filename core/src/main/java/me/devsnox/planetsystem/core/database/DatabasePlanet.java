@@ -1,6 +1,7 @@
 package me.devsnox.planetsystem.core.database;
 
 import me.devsnox.planetsystem.api.location.PlanetLocation;
+import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.core.planet.BasePlanet;
 import org.mongodb.morphia.annotations.*;
 
@@ -8,26 +9,22 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity(value = "planets", noClassnameStored = true)
-public class DatabasePlanet {
+public class DatabasePlanet implements me.devsnox.planetsystem.api.database.DatabasePlanet {
 
     @Id()
     @Indexed(options = @IndexOptions(unique = true))
     @Property(value = "uuid")
     private UUID uniqueId;
-
     @Indexed
     private String name;
-
     @Property
     private UUID ownerUniqueId;
-
     private List<UUID> members;
-
     private byte size;
-
     private PlanetLocation planetLocation;
 
     public DatabasePlanet() {
+
     }
 
     public DatabasePlanet(final UUID uniqueId, final String name, final UUID ownerUniqueId, final List<UUID> members, final byte size, final PlanetLocation planetLocation) {
@@ -37,6 +34,10 @@ public class DatabasePlanet {
         this.members = members;
         this.size = size;
         this.planetLocation = planetLocation;
+    }
+
+    public static DatabasePlanet by(Planet planet) {
+        return new DatabasePlanet(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
     }
 
     public String getName() {
@@ -82,4 +83,10 @@ public class DatabasePlanet {
     public BasePlanet toBasePlanet() {
         return new BasePlanet(this.uniqueId, this.name, this.ownerUniqueId, this.members, this.size, this.planetLocation);
     }
+
+    @Override
+    public Planet toPlanet() {
+        return toBasePlanet();
+    }
+
 }

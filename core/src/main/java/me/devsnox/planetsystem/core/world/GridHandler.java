@@ -4,12 +4,10 @@ import org.bukkit.*;
 
 import java.io.File;
 
-public final class GridHandler {
+public final class GridHandler implements me.devsnox.planetsystem.api.handler.GridHandler {
 
     private final World world;
-
     private final int maxSize;
-
     private final int stage;
 
     public GridHandler(final String name, final int maxSize) {

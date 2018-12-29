@@ -32,4 +32,5 @@ public interface PlanetPlayer extends OfflinePlanetPlayer {
     PlanetLocation getLocation();
 
     Logger getLogger();
+
 }

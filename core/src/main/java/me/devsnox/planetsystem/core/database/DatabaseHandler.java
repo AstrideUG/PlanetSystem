@@ -6,7 +6,7 @@ import org.mongodb.morphia.Morphia;
 
 import java.util.UUID;
 
-public class DatabaseHandler {
+public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.DatabaseHandler {
 
     private final MongoClient mongoClient;
     private final Morphia morphia;
@@ -31,15 +31,15 @@ public class DatabaseHandler {
         return this.planetDAO.findOne("uuid", uuid);
     }
 
-    public void savePlanet(final DatabasePlanet databasePlanet) {
-        this.planetDAO.save(databasePlanet);
+    public void savePlanet(final me.devsnox.planetsystem.api.database.DatabasePlanet databasePlanet) {
+        this.planetDAO.save((DatabasePlanet) databasePlanet); //TODO FUCK YOU CAST!
     }
 
     public DatabasePlayer getPlayer(final UUID uuid) {
         return this.playerDAO.findOne("uuid", uuid);
     }
 
-    public void savePlayer(DatabasePlayer databasePlayer) {
-        this.playerDAO.save(databasePlayer);
+    public void savePlayer(me.devsnox.planetsystem.api.database.DatabasePlayer databasePlayer) {
+        this.playerDAO.save((DatabasePlayer) databasePlayer); //TODO FUCK YOU CAST!
     }
 }

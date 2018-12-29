@@ -1,10 +1,9 @@
 package me.devsnox.planetsystem.core;
 
-import me.devsnox.planetsystem.core.api.InternalHandler;
-import me.devsnox.planetsystem.core.cache.PlanetCache;
-import me.devsnox.planetsystem.core.cache.PlayerCache;
+import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.core.commands.PlanetCommand;
 import me.devsnox.planetsystem.core.database.DatabaseHandler;
+import me.devsnox.planetsystem.core.holder.HolderImpl;
 import me.devsnox.planetsystem.core.listeners.PlanetListener;
 import me.devsnox.planetsystem.core.listeners.PlayerListener;
 import org.bukkit.Bukkit;
@@ -17,11 +16,11 @@ public class PlanetSystem extends JavaPlugin {
 
     private DatabaseHandler databaseHandler;
 
-    private BaseInternalHandler baseInternalHandler;
 
     @Override
     public void onEnable() {
-        this.baseInternalHandler = new BaseInternalHandler(this);
+
+        Holder.Impl.holder = new HolderImpl(this);
 
         this.registerListeners();
         this.registerCommands();
