@@ -11,6 +11,8 @@ public interface DatabaseHandler {
 
     void savePlanet(final DatabasePlanet databasePlanet);
 
+    void create(UUID planet, UUID player);
+
     DatabasePlayer getPlayer(final UUID uuid);
 
     void savePlayer(DatabasePlayer databasePlayer);

@@ -1,9 +1,12 @@
 package me.devsnox.planetsystem.core.database;
 
 import com.mongodb.MongoClient;
+import me.devsnox.planetsystem.api.holder.Holder;
+import me.devsnox.planetsystem.api.location.PlanetLocation;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.DatabaseHandler {
@@ -39,6 +42,71 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
     }
 
     @Override
+    public void create(UUID planet, UUID player) {
+        if (!this.playerDAO.exists("uuid", player)) {
+            DatabasePlayer databasePlayer = new DatabasePlayer(player, planet, new ArrayList<>());
+            DatabasePlanet databasePlanet = new DatabasePlanet(planet, "Alpha Centauri", player, new ArrayList<>(), (byte) 8, new PlanetLocation() {
+                @Override
+                public UUID getPlanetID() {
+                    return planet;
+                }
+
+                @Override
+                public double getX() {
+                    return 0;
+                }
+
+                @Override
+                public void setX(double x) {
+
+                }
+
+                @Override
+                public double getY() {
+                    return 0;
+                }
+
+                @Override
+                public void setY(double y) {
+
+                }
+
+                @Override
+                public double getZ() {
+                    return 0;
+                }
+
+                @Override
+                public void setZ(double z) {
+
+                }
+
+                @Override
+                public float getYaw() {
+                    return 0;
+                }
+
+                @Override
+                public void setYaw(float yaw) {
+
+                }
+
+                @Override
+                public float getPitch() {
+                    return 0;
+                }
+
+                @Override
+                public void setPitch(float pitch) {
+
+                }
+            });
+            playerDAO.save(databasePlayer);
+            planetDAO.save(databasePlanet);
+        }
+    }
+
+    @Override
     public DatabasePlayer getPlayer(final UUID uuid) {
         return this.playerDAO.findOne("uuid", uuid);
     }
@@ -47,4 +115,5 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
     public void savePlayer(final me.devsnox.planetsystem.api.database.DatabasePlayer databasePlayer) {
         this.playerDAO.save((DatabasePlayer) databasePlayer); //TODO FUCK YOU CAST!
     }
+
 }
