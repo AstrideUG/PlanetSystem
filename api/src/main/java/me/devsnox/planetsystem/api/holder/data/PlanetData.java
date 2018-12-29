@@ -15,19 +15,19 @@ public interface PlanetData {
 
     void save(UUID owner);
 
-    default boolean isLoaded(UUID uuid) {
+    default boolean isLoaded(final UUID uuid) {
         return getLoadedPlanet(uuid) != null;
     }
 
     @Nullable
-    default LoadedPlanet getLoadedPlanet(UUID uuid) {
-        for (LoadedPlanet planet : getLoadedPlanets()) if (planet.getUniqueID() == uuid) return planet;
+    default LoadedPlanet getLoadedPlanet(final UUID uuid) {
+        for (final LoadedPlanet planet : getLoadedPlanets()) if (planet.getUniqueID().equals(uuid)) return planet;
         return null;
     }
 
     @Nullable
-    default Planet getPlanet(Location location) {
-        for (LoadedPlanet loadedPlanet : getLoadedPlanets())
+    default Planet getPlanet(final Location location) {
+        for (final LoadedPlanet loadedPlanet : getLoadedPlanets())
             if (loadedPlanet.getInner().isInside(location)) return loadedPlanet;
         return null;
     }

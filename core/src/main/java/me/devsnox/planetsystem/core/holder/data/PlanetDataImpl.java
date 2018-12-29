@@ -33,20 +33,20 @@ public final class PlanetDataImpl implements PlanetData {
     public void load(final UUID owner, final Consumer<LoadedPlanet> request) {
         final Planet planet = holder.getDatabaseHandler().getPlanet(owner).toPlanet();
 
-        this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic -> {
-            final GridHandler grid = holder.getGridHandler();
-            final Location location = grid.getEmptyLocation();
-            final BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(planet, location, grid.getMaxSize());
+        final GridHandler grid = holder.getGridHandler();
+        final Location location = grid.getEmptyLocation();
+        final BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(planet, location, grid.getMaxSize());
 
+        this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic -> {
             try {
                 schematic.paste(location);
             } catch (final WorldEditException e) {
                 e.printStackTrace();
             }
-
-            holder.getPlanetData().getLoadedPlanets().add(loadedPlanet);
-            request.accept(loadedPlanet);
         });
+
+        holder.getPlanetData().getLoadedPlanets().add(loadedPlanet);
+        request.accept(loadedPlanet);
     }
 
     @Override

@@ -112,7 +112,10 @@ public class PlanetLocation {
     }
 
     public void toBukkitLocation(final Consumer<Location> request) {
+        System.out.println(this.getPlanetID());
+        System.out.println(Holder.Impl.holder.getPlanetData().getLoadedPlanets());
         final LoadedPlanet loadedPlanet = Holder.Impl.holder.getPlanetData().getLoadedPlanet(this.getPlanetID());
+        System.out.println(loadedPlanet);
         final Location location = loadedPlanet.getMiddle().subtract(getX(), getY(), getZ());
 
         location.setYaw(getYaw());

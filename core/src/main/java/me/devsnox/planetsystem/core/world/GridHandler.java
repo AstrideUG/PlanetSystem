@@ -23,9 +23,14 @@ public final class GridHandler implements me.devsnox.planetsystem.api.handler.Gr
         this.stage = 1;
     }
 
+    @Override
     public Location getEmptyLocation() {
         final int x = this.stage * this.maxSize;
-        return new Location(world, x, 126, 0);
+        final Location location = new Location(world, x, 126, 0);
+
+        System.out.println(location);
+
+        return location;
     }
 
     private World generateVoidWorld(final String name) {
@@ -36,6 +41,7 @@ public final class GridHandler implements me.devsnox.planetsystem.api.handler.Gr
                 .createWorld();
     }
 
+    @Override
     public int getMaxSize() {
         return maxSize;
     }
