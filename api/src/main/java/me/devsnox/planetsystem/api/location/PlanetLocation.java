@@ -2,6 +2,7 @@ package me.devsnox.planetsystem.api.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import org.bukkit.Location;
@@ -12,13 +13,14 @@ import java.util.function.Consumer;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @SuppressWarnings("WeakerAccess")
 public class PlanetLocation {
 
-    private final UUID planetID;
-    private final Vector vector;
-    private final float yaw;
-    private final float pitch;
+    private UUID planetID;
+    private Vector vector;
+    private float yaw;
+    private float pitch;
 
     public PlanetLocation(final UUID planetID) {
         this(planetID, new Vector(), 0, 0);
