@@ -11,6 +11,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PlanetSystem extends JavaPlugin {
 
@@ -24,6 +25,10 @@ public class PlanetSystem extends JavaPlugin {
 
         this.registerListeners();
         this.registerCommands();
+
+        Logger.getLogger("org.mongodb").setLevel(Level.SEVERE);
+        Logger.getLogger("org.mongodb.driver").setLevel(Level.WARNING);
+
 
         this.getLogger().log(Level.INFO, "PlanetSystem started");
     }

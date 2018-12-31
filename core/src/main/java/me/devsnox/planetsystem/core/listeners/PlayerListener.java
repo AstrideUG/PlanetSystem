@@ -20,12 +20,18 @@ public class PlayerListener implements Listener {
         final Player player = event.getPlayer();
         final UUID uniqueId = player.getUniqueId();
 
-        Holder.Impl.holder.getDatabaseHandler().create(UUID.randomUUID(), uniqueId, aBoolean ->
-                Holder.Impl.holder.getPlanetData().load(uniqueId, loadedPlanet -> {
-                    Bukkit.getPluginManager().callEvent(new PlanetCreatedEvent(loadedPlanet));
-                    Holder.Impl.holder.getPlayerData().load(uniqueId, planetPlayer ->
-                            loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location))));
-                }));
+        Holder.Impl.holder.getDatabaseHandler().create(UUID.randomUUID(), uniqueId, aBoolean -> {
+//            if (aBoolean) {
+            Holder.Impl.holder.getPlanetData().load(uniqueId, loadedPlanet -> {
+                if (aBoolean) Bukkit.getPluginManager().callEvent(new PlanetCreatedEvent(loadedPlanet));
+                Holder.Impl.holder.getPlayerData().load(uniqueId, planetPlayer ->
+                        loadedPlanet.getSpawnLocation().toBukkitLocation(location -> ThreadUtils.sync(() -> player.teleport(location))));
+            });
+           /* } else {
+                final Logger logger = new BasePlayerKeyLogger(player, new HashMap<>()); //TODO: Make it better
+                logger.warn("Events.Player.Join.Failed.CanNotCreatedAPlanet");
+            }*/
+        });
     }
 
     @EventHandler

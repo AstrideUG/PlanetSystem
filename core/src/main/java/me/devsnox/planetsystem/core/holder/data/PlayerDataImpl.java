@@ -31,6 +31,14 @@ public final class PlayerDataImpl implements PlayerData {
 
         holder.getPlanetData().load(uuid, loadedPlanet -> {
             System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
+            System.out.println(loadedPlanet);
             final List<Planet> members = new ArrayList<>();//TODO databasePlayer.getMemberedPlanets().stream().map(this::getPlanet).collect(Collectors.toList());
             System.out.println(uuid);
             System.out.println(Bukkit.getPlayer(uuid));
@@ -38,9 +46,17 @@ public final class PlayerDataImpl implements PlayerData {
             final PlanetPlayer planetPlayer = new BasePlanetPlayer(Bukkit.getPlayer(uuid), loadedPlanet, members);
 
             System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
+            System.out.println(planetPlayer);
             System.out.println(holder.getPlayerData().getPlayers());
 
-            holder.getPlayerData().getPlayers().add(planetPlayer);
+            players.add(planetPlayer);
             System.out.println(holder.getPlayerData().getPlayers());
             request.accept(planetPlayer);
         });

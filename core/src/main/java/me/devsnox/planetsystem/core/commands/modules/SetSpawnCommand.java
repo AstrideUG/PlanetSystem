@@ -8,7 +8,7 @@ public class SetSpawnCommand implements PlanetCommandModule {
 
     @Override
     public void execute(final PlanetPlayer player, final String[] args) {
-        player.getPlanet().setSpawnLocation(PlanetLocation.createFromBukkitLocation(player.getPlanet(), player.getPlayer().getLocation()));
+        player.getPlanet().setSpawnLocation(PlanetLocation.create(player.getPlayer().getLocation(), player.getPlanet()));
         player.getLogger().info("Commands.SetSpawn.Success");
     }
 }

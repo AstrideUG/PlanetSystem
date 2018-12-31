@@ -49,7 +49,6 @@ public class BasePlanet implements Planet {
         return members;
     }
 
-
     @Override
     public byte getSize() {
         return size;

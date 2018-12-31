@@ -65,7 +65,7 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
 
     @Override
     public PlanetLocation getLocation() {
-        return PlanetLocation.createFromBukkitLocation(getPlanet(), player.getLocation());
+        return PlanetLocation.create(player.getLocation(), getPlanet());
     }
 
     @Override

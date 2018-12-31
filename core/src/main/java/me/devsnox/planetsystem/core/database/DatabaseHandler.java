@@ -29,6 +29,13 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
 
         this.planetDAO = new PlanetDAO(DatabasePlanet.class, this.datastore);
         this.playerDAO = new PlayerDAO(DatabasePlayer.class, this.datastore);
+
+//        final LogManager lm = LogManager.getLogManager();
+//        for (final Enumeration<String> i = lm.getLoggerNames(); i.hasMoreElements(); ) {
+//            lm.getLogger(i.nextElement()).setLevel(Level.OFF);
+//        }
+
+//        ((LoggerContext) LoggerFactory.getILoggerFactory()).getLogger("org.mongodb.driver").setLevel(Level.ERROR);
     }
 
     @Override
@@ -48,13 +55,11 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
             final DatabasePlayer databasePlayer = new DatabasePlayer(player, planet, Arrays.asList(planet));
             playerDAO.save(databasePlayer);
 
-            final DatabasePlanet databasePlanet = new DatabasePlanet(planet, "Alpha Centauri", player, new ArrayList<>(), (byte) 8, PlanetLocation.createPlanetLocation(planet, 0, 0, 0, 0, 0));
+            final DatabasePlanet databasePlanet = new DatabasePlanet(planet, "Alpha Centauri", player, new ArrayList<>(), (byte) 8, new PlanetLocation(planet));
             planetDAO.save(databasePlanet);
 
-
             result.accept(true);
-        }
-        result.accept(true);
+        } else result.accept(false);
     }
 
     @Override

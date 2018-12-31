@@ -1,11 +1,13 @@
 package me.devsnox.planetsystem.core.log;
 
+import lombok.Data;
 import me.devsnox.planetsystem.api.log.PlayerLogger;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
+@Data
 public class BasePlayerLogger implements PlayerLogger {
 
     private final Player player;
@@ -34,4 +36,5 @@ public class BasePlayerLogger implements PlayerLogger {
     public Player getPlayer() {
         return player;
     }
+
 }

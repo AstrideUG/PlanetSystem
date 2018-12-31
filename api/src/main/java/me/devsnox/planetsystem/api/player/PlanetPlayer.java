@@ -29,6 +29,14 @@ public interface PlanetPlayer extends OfflinePlanetPlayer {
         return canBuild(block.getLocation());
     }
 
+    default boolean canNotBuild(final Location location) {
+        return !canBuild(location);
+    }
+
+    default boolean canNotBuild(final Block block) {
+        return !canBuild(block.getLocation());
+    }
+
     PlanetLocation getLocation();
 
     Logger getLogger();

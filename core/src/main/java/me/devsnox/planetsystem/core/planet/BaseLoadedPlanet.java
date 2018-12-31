@@ -1,9 +1,9 @@
 package me.devsnox.planetsystem.core.planet;
 
 import com.boydti.fawe.object.schematic.Schematic;
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import lombok.Data;
 import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.location.Region;
@@ -13,53 +13,49 @@ import me.devsnox.planetsystem.core.location.BaseRegion;
 import org.bukkit.Location;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 //TODO: Improve BasePlanet / Planet usage
+@Data
 public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
 
     private final Planet planet;
-
     private final Region inner;
     private final Region outer;
-
     private final Location middle;
 
     public BaseLoadedPlanet(final Planet planet, final Location middle, final int maxSize) {
         super(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
         this.planet = planet;
-        final byte size = planet.getSize();
-        this.inner = new BaseRegion(middle.clone().subtract(size, size, size), middle.clone().add(size, size, size));
-        this.outer = new BaseRegion(middle.clone().subtract(maxSize, maxSize, maxSize), middle.clone().add(maxSize, maxSize, maxSize));
         this.middle = middle;
-    }
 
+        final byte size = planet.getSize();
+        final org.bukkit.util.Vector vSize = new org.bukkit.util.Vector(size, size, size);
+        final org.bukkit.util.Vector vMaxSize = new org.bukkit.util.Vector(maxSize, maxSize, maxSize);
 
-    @Override
-    public Region getInner() {
-        return inner;
-    }
+        final PlanetLocation innerMin = PlanetLocation.create(getMiddleVector().subtract(vSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        final PlanetLocation innerMax = PlanetLocation.create(getMiddleVector().add(vSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
 
-    @Override
-    public Region getOuter() {
-        return outer;
+        final PlanetLocation outerMin = PlanetLocation.create(getMiddleVector().subtract(vMaxSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        final PlanetLocation outerMax = PlanetLocation.create(getMiddleVector().add(vMaxSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+
+        this.inner = new BaseRegion(innerMin, innerMax);
+        this.outer = new BaseRegion(outerMin, outerMax);
     }
 
     @Override
     public Location getMiddle() {
-        return middle;
+        return middle.clone();
+    }
+
+    public org.bukkit.util.Vector getMiddleVector() {
+        return middle.toVector();
     }
 
     @Override
     public Schematic getSchematic() {
-        final Location vector = inner.getMin();
-        final Location vector1 = inner.getMax();
-        final Vector bot = new Vector(vector.getX(), vector.getY(), vector.getZ()); //MUST be a whole number eg integer
-        final Vector top = new Vector(vector1.getX(), vector1.getY(), vector1.getZ()); //MUST be a whole number eg integer
-        final CuboidRegion region = new CuboidRegion(new BukkitWorld(Holder.Impl.holder.getWorld()), bot, top);
-        return new Schematic(region);
+        return new Schematic(new CuboidRegion(new BukkitWorld(Holder.Impl.holder.getWorld()), inner.getMin().toWEVector(), inner.getMax().toWEVector()));
     }
 
     @Override
@@ -107,30 +103,4 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
         result.accept(this);
     }
 
-    @Override
-    public String toString() {
-        return "BaseLoadedPlanet{" +
-                "planet=" + planet +
-                ", inner=" + inner +
-                ", outer=" + outer +
-                ", middle=" + middle +
-                '}';
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        final BaseLoadedPlanet that = (BaseLoadedPlanet) o;
-        return Objects.equals(planet, that.planet) &&
-                Objects.equals(inner, that.inner) &&
-                Objects.equals(outer, that.outer) &&
-                Objects.equals(middle, that.middle);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), planet, inner, outer, middle);
-    }
 }
