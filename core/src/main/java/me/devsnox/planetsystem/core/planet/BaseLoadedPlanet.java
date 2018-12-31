@@ -4,6 +4,7 @@ import com.boydti.fawe.object.schematic.Schematic;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.location.Region;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-//TODO: Improve BasePlanet / Planet usage
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
 
@@ -34,11 +35,11 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
         final org.bukkit.util.Vector vSize = new org.bukkit.util.Vector(size, size, size);
         final org.bukkit.util.Vector vMaxSize = new org.bukkit.util.Vector(maxSize, maxSize, maxSize);
 
-        final PlanetLocation innerMin = PlanetLocation.create(getMiddleVector().subtract(vSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
-        final PlanetLocation innerMax = PlanetLocation.create(getMiddleVector().add(vSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        final PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        final PlanetLocation innerMax = PlanetLocation.create(vSize, middle.getYaw(), middle.getPitch(), planet.getUniqueID());
 
-        final PlanetLocation outerMin = PlanetLocation.create(getMiddleVector().subtract(vMaxSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
-        final PlanetLocation outerMax = PlanetLocation.create(getMiddleVector().add(vMaxSize), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        final PlanetLocation outerMin = PlanetLocation.create(vMaxSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        final PlanetLocation outerMax = PlanetLocation.create(vMaxSize, middle.getYaw(), middle.getPitch(), planet.getUniqueID());
 
         this.inner = new BaseRegion(innerMin, innerMax);
         this.outer = new BaseRegion(outerMin, outerMax);

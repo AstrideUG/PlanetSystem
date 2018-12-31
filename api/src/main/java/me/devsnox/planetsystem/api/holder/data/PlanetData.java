@@ -1,5 +1,6 @@
 package me.devsnox.planetsystem.api.holder.data;
 
+import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import org.bukkit.Location;
@@ -28,7 +29,8 @@ public interface PlanetData {
     @Nullable
     default Planet getPlanet(final Location location) {
         for (final LoadedPlanet loadedPlanet : getLoadedPlanets())
-            if (loadedPlanet.getInner().isInside(location)) return loadedPlanet;
+            if (loadedPlanet.getInner().isInside(PlanetLocation.create(location, loadedPlanet)))
+                return loadedPlanet;
         return null;
     }
 

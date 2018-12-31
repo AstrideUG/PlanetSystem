@@ -26,7 +26,7 @@ public class PlanetListener implements Listener {
     private void blockBuild(final Cancellable cancellable, final Block block, final Player player) {
         if (!Holder.Impl.holder.getWorld().equals(player.getWorld())) return;
         final PlanetPlayer planetPlayer = Holder.Impl.holder.getPlayerData().getPlayer(player.getUniqueId());
-        if (planetPlayer != null && !planetPlayer.canNotBuild(block)) cancellable.setCancelled(true);
+        if (planetPlayer != null && planetPlayer.canNotBuild(block)) cancellable.setCancelled(true);
     }
 
 }

@@ -1,9 +1,6 @@
 package me.devsnox.planetsystem.api.location;
 
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public interface Region {
@@ -37,18 +34,18 @@ public interface Region {
 
         //35+14+40 = 89*/
 
-        return location.getVector().isInAABB(getMin().getVector(), getMax().getVector());
+        return isInside(location.getVector());
     }
 
-    default boolean isInside(final Location location) {
-        return isInside(location.toVector());
-    }
+//    default boolean isInside(final Location location) {
+//        return isInside(PlanetLocation.create()location.toVector());
+//    }
 
-    default boolean isInside(final Player player) {
-        return isInside(player.getLocation());
-    }
-
-    default boolean isInside(final Block block) {
-        return isInside(block.getLocation());
-    }
+//    default boolean isInside(final Player player) {
+//        return isInside(player.getLocation());
+//    }
+//
+//    default boolean isInside(final Block block) {
+//        return isInside(block.getLocation());
+//    }
 }

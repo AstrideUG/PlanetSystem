@@ -8,7 +8,7 @@ public class InfoCommand implements PlanetCommandModule {
 
     @Override
     public void execute(final PlanetPlayer player, final String[] args) {
-        if (player.getPlanet().getInner().isInside(player.getPlayer())) {
+        if (player.getPlanet().getInner().isInside(player.getLocation())) {
             //TODO: Add message handling
         } else {
             player.getLogger().log(Logger.Level.WARNING, "Commands.Info.Failed.IsNotOnHisPlanet");

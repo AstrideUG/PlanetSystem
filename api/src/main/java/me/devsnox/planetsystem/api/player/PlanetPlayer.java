@@ -34,7 +34,7 @@ public interface PlanetPlayer extends OfflinePlanetPlayer {
     }
 
     default boolean canNotBuild(final Block block) {
-        return !canBuild(block.getLocation());
+        return canNotBuild(block.getLocation());
     }
 
     PlanetLocation getLocation();

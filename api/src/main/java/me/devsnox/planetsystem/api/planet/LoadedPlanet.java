@@ -13,4 +13,5 @@ public interface LoadedPlanet extends Planet {
     Location getMiddle();
 
     Schematic getSchematic();
+
 }
