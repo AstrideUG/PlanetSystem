@@ -13,7 +13,6 @@ import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.core.location.BaseRegion;
 import org.bukkit.Location;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -47,11 +46,10 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
 
     @Override
     public Location getMiddle() {
+        System.out.println("Start getMiddle()");
+        System.out.println("middle: " + middle);
+        System.out.println("Ends getMiddle()");
         return middle.clone();
-    }
-
-    public org.bukkit.util.Vector getMiddleVector() {
-        return middle.toVector();
     }
 
     @Override
@@ -72,21 +70,6 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
     @Override
     public String getName() {
         return this.planet.getName();
-    }
-
-    @Override
-    public List<UUID> getMembers() {
-        return this.planet.getMembers();
-    }
-
-    @Override
-    public byte getSize() {
-        return this.planet.getSize();
-    }
-
-    @Override
-    public void setSize(final byte size) {
-        this.planet.setSize(size);
     }
 
     @Override

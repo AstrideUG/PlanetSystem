@@ -39,6 +39,7 @@ public final class PlanetDataImpl implements PlanetData {
         System.out.println(grid.getEmptyLocation());
         final BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(planet, location, grid.getMaxSize());
 
+        System.out.println(dynamicNetworkAPI);
         this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic ->
                 schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), new Vector(location.getX(), location.getY(), location.getZ())));
 

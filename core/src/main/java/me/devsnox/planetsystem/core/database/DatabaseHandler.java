@@ -12,23 +12,18 @@ import java.util.function.Consumer;
 
 public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.DatabaseHandler {
 
-    private final MongoClient mongoClient;
-    private final Morphia morphia;
-
-    private final Datastore datastore;
-
     private final PlanetDAO planetDAO;
     private final PlayerDAO playerDAO;
 
     public DatabaseHandler() {
-        this.mongoClient = new MongoClient("127.0.0.1", 27017); //TODO: Initialization of MongoClient
+        final MongoClient mongoClient = new MongoClient("127.0.0.1", 27017); //TODO: Initialization of MongoClient
 
-        this.morphia = new Morphia();
-        this.datastore = this.morphia.createDatastore(this.mongoClient, "cosmic");
-        this.datastore.ensureIndexes();
+        final Morphia morphia = new Morphia();
+        final Datastore datastore = morphia.createDatastore(mongoClient, "cosmic");
+        datastore.ensureIndexes();
 
-        this.planetDAO = new PlanetDAO(DatabasePlanet.class, this.datastore);
-        this.playerDAO = new PlayerDAO(DatabasePlayer.class, this.datastore);
+        this.planetDAO = new PlanetDAO(DatabasePlanet.class, datastore);
+        this.playerDAO = new PlayerDAO(DatabasePlayer.class, datastore);
 
 //        final LogManager lm = LogManager.getLogManager();
 //        for (final Enumeration<String> i = lm.getLoggerNames(); i.hasMoreElements(); ) {

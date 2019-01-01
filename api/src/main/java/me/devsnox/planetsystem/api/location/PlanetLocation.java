@@ -29,11 +29,16 @@ public class PlanetLocation {
     public void toBukkitLocation(final Consumer<Location> request) {
         System.out.println("Start toBukkitLocation");
         final LoadedPlanet loadedPlanet = Holder.Impl.holder.getPlanetData().getLoadedPlanet(this.getPlanetID());
+
+        System.out.println(vector);
+        System.out.println(loadedPlanet);
+
         final Location location = loadedPlanet.getMiddle().add(vector);
 
         location.setYaw(getYaw());
         location.setPitch(getPitch());
 
+        System.out.println(location);
         request.accept(location);
         System.out.println("End toBukkitLocation");
     }
