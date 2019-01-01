@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @Data
 @AllArgsConstructor
@@ -26,21 +25,24 @@ public class PlanetLocation {
         this(planetID, new Vector(), 0, 0);
     }
 
-    public void toBukkitLocation(final Consumer<Location> request) {
-        System.out.println("Start toBukkitLocation");
-        final LoadedPlanet loadedPlanet = Holder.Impl.holder.getPlanetData().getLoadedPlanet(this.getPlanetID());
 
+    public Location toBukkitLocation(final LoadedPlanet loadedPlanet) {
+        System.out.println("Start toBukkitLocation(LoadedPlanet)");
         System.out.println(vector);
         System.out.println(loadedPlanet);
 
-        final Location location = loadedPlanet.getMiddle().add(vector);
+        final Location location = vector.add(loadedPlanet.getMiddle().toVector()).toLocation(Holder.Impl.holder.getWorld());
 
         location.setYaw(getYaw());
         location.setPitch(getPitch());
 
-        System.out.println(location);
-        request.accept(location);
-        System.out.println("End toBukkitLocation");
+        System.out.println("End toBukkitLocation(LoadedPlanet)");
+        return location;
+    }
+
+
+    public Location toBukkitLocation() {
+        return toBukkitLocation(Holder.Impl.holder.getPlanetData().getLoadedPlanet(this.getPlanetID()));
     }
 
     public com.sk89q.worldedit.Vector toWEVector() {

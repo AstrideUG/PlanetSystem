@@ -36,8 +36,7 @@ public class HolderImpl implements Holder {
         this.gridHandler = new GridHandler("PlanetWorld", 2048); //TODO: Add config handling
 
         Bukkit.getScheduler().runTaskTimer(javaPlugin, this::saveAll, 0, 20 * 60);
-        Runtime.getRuntime().addShutdownHook(new Thread(this::saveAll));
-
+        //Runtime.getRuntime().addShutdownHook(new Thread(this::saveAll));
     }
 
     private void saveAll() {

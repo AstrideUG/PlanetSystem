@@ -11,7 +11,10 @@ import me.devsnox.planetsystem.api.location.Region;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.core.location.BaseRegion;
+import me.devsnox.planetsystem.core.utils.ThreadUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.util.Vector;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -27,21 +30,41 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
 
     public BaseLoadedPlanet(final Planet planet, final Location middle, final int maxSize) {
         super(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
+        System.out.println("Init BaseLoadedPlanet");
         this.planet = planet;
         this.middle = middle;
 
+        System.out.println(planet);
+        System.out.println(middle);
+        System.out.println(maxSize);
+
         final byte size = planet.getSize();
+        System.out.println(size);
         final org.bukkit.util.Vector vSize = new org.bukkit.util.Vector(size, size, size);
+        System.out.println(vSize);
         final org.bukkit.util.Vector vMaxSize = new org.bukkit.util.Vector(maxSize, maxSize, maxSize);
+        System.out.println(vMaxSize);
 
         final PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
-        final PlanetLocation innerMax = PlanetLocation.create(vSize, middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        System.out.println(innerMin);
+        final PlanetLocation innerMax = PlanetLocation.create(vSize.clone().subtract(new Vector(1, 1, 1)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        System.out.println(innerMax);
+
+        ThreadUtils.sync(() -> {
+            System.out.println(innerMax.toBukkitLocation(this));
+            System.out.println(innerMin.toBukkitLocation(this));
+            innerMin.toBukkitLocation(this).getBlock().setType(Material.REDSTONE_BLOCK);
+            innerMax.toBukkitLocation(this).getBlock().setType(Material.REDSTONE_BLOCK);
+            System.out.println(innerMin.toBukkitLocation(this));
+        });
+
 
         final PlanetLocation outerMin = PlanetLocation.create(vMaxSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
         final PlanetLocation outerMax = PlanetLocation.create(vMaxSize, middle.getYaw(), middle.getPitch(), planet.getUniqueID());
 
         this.inner = new BaseRegion(innerMin, innerMax);
         this.outer = new BaseRegion(outerMin, outerMax);
+        System.out.println("Inits BaseLoadedPlanet");
     }
 
     @Override

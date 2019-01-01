@@ -38,12 +38,12 @@ public final class PlanetDataImpl implements PlanetData {
         final Location location = grid.getEmptyLocation();
         System.out.println(grid.getEmptyLocation());
         final BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(planet, location, grid.getMaxSize());
+        loadedPlanets.add(loadedPlanet);
 
         System.out.println(dynamicNetworkAPI);
         this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic ->
                 schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), new Vector(location.getX(), location.getY(), location.getZ())));
 
-        loadedPlanets.add(loadedPlanet);
         request.accept(loadedPlanet);
     }
 

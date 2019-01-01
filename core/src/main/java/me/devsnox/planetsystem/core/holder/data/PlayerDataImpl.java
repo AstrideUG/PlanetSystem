@@ -23,6 +23,7 @@ public final class PlayerDataImpl implements PlayerData {
 
     @Override
     public void load(final UUID uuid, final Consumer<PlanetPlayer> request) {
+        System.out.println("load " + getClass().getCanonicalName());
         System.out.println(request);
         final me.devsnox.planetsystem.api.database.DatabasePlayer databasePlayer = holder.getDatabaseHandler().getPlayer(uuid);
         System.out.println(databasePlayer);
@@ -37,6 +38,8 @@ public final class PlayerDataImpl implements PlayerData {
             System.out.println(members);
             final PlanetPlayer planetPlayer = new BasePlanetPlayer(Bukkit.getPlayer(uuid), loadedPlanet, members);
             System.out.println(planetPlayer);
+            System.out.println(holder);
+            System.out.println(holder.getPlayerData());
             System.out.println(holder.getPlayerData().getPlayers());
 
             players.add(planetPlayer);

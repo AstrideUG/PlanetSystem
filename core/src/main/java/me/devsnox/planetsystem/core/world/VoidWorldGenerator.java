@@ -1,6 +1,5 @@
 package me.devsnox.planetsystem.core.world;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -11,21 +10,19 @@ import java.util.Random;
 
 public class VoidWorldGenerator extends ChunkGenerator {
 
-    public List<BlockPopulator> getDefaultPopulators(World world) {
+    @Override
+    public List<BlockPopulator> getDefaultPopulators(final World world) {
         return Collections.emptyList();
     }
 
-    public boolean canSpawn(World world, int x, int z) {
+    @Override
+    public boolean canSpawn(final World world, final int x, final int z) {
         return true;
     }
 
+    @Override
     @SuppressWarnings("deprecation")
-    public byte[] generate(World world, Random rand, int chunkx, int chunkz) {
+    public byte[] generate(final World world, final Random rand, final int chunkx, final int chunkz) {
         return new byte[32768];
     }
-
-    public Location getFixedSpawnLocation(World world, Random random) {
-        return new Location(world, 0, 128, 0);
-    }
-
 }
