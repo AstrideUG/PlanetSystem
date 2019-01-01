@@ -7,11 +7,14 @@ import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
 import me.devsnox.planetsystem.api.handler.GridHandler;
 import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.holder.data.PlanetData;
+import me.devsnox.planetsystem.api.location.PlanetLocation;
+import me.devsnox.planetsystem.api.location.Region;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.core.database.DatabasePlanet;
 import me.devsnox.planetsystem.core.planet.BaseLoadedPlanet;
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,6 +46,18 @@ public final class PlanetDataImpl implements PlanetData {
         System.out.println(dynamicNetworkAPI);
         this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic ->
                 schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), new Vector(location.getX(), location.getY(), location.getZ())));
+
+        final Region inner = loadedPlanet.getInner();
+        System.out.println(inner.getMin().toBukkitLocation(loadedPlanet));
+        System.out.println(inner.getMax().toBukkitLocation(loadedPlanet));
+        inner.getMin().toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
+        inner.getMax().toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
+        System.out.println(inner.getMax().toBukkitLocation(loadedPlanet));
+        System.out.println(inner.getMin().toBukkitLocation(loadedPlanet));
+
+        final org.bukkit.util.Vector midpoint = inner.getMax().getVector().clone().midpoint(inner.getMin().getVector());
+        new PlanetLocation(loadedPlanet.getUniqueID(), midpoint, 0, 0).toBukkitLocation(loadedPlanet).getBlock().setType(Material.BEACON);
+        ;
 
         request.accept(loadedPlanet);
     }

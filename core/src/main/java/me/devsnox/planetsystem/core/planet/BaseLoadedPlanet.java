@@ -11,9 +11,7 @@ import me.devsnox.planetsystem.api.location.Region;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.core.location.BaseRegion;
-import me.devsnox.planetsystem.core.utils.ThreadUtils;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 import java.util.UUID;
@@ -45,19 +43,10 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
         final org.bukkit.util.Vector vMaxSize = new org.bukkit.util.Vector(maxSize, maxSize, maxSize);
         System.out.println(vMaxSize);
 
-        final PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        final PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1).add(new Vector(0, 1, 0)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
         System.out.println(innerMin);
         final PlanetLocation innerMax = PlanetLocation.create(vSize.clone().subtract(new Vector(1, 1, 1)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
         System.out.println(innerMax);
-
-        ThreadUtils.sync(() -> {
-            System.out.println(innerMax.toBukkitLocation(this));
-            System.out.println(innerMin.toBukkitLocation(this));
-            innerMin.toBukkitLocation(this).getBlock().setType(Material.REDSTONE_BLOCK);
-            innerMax.toBukkitLocation(this).getBlock().setType(Material.REDSTONE_BLOCK);
-            System.out.println(innerMin.toBukkitLocation(this));
-        });
-
 
         final PlanetLocation outerMin = PlanetLocation.create(vMaxSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
         final PlanetLocation outerMax = PlanetLocation.create(vMaxSize, middle.getYaw(), middle.getPitch(), planet.getUniqueID());

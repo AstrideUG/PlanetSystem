@@ -31,7 +31,7 @@ public class PlanetLocation {
         System.out.println(vector);
         System.out.println(loadedPlanet);
 
-        final Location location = vector.add(loadedPlanet.getMiddle().toVector()).toLocation(Holder.Impl.holder.getWorld());
+        final Location location = vector.clone().add(loadedPlanet.getMiddle().toVector()).toLocation(Holder.Impl.holder.getWorld());
 
         location.setYaw(getYaw());
         location.setPitch(getPitch());
