@@ -47,7 +47,7 @@ public final class PlanetDataImpl implements PlanetData {
         DatabasePlanet databasePlanet = DatabasePlanet.by(loadedPlanet);
         System.out.println(databasePlanet);
 
-        this.dynamicNetworkAPI.saveSchematic(owner, loadedPlanet.getSchematic());
+        this.dynamicNetworkAPI.saveSchematic(databasePlanet.getUuid(), loadedPlanet.getSchematic());
         this.holder.getDatabaseHandler().savePlanet(databasePlanet);
 
     }
@@ -59,7 +59,7 @@ public final class PlanetDataImpl implements PlanetData {
 
         GridHandler grid = this.holder.getGridHandler();
         grid.removeEntry(grid.getId(planet.getMiddle()));
-
+        
         Location min = planet.getInner().getMin().toBukkitLocation().add(1, 1, 1);
         System.out.println(min);
         Location max = planet.getInner().getMax().toBukkitLocation();

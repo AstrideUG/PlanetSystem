@@ -60,7 +60,7 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
         System.out.println(schematic.getClipboard().getRegion());
         System.out.println(schematic.getClipboard().getEntities());
 
-        //schematic.getClipboard().setOrigin(new com.sk89q.worldedit.Vector(this.middle.getX(), this.middle.getY(), this.middle.getZ()));
+        schematic.getClipboard().setOrigin(new com.sk89q.worldedit.Vector(this.middle.getX(), this.middle.getY(), this.middle.getZ()));
 
         return schematic;
     }
