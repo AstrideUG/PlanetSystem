@@ -35,7 +35,7 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
         org.bukkit.util.Vector vSize = new org.bukkit.util.Vector(size, size, size);
         org.bukkit.util.Vector vMaxSize = new org.bukkit.util.Vector(maxSize, maxSize, maxSize);
 
-        PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1).add(new Vector(0, 1, 0)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1)/*.add(new Vector(0, 1, 0))*/, middle.getYaw(), middle.getPitch(), planet.getUniqueID());
         PlanetLocation innerMax = PlanetLocation.create(vSize.clone().subtract(new Vector(1, 1, 1)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
 
         PlanetLocation outerMin = PlanetLocation.create(vMaxSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());

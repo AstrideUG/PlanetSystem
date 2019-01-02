@@ -5,14 +5,13 @@ import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.holder.data.PlanetData;
 import me.devsnox.planetsystem.api.holder.data.PlayerData;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
-import me.devsnox.planetsystem.api.player.PlanetPlayer;
+import me.devsnox.planetsystem.core.PlanetSystem;
 import me.devsnox.planetsystem.core.database.DatabaseHandler;
 import me.devsnox.planetsystem.core.holder.data.PlanetDataImpl;
 import me.devsnox.planetsystem.core.holder.data.PlayerDataImpl;
 import me.devsnox.planetsystem.core.world.GridHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +26,7 @@ public class HolderImpl implements Holder {
     private final DatabaseHandler databaseHandler;
     private final GridHandler gridHandler;
 
-    public HolderImpl(final JavaPlugin javaPlugin) {
+    public HolderImpl(final PlanetSystem javaPlugin) {
         this.loadedPlanets = new HashSet<>();
         this.playerData = new PlayerDataImpl(this);
         this.planetData = new PlanetDataImpl(this);
@@ -35,18 +34,8 @@ public class HolderImpl implements Holder {
         this.databaseHandler = new DatabaseHandler();
         this.gridHandler = new GridHandler("PlanetWorld", 2048); //TODO: Add config handling
 
-        Bukkit.getScheduler().runTaskTimer(javaPlugin, this::saveAll, 0, 20 * 60);
+        Bukkit.getScheduler().runTaskTimer(javaPlugin, javaPlugin::saveAll, 0, 20 * 60);
         //Runtime.getRuntime().addShutdownHook(new Thread(this::saveAll));
-    }
-
-    private void saveAll() {
-        final Set<LoadedPlanet> planets = this.getPlanetData().getLoadedPlanets();
-        final Set<PlanetPlayer> players = this.getPlayerData().getPlayers();
-
-        if (planets.size() != 0)
-            for (final LoadedPlanet planet : planets) this.getPlanetData().save(planet.getOwnerUniqueID());
-        if (players.size() != 0)
-            for (final PlanetPlayer player : players) this.getPlayerData().save(player.getUUID());
     }
 
     @Override

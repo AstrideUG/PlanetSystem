@@ -1,15 +1,24 @@
 package me.devsnox.planetsystem.core.planet;
 
+import com.boydti.fawe.FaweAPI;
+import com.sk89q.worldedit.Vector;
 import lombok.Data;
 import lombok.NonNull;
-import me.devsnox.planetsystem.api.holder.Holder;
+import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
+import me.devsnox.planetsystem.api.events.PlanetCreatedEvent;
+import me.devsnox.planetsystem.api.handler.GridHandler;
 import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+
+import static me.devsnox.planetsystem.api.holder.Holder.Impl.holder;
 
 @Data
 public class BasePlanet implements Planet {
@@ -23,7 +32,36 @@ public class BasePlanet implements Planet {
 
     @Override
     public void load(final Consumer<LoadedPlanet> result) {
-        Holder.Impl.holder.getPlanetData().load(this.uniqueID, result);
+        GridHandler grid = holder.getGridHandler();
+        Location location = grid.getEmptyLocation();
+        BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(this, location, grid.getMaxSize());
+        holder.getPlanetData().getLoadedPlanets().add(loadedPlanet);
+        System.out.println("load Schem" + this.ownerUniqueID);
+        DynamicNetworkFactory.dynamicNetworkAPI.getSchematic(this.uniqueID, schematic -> {
+            System.out.println("schem" + this.ownerUniqueID);
+            System.out.println(schematic.getClipboard().getRegion());
+            System.out.println(schematic.getClipboard().getEntities());
+            System.out.println(schematic.getClipboard().getOrigin());
+            System.out.println(schematic.getClipboard().getDimensions());
+            schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), new Vector(location.getX(), location.getY(), location.getZ()));
+        });
+
+        PlanetLocation min = loadedPlanet.getInner().getMin();
+        PlanetLocation max = loadedPlanet.getInner().getMax();
+
+        org.bukkit.util.Vector maxV = max.getVector().clone().add(new org.bukkit.util.Vector(1, 0, 1));
+        org.bukkit.util.Vector midpoint = max.getVector().clone().midpoint(min.getVector());
+
+        PlanetLocation midpointLocation = new PlanetLocation(loadedPlanet.getUniqueID(), midpoint, 0, 0);
+        PlanetLocation maxLocation = new PlanetLocation(max.getPlanetID(), maxV, max.getYaw(), max.getPitch());
+
+        min.toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
+        maxLocation.toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
+        midpointLocation.toBukkitLocation(loadedPlanet).getBlock().setType(Material.BEACON);
+
+        Bukkit.getPluginManager().callEvent(new PlanetCreatedEvent(loadedPlanet));
+        result.accept(loadedPlanet);
+        System.out.println("finish load Schem" + this.ownerUniqueID);
     }
 
 }

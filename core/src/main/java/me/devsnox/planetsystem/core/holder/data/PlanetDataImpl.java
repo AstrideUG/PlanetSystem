@@ -1,17 +1,13 @@
 package me.devsnox.planetsystem.core.holder.data;
 
-import com.boydti.fawe.FaweAPI;
-import com.sk89q.worldedit.Vector;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI;
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory;
 import me.devsnox.planetsystem.api.handler.GridHandler;
 import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.holder.data.PlanetData;
-import me.devsnox.planetsystem.api.location.PlanetLocation;
 import me.devsnox.planetsystem.api.planet.LoadedPlanet;
 import me.devsnox.planetsystem.api.planet.Planet;
 import me.devsnox.planetsystem.core.database.DatabasePlanet;
-import me.devsnox.planetsystem.core.planet.BaseLoadedPlanet;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -34,47 +30,8 @@ public final class PlanetDataImpl implements PlanetData {
 
     @Override
     public void load(UUID owner, Consumer<LoadedPlanet> request) {
-        System.out.println("load Schem" + owner);
-
-        for (LoadedPlanet loadedPlanet : this.loadedPlanets)
-            if (loadedPlanet.getOwnerUniqueID() == owner) {
-                System.out.println("allreaY LOADED");
-                request.accept(loadedPlanet);
-                return;
-            }
-
         Planet planet = this.holder.getDatabaseHandler().getPlanet(owner).toPlanet();
-
-        GridHandler grid = this.holder.getGridHandler();
-        Location location = grid.getEmptyLocation();
-        BaseLoadedPlanet loadedPlanet = new BaseLoadedPlanet(planet, location, grid.getMaxSize());
-        this.dynamicNetworkAPI.getSchematic(planet.getUniqueID(), schematic -> {
-            System.out.println("schem" + owner);
-            System.out.println(schematic.getClipboard().getRegion());
-            System.out.println(schematic.getClipboard().getEntities());
-            System.out.println(schematic.getClipboard().getOrigin());
-            System.out.println(schematic.getClipboard().getDimensions());
-            schematic.paste(FaweAPI.getWorld(location.getWorld().getName()), new Vector(location.getX(), location.getY(), location.getZ()));
-        });
-        this.loadedPlanets.add(loadedPlanet);
-
-
-        PlanetLocation min = loadedPlanet.getInner().getMin();
-        PlanetLocation max = loadedPlanet.getInner().getMax();
-
-        org.bukkit.util.Vector maxV = max.getVector().clone().add(new org.bukkit.util.Vector(1, 0, 1));
-        org.bukkit.util.Vector midpoint = max.getVector().clone().midpoint(min.getVector());
-
-        PlanetLocation midpointLocation = new PlanetLocation(loadedPlanet.getUniqueID(), midpoint, 0, 0);
-        PlanetLocation maxLocation = new PlanetLocation(max.getPlanetID(), maxV, max.getYaw(), max.getPitch());
-
-
-        min.toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
-        maxLocation.toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
-        midpointLocation.toBukkitLocation(loadedPlanet).getBlock().setType(Material.BEACON);
-
-        request.accept(loadedPlanet);
-        System.out.println("finish load Schem" + owner);
+        planet.load(request);
     }
 
     @Override
@@ -92,22 +49,26 @@ public final class PlanetDataImpl implements PlanetData {
 
         this.dynamicNetworkAPI.saveSchematic(owner, loadedPlanet.getSchematic());
         this.holder.getDatabaseHandler().savePlanet(databasePlanet);
-        Location min = loadedPlanet.getInner().getMin().toBukkitLocation();
-        Location max = loadedPlanet.getInner().getMax().toBukkitLocation();
-
-        for (int x = min.getBlockX(); x < max.getBlockX(); x++)
-            for (int y = min.getBlockY(); y < max.getBlockY(); y++)
-                for (int z = min.getBlockZ(); z < max.getBlockZ(); z++)
-                    new Location(Holder.Impl.holder.getWorld(), x, y, z).getBlock().setType(Material.AIR);
 
     }
 
     @Override
     public void unload(UUID owner) {
         this.save(owner);
-        GridHandler grid = this.holder.getGridHandler();
         LoadedPlanet planet = this.holder.getPlayerData().getPlayer(owner).getPlanet();
+
+        GridHandler grid = this.holder.getGridHandler();
         grid.removeEntry(grid.getId(planet.getMiddle()));
+
+        Location min = planet.getInner().getMin().toBukkitLocation().add(1, 1, 1);
+        System.out.println(min);
+        Location max = planet.getInner().getMax().toBukkitLocation();
+        System.out.println(max);
+        for (int x = min.getBlockX(); x <= max.getBlockX(); x++)
+            for (int y = min.getBlockY(); y <= max.getBlockY(); y++)
+                for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++)
+                    new Location(Holder.Impl.holder.getWorld(), x, y, z).getBlock().setType(Material.AIR);
+
         this.loadedPlanets.remove(planet);
     }
 

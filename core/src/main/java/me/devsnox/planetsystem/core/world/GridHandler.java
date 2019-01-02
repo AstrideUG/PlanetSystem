@@ -31,7 +31,7 @@ public final class GridHandler implements me.devsnox.planetsystem.api.handler.Gr
 //        System.out.println("St getEmptyLocation");
 //        System.out.println(this.findFree());
 
-        final int x = (this.findFreeAndAdd()) * (this.maxSize / 2);
+        final int x = (this.findFreeAndAdd()) * (this.maxSize);
 //        System.out.println(this.used);
 //        System.out.println("Ensd getEmptyLocation");
         return new Location(this.world, x + 0.5, 126, 0.5);
@@ -49,19 +49,14 @@ public final class GridHandler implements me.devsnox.planetsystem.api.handler.Gr
 
     private int findFreeAndAdd() {
         int free = this.findFree();
-        System.out.println(this.used);
-        System.out.println(this.used.size());
-        boolean add = this.used.add(free);
-        System.out.println("findFreeAndAdd " + add);
-        System.out.println(this.used);
-        System.out.println(this.used.size());
+        this.used.add(free);
         return free;
     }
 
     private int findFree() {
         try {
             Integer integer = this.used.last();
-            for (int i = 0; i < integer; i++) if (this.used.contains(i)) return i;
+            for (int i = 0; i < integer; i++) if (!this.used.contains(i)) return i;
             return integer + 1;
         } catch (NoSuchElementException ex) {
             return 0;
