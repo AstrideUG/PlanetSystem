@@ -30,8 +30,8 @@ public class InviteCommand implements PlanetCommandModule {
 
             if (!player.getPlanet().getMembers().contains(uuid)) {
                 player.getPlanet().getMembers().add(uuid);
-                logger.successes("Commands.Invite.Player.Successes");
-                Holder.Impl.holder.getPlayerData().getPlayer(player.getUUID()).getLogger().successes("Commands.Invite.Target.Successes");
+                logger.success("Commands.Invite.Player.Successes");
+                Holder.Impl.holder.getPlayerData().getPlayer(player.getUUID()).getLogger().success("Commands.Invite.Target.Successes");
             } else logger.warn(prefix + "IsAlreadyAPlanetMember");
         } else logger.warn(prefix + "ArgsSizeIsNot1");
     }

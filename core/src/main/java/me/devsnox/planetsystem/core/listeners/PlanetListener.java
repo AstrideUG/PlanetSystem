@@ -15,18 +15,22 @@ public class PlanetListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockPlace(final BlockPlaceEvent event) {
-        blockBuild(event, event.getBlock(), event.getPlayer());
+        this.blockBuild(event, event.getBlock(), event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(final BlockBreakEvent event) {
-        blockBuild(event, event.getBlock(), event.getPlayer());
+        this.blockBuild(event, event.getBlock(), event.getPlayer());
     }
 
     private void blockBuild(final Cancellable cancellable, final Block block, final Player player) {
         if (!Holder.Impl.holder.getWorld().equals(player.getWorld())) return;
         final PlanetPlayer planetPlayer = Holder.Impl.holder.getPlayerData().getPlayer(player.getUniqueId());
         if (planetPlayer != null && planetPlayer.canNotBuild(block)) cancellable.setCancelled(true);
+
+        if (cancellable.isCancelled()) {
+            planetPlayer.getLogger().warn("block_listener.deny_build");
+        }
     }
 
 }

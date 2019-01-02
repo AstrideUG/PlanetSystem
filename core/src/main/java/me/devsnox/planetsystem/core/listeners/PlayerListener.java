@@ -1,11 +1,11 @@
 package me.devsnox.planetsystem.core.listeners;
 
-import me.devsnox.planetsystem.core.utils.ThreadUtils;
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.UUID;
 
@@ -20,9 +20,8 @@ public class PlayerListener implements Listener {
         final UUID uniqueId = player.getUniqueId();
 
         holder.getDatabaseHandler().create(UUID.randomUUID(), uniqueId, aBoolean ->
-                holder.getPlayerData().load(uniqueId, planetPlayer ->
-                        ThreadUtils.sync(() ->
-                                player.teleport(planetPlayer.getPlanet().getSpawnLocation().toBukkitLocation()))));
+                holder.getPlayerData().load(uniqueId, planetPlayer -> {
+                }));
     }
 
     @EventHandler
@@ -31,4 +30,8 @@ public class PlayerListener implements Listener {
         holder.getPlayerData().unload(event.getPlayer().getUniqueId());
     }
 
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        event.setRespawnLocation(holder.getPlanetData().getLoadedPlanetByOwner(event.getPlayer().getUniqueId()).getSpawnLocation().toBukkitLocation());
+    }
 }

@@ -19,22 +19,23 @@ public class BasePlayerLogger implements PlayerLogger {
     @Override
     public void log(final Level level, final Object... message) {
         final String msg = Arrays.toString(message);
+
         switch (level) {
             case INFO:
-                player.sendMessage(ChatColor.AQUA + msg + ".");
+                this.player.sendMessage(ChatColor.AQUA + msg + ".");
                 break;
             case WARNING:
-                player.sendMessage(ChatColor.RED + msg + "!");
+                this.player.sendMessage(ChatColor.RED + msg + "!");
                 break;
             case SUCCESSFULLY:
-                player.sendMessage(ChatColor.GREEN + msg + ".");
+                this.player.sendMessage(ChatColor.GREEN + msg + ".");
                 break;
         }
     }
 
     @Override
     public Player getPlayer() {
-        return player;
+        return this.player;
     }
 
 }

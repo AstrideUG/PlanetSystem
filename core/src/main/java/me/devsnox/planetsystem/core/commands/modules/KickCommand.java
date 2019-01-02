@@ -30,8 +30,8 @@ public class KickCommand implements PlanetCommandModule {
 
             if (player.getPlanet().getMembers().contains(uuid)) {
                 player.getPlanet().getMembers().remove(uuid);
-                logger.successes("Commands.Kick.Player.Successes");
-                Holder.Impl.holder.getPlayerData().getPlayer(player.getUUID()).getLogger().successes("Commands.Kick.Target.Successes");
+                logger.success("Commands.Kick.Player.Successes");
+                Holder.Impl.holder.getPlayerData().getPlayer(player.getUUID()).getLogger().success("Commands.Kick.Target.Successes");
             } else logger.warn(prefix + "IsAlreadyAPlanetMember");
         } else logger.warn(prefix + "ArgsSizeIsNot1");
     }

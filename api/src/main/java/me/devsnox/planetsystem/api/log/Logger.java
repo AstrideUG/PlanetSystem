@@ -3,15 +3,15 @@ package me.devsnox.planetsystem.api.log;
 public interface Logger {
 
     default void info(Object... object) {
-        log(Level.INFO, object);
+        this.log(Level.INFO, object);
     }
 
     default void warn(Object... object) {
-        log(Level.WARNING, object);
+        this.log(Level.WARNING, object);
     }
 
-    default void successes(Object... object) {
-        log(Level.SUCCESSFULLY, object);
+    default void success(Object... object) {
+        this.log(Level.SUCCESSFULLY, object);
     }
 
     void log(Level level, Object... message);

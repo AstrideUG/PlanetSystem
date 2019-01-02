@@ -3,6 +3,7 @@ package me.devsnox.planetsystem.core.commands;
 import me.devsnox.planetsystem.api.holder.Holder;
 import me.devsnox.planetsystem.api.player.PlanetPlayer;
 import me.devsnox.planetsystem.core.commands.modules.*;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,27 +23,25 @@ public class PlanetCommand implements CommandExecutor {
         this.commandModules.put("info", new InfoCommand());
         this.commandModules.put("invite", new InviteCommand());
         this.commandModules.put("kick", new KickCommand());
-        this.commandModules.put("setspawn", new SetSpawnCommand());
+        this.commandModules.put("sethome", new SethomeCommand());
     }
 
     @Override
     public boolean onCommand(final CommandSender commandSender, final Command command, final String s, final String[] args) {
         if (commandSender instanceof Player) {
+            final PlanetPlayer planetPlayer = Holder.Impl.holder.getPlayerData().getPlayer(((Player) commandSender).getUniqueId());
+
             if (args.length > 0) {
-                final PlanetPlayer planetPlayer = Holder.Impl.holder.getPlayerData().getPlayer(((Player) commandSender).getUniqueId());
-
-                System.out.println(planetPlayer);
-
                 if (this.commandModules.containsKey(args[0].toLowerCase())) {
                     this.commandModules.get(args[0].toLowerCase()).execute(planetPlayer, Arrays.copyOfRange(args, 1, args.length));
                 } else {
-                    //TODO: Send help message
+                    planetPlayer.getLogger().info("command.args");
                 }
             } else {
-                //TODO: Insert all command help
+                planetPlayer.getLogger().info("command.args");
             }
         } else {
-            //TODO: Add error message (only players)
+            commandSender.sendMessage(ChatColor.RED + "You must be a player!");
         }
         return false;
     }

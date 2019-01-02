@@ -10,7 +10,7 @@ public class VisitCommand implements PlanetCommandModule {
     public void execute(final PlanetPlayer player, final String[] args) {
         if (args.length != 0) player.getMemberedPlanets().forEach(planet -> {
             if (planet.getName().equals(args[0])) {
-
+                //TODO: Add content!
             }
         });
         else player.getLogger().log(Logger.Level.WARNING, "Commands.Visit.Failed.ArgsSizeIs0");
