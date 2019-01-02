@@ -13,10 +13,11 @@ public interface PlayerData {
 
     void save(UUID uuid);
 
+    void unload(UUID uuid);
+
     @Nullable
     default PlanetPlayer getPlayer(final UUID uuid) {
-        System.out.println(getPlayers());
-        for (final PlanetPlayer player : getPlayers()) if (player.getUUID().equals(uuid)) return player;
+        for (final PlanetPlayer player : this.getPlayers()) if (player.getUUID().equals(uuid)) return player;
         return null;
     }
 
@@ -24,6 +25,6 @@ public interface PlayerData {
 
     //Planet getPlanet(UUID owner);
 
-    //LoadedPlanet getLoadedPlanet(UUID owner);
+    //LoadedPlanet getLoadedPlanetByOwner(UUID owner);
 
 }

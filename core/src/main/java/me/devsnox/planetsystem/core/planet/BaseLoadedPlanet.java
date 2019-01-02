@@ -1,7 +1,7 @@
 package me.devsnox.planetsystem.core.planet;
 
+import com.boydti.fawe.FaweAPI;
 import com.boydti.fawe.object.schematic.Schematic;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,47 +26,43 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
     private final Region outer;
     private final Location middle;
 
-    public BaseLoadedPlanet(final Planet planet, final Location middle, final int maxSize) {
+    public BaseLoadedPlanet(Planet planet, Location middle, int maxSize) {
         super(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
-        System.out.println("Init BaseLoadedPlanet");
         this.planet = planet;
         this.middle = middle;
 
-        System.out.println(planet);
-        System.out.println(middle);
-        System.out.println(maxSize);
+        byte size = planet.getSize();
+        org.bukkit.util.Vector vSize = new org.bukkit.util.Vector(size, size, size);
+        org.bukkit.util.Vector vMaxSize = new org.bukkit.util.Vector(maxSize, maxSize, maxSize);
 
-        final byte size = planet.getSize();
-        System.out.println(size);
-        final org.bukkit.util.Vector vSize = new org.bukkit.util.Vector(size, size, size);
-        System.out.println(vSize);
-        final org.bukkit.util.Vector vMaxSize = new org.bukkit.util.Vector(maxSize, maxSize, maxSize);
-        System.out.println(vMaxSize);
+        PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1).add(new Vector(0, 1, 0)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        PlanetLocation innerMax = PlanetLocation.create(vSize.clone().subtract(new Vector(1, 1, 1)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
 
-        final PlanetLocation innerMin = PlanetLocation.create(vSize.clone().multiply(-1).add(new Vector(0, 1, 0)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
-        System.out.println(innerMin);
-        final PlanetLocation innerMax = PlanetLocation.create(vSize.clone().subtract(new Vector(1, 1, 1)), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
-        System.out.println(innerMax);
-
-        final PlanetLocation outerMin = PlanetLocation.create(vMaxSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
-        final PlanetLocation outerMax = PlanetLocation.create(vMaxSize, middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        PlanetLocation outerMin = PlanetLocation.create(vMaxSize.clone().multiply(-1), middle.getYaw(), middle.getPitch(), planet.getUniqueID());
+        PlanetLocation outerMax = PlanetLocation.create(vMaxSize, middle.getYaw(), middle.getPitch(), planet.getUniqueID());
 
         this.inner = new BaseRegion(innerMin, innerMax);
         this.outer = new BaseRegion(outerMin, outerMax);
-        System.out.println("Inits BaseLoadedPlanet");
     }
 
     @Override
     public Location getMiddle() {
-        System.out.println("Start getMiddle()");
-        System.out.println("middle: " + middle);
-        System.out.println("Ends getMiddle()");
-        return middle.clone();
+        return this.middle.clone();
     }
 
     @Override
     public Schematic getSchematic() {
-        return new Schematic(new CuboidRegion(new BukkitWorld(Holder.Impl.holder.getWorld()), inner.getMin().toWEVector(), inner.getMax().toWEVector()));
+        Schematic schematic = new Schematic(new CuboidRegion(FaweAPI.getWorld(Holder.Impl.holder.getWorld().getName()), this.inner.getMin().toWEVector(), this.inner.getMax().toWEVector()));
+        System.out.println(schematic);
+        System.out.println(schematic.getClipboard());
+        System.out.println(schematic.getClipboard().getDimensions());
+        System.out.println(schematic.getClipboard().getOrigin());
+        System.out.println(schematic.getClipboard().getRegion());
+        System.out.println(schematic.getClipboard().getEntities());
+
+        //schematic.getClipboard().setOrigin(new com.sk89q.worldedit.Vector(this.middle.getX(), this.middle.getY(), this.middle.getZ()));
+
+        return schematic;
     }
 
     @Override
@@ -90,12 +86,12 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet {
     }
 
     @Override
-    public void setSpawnLocation(final PlanetLocation planetLocation) {
+    public void setSpawnLocation(PlanetLocation planetLocation) {
         this.planet.setSpawnLocation(planetLocation);
     }
 
     @Override
-    public void load(final Consumer<LoadedPlanet> result) {
+    public void load(Consumer<LoadedPlanet> result) {
         result.accept(this);
     }
 

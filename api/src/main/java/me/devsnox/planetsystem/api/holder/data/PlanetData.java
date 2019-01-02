@@ -16,19 +16,29 @@ public interface PlanetData {
 
     void save(UUID owner);
 
-    default boolean isLoaded(final UUID uuid) {
-        return getLoadedPlanet(uuid) != null;
+    void unload(UUID owner);
+
+    default boolean isLoaded(final UUID owner) {
+        return this.getLoadedPlanetByOwner(owner) != null;
+    }
+
+    @Nullable
+    default LoadedPlanet getLoadedPlanetByOwner(final UUID owner) {
+        for (final LoadedPlanet planet : this.getLoadedPlanets())
+            if (planet.getOwnerUniqueID().equals(owner)) return planet;
+        return null;
     }
 
     @Nullable
     default LoadedPlanet getLoadedPlanet(final UUID uuid) {
-        for (final LoadedPlanet planet : getLoadedPlanets()) if (planet.getUniqueID().equals(uuid)) return planet;
+        for (final LoadedPlanet planet : this.getLoadedPlanets())
+            if (planet.getUniqueID().equals(uuid)) return planet;
         return null;
     }
 
     @Nullable
     default Planet getPlanet(final Location location) {
-        for (final LoadedPlanet loadedPlanet : getLoadedPlanets())
+        for (final LoadedPlanet loadedPlanet : this.getLoadedPlanets())
             if (loadedPlanet.getInner().isInside(PlanetLocation.create(location, loadedPlanet)))
                 return loadedPlanet;
         return null;

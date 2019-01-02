@@ -37,34 +37,21 @@ public class BasePlanetPlayer extends BaseOfflinePlanetPlayer implements PlanetP
 
     @Override
     public boolean isOnHisPlanet() {
-        return getPlanet().getInner().isInside(getLocation());
+        return this.getPlanet().getInner().isInside(this.getLocation());
     }
 
     @Override
     public boolean canBuild(final Location location) {
-        System.out.println("Start canBuild(Location)");
-        System.out.println(location.toVector());
-        final PlanetLocation planetLocation = PlanetLocation.create(location, getPlanet());
-//        System.out.println(planetLocation);
-        System.out.println(planetLocation.getVector());
-//        System.out.println(getPlanet());
-        System.out.println(getPlanet().getInner().getMin());
-        System.out.println(getPlanet().getInner().getMax());
-        System.out.println(isOnHisPlanet());
-
-        if (this.getPlanet().getInner().isInside(planetLocation)) {
-            System.out.println("Ends canBuild(Location)");
-            return true;
-        }
+        final PlanetLocation planetLocation = PlanetLocation.create(location, this.getPlanet());
+        if (this.getPlanet().getInner().isInside(planetLocation)) return true;
         final Planet planet = Holder.Impl.holder.getPlanetData().getPlanet(location);
-        System.out.println("Ends canBuild(Location)");
         if (planet == null || planet.getMembers() == null) return false;
-        return planet.getMembers().contains(player.getUniqueId());
+        return planet.getMembers().contains(this.player.getUniqueId());
     }
 
     @Override
     public PlanetLocation getLocation() {
-        return PlanetLocation.create(player.getLocation(), getPlanet());
+        return PlanetLocation.create(this.player.getLocation(), this.getPlanet());
     }
 
 }

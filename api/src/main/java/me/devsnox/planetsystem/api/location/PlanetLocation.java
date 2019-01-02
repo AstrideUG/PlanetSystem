@@ -27,28 +27,30 @@ public class PlanetLocation {
 
 
     public Location toBukkitLocation(final LoadedPlanet loadedPlanet) {
-        System.out.println("Start toBukkitLocation(LoadedPlanet)");
-        System.out.println(vector);
-        System.out.println(loadedPlanet);
-
-        final Location location = vector.clone().add(loadedPlanet.getMiddle().toVector()).toLocation(Holder.Impl.holder.getWorld());
-
-        location.setYaw(getYaw());
-        location.setPitch(getPitch());
-
-        System.out.println("End toBukkitLocation(LoadedPlanet)");
+        final Location location = this.vector.clone().add(loadedPlanet.getMiddle().toVector()).toLocation(Holder.Impl.holder.getWorld());
+        location.setYaw(this.getYaw());
+        location.setPitch(this.getPitch());
         return location;
     }
 
 
     public Location toBukkitLocation() {
-        return toBukkitLocation(Holder.Impl.holder.getPlanetData().getLoadedPlanet(this.getPlanetID()));
+        return this.toBukkitLocation(Holder.Impl.holder.getPlanetData().getLoadedPlanet(this.getPlanetID()));
+    }
+
+    public com.sk89q.worldedit.Vector toWEVector(final Location location) {
+        return new com.sk89q.worldedit.Vector(location.getX(), location.getY(), location.getZ());
     }
 
     public com.sk89q.worldedit.Vector toWEVector() {
-        return new com.sk89q.worldedit.Vector(vector.getX(), vector.getY(), vector.getZ());
+        return this.toWEVector(this.toBukkitLocation());
     }
 
+
+    /**
+     * @Deprecated use "new PlanetLocation(planetID, vector, yaw, pitch)"
+     */
+    @Deprecated
     public static PlanetLocation create(final Vector vector, final float yaw, final float pitch, final UUID planetID) {
         return new PlanetLocation(planetID, vector, yaw, pitch);
     }

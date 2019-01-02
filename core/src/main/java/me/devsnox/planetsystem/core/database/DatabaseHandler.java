@@ -48,10 +48,10 @@ public class DatabaseHandler implements me.devsnox.planetsystem.api.handler.Data
         if (!this.playerDAO.exists("uuid", player)) {
 
             final DatabasePlayer databasePlayer = new DatabasePlayer(player, planet, Arrays.asList(planet));
-            playerDAO.save(databasePlayer);
+            this.savePlayer(databasePlayer);
 
             final DatabasePlanet databasePlanet = new DatabasePlanet(planet, "Alpha Centauri", player, new ArrayList<>(), (byte) 8, new PlanetLocation(planet));
-            planetDAO.save(databasePlanet);
+            this.savePlanet(databasePlanet);
 
             result.accept(true);
         } else result.accept(false);

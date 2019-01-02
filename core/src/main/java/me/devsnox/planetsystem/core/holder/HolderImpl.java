@@ -40,18 +40,18 @@ public class HolderImpl implements Holder {
     }
 
     private void saveAll() {
-        final Set<LoadedPlanet> planets = getPlanetData().getLoadedPlanets();
-        final Set<PlanetPlayer> players = getPlayerData().getPlayers();
+        final Set<LoadedPlanet> planets = this.getPlanetData().getLoadedPlanets();
+        final Set<PlanetPlayer> players = this.getPlayerData().getPlayers();
 
         if (planets.size() != 0)
-            for (final LoadedPlanet planet : planets) getPlanetData().save(planet.getUniqueID());
+            for (final LoadedPlanet planet : planets) this.getPlanetData().save(planet.getOwnerUniqueID());
         if (players.size() != 0)
-            for (final PlanetPlayer player : players) getPlayerData().save(player.getUUID());
+            for (final PlanetPlayer player : players) this.getPlayerData().save(player.getUUID());
     }
 
     @Override
     public World getWorld() {
-        return gridHandler.getWorld();
+        return this.gridHandler.getWorld();
     }
 
 }
