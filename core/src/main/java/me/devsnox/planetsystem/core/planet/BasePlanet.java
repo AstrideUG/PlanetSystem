@@ -52,13 +52,6 @@ public class BasePlanet implements Planet {
         org.bukkit.util.Vector maxV = max.getVector().clone().add(new org.bukkit.util.Vector(1, 0, 1));
         org.bukkit.util.Vector midpoint = max.getVector().clone().midpoint(min.getVector());
 
-        PlanetLocation midpointLocation = new PlanetLocation(loadedPlanet.getUniqueID(), midpoint, 0, 0);
-        PlanetLocation maxLocation = new PlanetLocation(max.getPlanetID(), maxV, max.getYaw(), max.getPitch());
-
-        min.toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
-        maxLocation.toBukkitLocation(loadedPlanet).getBlock().setType(Material.REDSTONE_BLOCK);
-        midpointLocation.toBukkitLocation(loadedPlanet).getBlock().setType(Material.BEACON);
-
         Bukkit.getPluginManager().callEvent(new PlanetCreatedEvent(loadedPlanet));
         result.accept(loadedPlanet);
         System.out.println("finish load Schem" + this.ownerUniqueID);
