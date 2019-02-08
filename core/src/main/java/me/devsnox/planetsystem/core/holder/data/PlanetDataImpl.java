@@ -65,7 +65,7 @@ public final class PlanetDataImpl implements PlanetData {
         GridHandler grid = this.holder.getGridHandler();
         grid.removeEntry(grid.getId(planet.getMiddle()));
 
-        CuboidRegion cuboidRegion = new CuboidRegion(FaweAPI.getWorld(Holder.Impl.holder.getWorld().getName()), planet.getInner().getMin().toWEVector(), planet.getInner().getMax().toWEVector());
+        CuboidRegion cuboidRegion = new CuboidRegion(FaweAPI.getWorld(Holder.Impl.holder.getWorld().getName()), planet.getOuter().getMin().toWEVector(), planet.getOuter().getMax().toWEVector());
 
         EditSession editSession = new EditSessionBuilder(FaweAPI.getWorld(Holder.Impl.holder.getWorld().getName())).fastmode(true).build();
 
