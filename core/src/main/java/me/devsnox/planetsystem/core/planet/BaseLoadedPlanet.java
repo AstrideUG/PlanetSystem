@@ -98,6 +98,11 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet
 		result.accept(this);
 	}
 	
+	/**
+	 * @author Lars Artmann | LartyHD
+	 * Created by Lars Artmann | LartyHD on 12.02.2019 17:55.
+	 * Current Version: 1.0 (12.02.2019 - 12.02.2019)
+	 */
 	public void setSize(byte size)
 	{
 		super.setSize(size);
