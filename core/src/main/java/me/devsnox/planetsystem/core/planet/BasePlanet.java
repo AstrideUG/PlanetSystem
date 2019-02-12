@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 import static me.devsnox.planetsystem.api.holder.Holder.Impl.holder;
 
 @Data
-public final class BasePlanet implements Planet
+public class BasePlanet implements Planet
 {
 	private final @NonNull UUID uniqueID;
 	private final @NonNull String name;

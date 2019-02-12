@@ -17,30 +17,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class HolderImpl implements Holder {
-
-    private final Set<LoadedPlanet> loadedPlanets;
-    private final PlayerData playerData;
-    private final PlanetData planetData;
-
-    private final DatabaseHandler databaseHandler;
-    private final GridHandler gridHandler;
-
-    public HolderImpl(final PlanetSystem javaPlugin) {
-        this.loadedPlanets = new HashSet<>();
-        this.playerData = new PlayerDataImpl(this);
-        this.planetData = new PlanetDataImpl(this);
-
-        this.databaseHandler = new DatabaseHandler();
-        this.gridHandler = new GridHandler("PlanetWorld", 2048); //TODO: Add config handling
-
-        Bukkit.getScheduler().runTaskTimer(javaPlugin, javaPlugin::saveAll, 0, 20 * 60);
-        //Runtime.getRuntime().addShutdownHook(new Thread(this::saveAll));
-    }
-
-    @Override
-    public World getWorld() {
-        return this.gridHandler.getWorld();
-    }
-
+public class HolderImpl implements Holder
+{
+	private final Set<LoadedPlanet> loadedPlanets;
+	private final PlayerData playerData;
+	private final PlanetData planetData;
+	private final DatabaseHandler databaseHandler;
+	private final GridHandler gridHandler;
+	
+	public HolderImpl(final PlanetSystem javaPlugin)
+	{
+		this.loadedPlanets = new HashSet<>();
+		this.playerData = new PlayerDataImpl(this);
+		this.planetData = new PlanetDataImpl(this);
+		this.databaseHandler = new DatabaseHandler();
+		this.gridHandler = new GridHandler("PlanetWorld", 2048); //TODO: Add config handling
+		Bukkit.getScheduler().runTaskTimer(javaPlugin, javaPlugin::saveAll, 0, 20 * 60);
+		//Runtime.getRuntime().addShutdownHook(new Thread(this::saveAll));
+	}
+	
+	@Override
+	public World getWorld()
+	{
+		return this.gridHandler.getWorld();
+	}
 }
