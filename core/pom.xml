@@ -20,6 +20,10 @@
             <id>worldedit-repo</id>
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
+        <repository>
+            <id>maven-central</id>
+            <url>https://mvnrepository.com/artifact/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -28,7 +32,6 @@
             <artifactId>morphia</artifactId>
             <version>1.3.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
