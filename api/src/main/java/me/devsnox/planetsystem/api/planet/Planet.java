@@ -6,25 +6,26 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public interface Planet {
-
-    UUID getUniqueID();
-
-    UUID getOwnerUniqueID();
-
-
-    String getName();
-
-    List<UUID> getMembers();
-
-    byte getSize();
-
-    void setSize(byte size);
-
-    PlanetLocation getSpawnLocation();
-
-    void setSpawnLocation(PlanetLocation planetLocation);
-
-    void load(Consumer<LoadedPlanet> result);
-
+public interface Planet
+{
+	UUID getUniqueID();
+	
+	UUID getOwnerUniqueID();
+	
+	String getName();
+	
+	List<UUID> getMembers();
+	
+	byte getSize();
+	
+	/**
+	 * Change size and if loaded inner region
+	 */
+	void setSize(byte size);
+	
+	PlanetLocation getSpawnLocation();
+	
+	void setSpawnLocation(PlanetLocation planetLocation);
+	
+	void load(Consumer<LoadedPlanet> result);
 }

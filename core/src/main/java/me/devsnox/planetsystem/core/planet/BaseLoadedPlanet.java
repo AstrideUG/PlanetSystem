@@ -97,4 +97,12 @@ public class BaseLoadedPlanet extends BasePlanet implements LoadedPlanet
 	{
 		result.accept(this);
 	}
+	
+	public void setSize(byte size)
+	{
+		super.setSize(size);
+		Vector vector = new Vector(size, size - 1, size);
+		getInner().getMax().setVector(vector.clone().subtract(new Vector(1, 0, 1)));
+		getInner().getMin().setVector(vector.clone().multiply(-1));
+	}
 }
