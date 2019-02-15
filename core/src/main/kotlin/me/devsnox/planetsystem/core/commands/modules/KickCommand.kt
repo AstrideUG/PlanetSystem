@@ -24,11 +24,11 @@ class KickCommand : PlanetCommandModule {
 				}
 			}
 
-			if (uuid in player.planet.members) {
+			if (uuid !in player.planet.members) {
 				player.planet.members.remove(uuid)
 				logger.success(COMMANDS_KICK_SUCCESSES_PLAYER)
 				holder.playerData.getPlayer(uuid)?.logger?.success(COMMANDS_KICK_SUCCESSES_TARGET)
-			} else logger.warn(COMMANDS_KICK_FAILED_IS_ALREADY_A_PLANET_MEMBER)
+			} else logger.warn(COMMANDS_KICK_FAILED_IS_NOT_A_PLANET_MEMBER)
 		} else logger.warn(COMMANDS_KICK_FAILED_ARGS_SIZE_IS_NOT_1)
 	}
 

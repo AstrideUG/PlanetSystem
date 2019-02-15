@@ -24,7 +24,7 @@ enum class MessageKeys(value: String? = null) {
 	COMMANDS_KICK_SUCCESSES_TARGET,
 	COMMANDS_KICK_SUCCESSES_PLAYER,
 	COMMANDS_KICK_FAILED_IS_NO_UUID_AND_TARGET_IS_NOT_ONLINE,
-	COMMANDS_KICK_FAILED_IS_ALREADY_A_PLANET_MEMBER,
+	COMMANDS_KICK_FAILED_IS_NOT_A_PLANET_MEMBER,
 	COMMANDS_KICK_FAILED_ARGS_SIZE_IS_NOT_1,
 
 	COMMANDS_SET_HOME_SUCCESSES,
@@ -40,7 +40,7 @@ enum class MessageKeys(value: String? = null) {
 	;
 
 	private val value: String? = value
-		get() = (field ?: name).toLowerCase()
+		get() = (field ?: name)/*.toLowerCase()*/.replace('_', '.')
 
 	override fun toString(): String = value!!
 
