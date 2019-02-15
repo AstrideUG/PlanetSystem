@@ -11,7 +11,7 @@ import java.util.*
 open class BasePlayerLogger(override val player: Player) : PlayerLogger {
 
 	override fun log(level: Logger.Level, vararg message: Any) {
-		val msg = Arrays.toString(message)
+		val msg = Arrays.toString(message).substring(1, message.size - 1)
 
 		when (level) {
 			Logger.Level.INFO -> player.sendMessage("${ChatColor.AQUA}$msg.")

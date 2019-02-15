@@ -14,15 +14,15 @@ data class PlayerDataImpl(val holder: Holder) : PlayerData {
 	override val players = HashSet<PlanetPlayer>()
 
 	override fun load(uuid: UUID, request: (PlanetPlayer) -> Unit) {
-		//        final me.devsnox.planetsystem.api.database.DatabasePlayer databasePlayer = holder.getDatabaseHandler().getPlayer(uuid);
 
-		holder.planetData.load(uuid) { loadedPlanet ->
+		holder.planetData.load(uuid) {
 			val members = ArrayList<Planet>()//TODO databasePlayer.getMemberedPlanets().stream().map(this::getPlanet).collect(Collectors.toList());
-			val planetPlayer = BasePlanetPlayer(Bukkit.getPlayer(uuid), loadedPlanet, members)
+			val planetPlayer = BasePlanetPlayer(Bukkit.getPlayer(uuid), it, members)
 
 			players.add(planetPlayer)
 			request(planetPlayer)
 		}
+
 	}
 
 	override fun save(uuid: UUID) {

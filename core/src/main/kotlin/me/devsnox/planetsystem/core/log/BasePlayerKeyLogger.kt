@@ -1,6 +1,5 @@
 package me.devsnox.planetsystem.core.log
 
-import com.google.gson.JsonObject
 import lombok.Data
 import lombok.EqualsAndHashCode
 import me.devsnox.planetsystem.api.log.Logger
@@ -11,36 +10,18 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.*
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-class BasePlayerKeyLogger(player: Player, mapper: MutableMap<Any, Any>) : BasePlayerLogger(player), PlayerKeyLogger {
+class BasePlayerKeyLogger(player: Player) : BasePlayerLogger(player), PlayerKeyLogger {
 
-	private val mapper: Map<Any, Any>
+	private val directory = JavaPlugin.getPlugin(PlanetSystem::class.java).dataFolder
+	private val configData = ConfigData(directory, "messages.json")
+	private val config = @Suppress("DEPRECATION") GsonConfig(configData).load()
+	private val messages = SpigotGsonMessages(config).availableMessages
 
-	init {
-		this.mapper = mapper
-		if (messages == null)
-			messages = SpigotGsonMessages(GsonConfig(ConfigData(JavaPlugin.getPlugin(PlanetSystem::class.java).dataFolder, "messages.json", true), JsonObject(), true).load()).availableMessages
-		mapper.putAll(messages!!)
-	}
+	override fun getValue(key: Any): Any = messages[key.toString()] ?: key
 
-	override fun getValue(key: Any): Any {
-		val o = this.mapper[key]
-		return o ?: key
-	}
-
-	override fun log(level: Logger.Level, vararg message: Any) {
-		val objects = ArrayList<Any>()
-
-		for (o in message) objects.add(this.getValue(o))
-
-		super.log(level, *objects.toTypedArray())
-	}
-
-	companion object {
-		private var messages: Map<String, String>? = null
-	}
+	override fun log(level: Logger.Level, vararg message: Any) = super.log(level, *message.map { getValue(it) }.toTypedArray())
 
 }

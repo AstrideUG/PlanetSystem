@@ -2,6 +2,7 @@ package me.devsnox.planetsystem.core.listeners
 
 import me.devsnox.planetsystem.api.holder.Holder.Impl.holder
 import me.devsnox.planetsystem.api.holder.isNotInHolderWorld
+import me.devsnox.planetsystem.core.log.MessageKeys
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -42,7 +43,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 		if (planetPlayer.canBuild(block)) return
 
 		cancel(cancellable)
-		planetPlayer.logger.warn("block_listener.deny_build")
+		planetPlayer.logger.warn(MessageKeys.LISTENER_PLANET_BUILD_DENY)
 	}
 
 }

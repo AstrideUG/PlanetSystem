@@ -28,7 +28,7 @@ class BasePlanetPlayer(
 	override val isOnHisPlanet: Boolean get() = planet.inner.isInside(location)
 	override val location: PlanetLocation get() = PlanetLocation(planet, player.location)
 
-	override val logger: KeyLogger = BasePlayerKeyLogger(player, HashMap())
+	override val logger: KeyLogger = BasePlayerKeyLogger(player)
 
 	override fun canBuild(location: Location): Boolean = if (isOnHisPlanet) true
 	else

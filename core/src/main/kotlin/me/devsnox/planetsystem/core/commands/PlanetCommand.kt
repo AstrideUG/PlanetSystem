@@ -2,6 +2,7 @@ package me.devsnox.planetsystem.core.commands
 
 import me.devsnox.planetsystem.api.holder.Holder
 import me.devsnox.planetsystem.core.commands.modules.*
+import me.devsnox.planetsystem.core.log.MessageKeys.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.command.CommandSender
@@ -23,10 +24,10 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(javaPlugin, "Planet") {
 	override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
 		val planetPlayer = Holder.Impl.holder.playerData.getPlayer(it.uniqueId) ?: return@isPlayer
 		when {
-			args.isEmpty() -> planetPlayer.logger.info("command.args.no")
+			args.isEmpty() -> planetPlayer.logger.info(COMMANDS_ARGS_NO)
 			commandModules.containsKey(args[0].toLowerCase()) ->
 				commandModules[args[0].toLowerCase()]?.execute(planetPlayer, Arrays.copyOfRange(args, 1, args.size))
-			else -> planetPlayer.logger.info("command.args")
+			else -> planetPlayer.logger.info(COMMANDS_ARGS)
 		}
 	}
 
