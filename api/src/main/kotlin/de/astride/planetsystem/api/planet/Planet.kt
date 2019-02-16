@@ -20,6 +20,8 @@ interface Planet {
 
 	var spawnLocation: PlanetLocation
 
+	val metaData: Map<String, Any>
+
 	fun load(result: (LoadedPlanet) -> Unit)
 
 }

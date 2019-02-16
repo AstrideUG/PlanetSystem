@@ -9,6 +9,7 @@ import org.mongodb.morphia.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity(value = "planets", noClassnameStored = true)
@@ -27,6 +28,7 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
 	private List<UUID> members;
 	private byte size;
 	private PlanetLocation planetLocation;
+	private Map<String, Object> metaData;
 	
 	public DatabasePlanet(UUID uuid, String name, UUID ownerUniqueId, List<UUID> members, byte size, PlanetLocation planetLocation)
 	{
@@ -51,6 +53,6 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
 	@Override
 	public Planet toPlanet()
 	{
-		return new BasePlanet(this.uuid, this.name, this.ownerUniqueId, this.getMembers(), this.size, this.planetLocation);
+		return new BasePlanet(this.uuid, this.name, this.ownerUniqueId, this.getMembers(), this.size, this.planetLocation, this.metaData);
 	}
 }

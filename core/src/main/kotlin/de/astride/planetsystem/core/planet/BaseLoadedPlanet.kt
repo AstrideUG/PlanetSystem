@@ -21,7 +21,7 @@ class BaseLoadedPlanet(
 		planet: Planet,
 		middle: Location,
 		maxSize: Int
-) : LoadedPlanet, BasePlanet(planet.uniqueID, planet.name, planet.ownerUniqueID, planet.members, planet.size, planet.spawnLocation) {
+) : LoadedPlanet, BasePlanet(planet.uniqueID, planet.name, planet.ownerUniqueID, planet.members, planet.size, planet.spawnLocation, planet.metaData) {
 
 	override val middle = middle
 		get() = field.clone()

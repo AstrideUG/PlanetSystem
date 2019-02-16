@@ -12,6 +12,7 @@ interface DatabasePlanet {
 	val members: List<UUID>
 	val size: Byte
 	val planetLocation: PlanetLocation
+    val metaData: Map<String, Any>
 
 	fun toPlanet(): Planet
 
