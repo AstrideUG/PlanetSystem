@@ -1,5 +1,6 @@
 package de.astride.planetsystem.core.database;
 
+import de.astride.planetsystem.api.database.DatabasePlanet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import de.astride.planetsystem.api.location.PlanetLocation;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Entity(value = "planets", noClassnameStored = true)
 @Data
 @NoArgsConstructor
-public class DatabasePlanet implements de.astride.planetsystem.api.database.DatabasePlanet
+public class BasicDatabasePlanet implements DatabasePlanet
 {
 	@Id
 	@Indexed(options = @IndexOptions(unique = true))
@@ -30,7 +31,7 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
 	private PlanetLocation planetLocation;
 	private Map<String, Object> metaData;
 	
-	public DatabasePlanet(UUID uuid, String name, UUID ownerUniqueId, List<UUID> members, byte size, PlanetLocation planetLocation)
+	public BasicDatabasePlanet(UUID uuid, String name, UUID ownerUniqueId, List<UUID> members, byte size, PlanetLocation planetLocation)
 	{
 		this.uuid = uuid;
 		this.name = name;
@@ -40,9 +41,9 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
 		this.planetLocation = planetLocation;
 	}
 	
-	public static DatabasePlanet by(final Planet planet)
+	public static BasicDatabasePlanet by(final Planet planet)
 	{
-		return new DatabasePlanet(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
+		return new BasicDatabasePlanet(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
 	}
 	
 	public List<UUID> getMembers()

@@ -10,7 +10,7 @@ import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.data.PlanetData
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.core.database.DatabasePlanet
+import de.astride.planetsystem.core.database.BasicDatabasePlanet
 import org.bukkit.Material
 import java.util.*
 
@@ -27,7 +27,7 @@ class PlanetDataImpl(private val holder: Holder) : PlanetData {
 	//TODO: Move to LoadedPlanet
 	override fun save(owner: UUID) {
 		val loadedPlanet = holder.planetData.getLoadedPlanetByOwner(owner) ?: return
-		val databasePlanet = DatabasePlanet.by(loadedPlanet)
+		val databasePlanet = BasicDatabasePlanet.by(loadedPlanet)
 		dynamicNetworkAPI.saveSchematic(databasePlanet.uuid, loadedPlanet.schematic)
 		holder.databaseHandler.savePlanet(databasePlanet)
 	}

@@ -4,7 +4,7 @@ import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.data.PlayerData
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.core.database.DatabasePlayer
+import de.astride.planetsystem.core.database.BasicDatabasePlayer
 import de.astride.planetsystem.core.player.BasePlanetPlayer
 import org.bukkit.Bukkit
 import java.util.*
@@ -27,7 +27,7 @@ data class PlayerDataImpl(val holder: Holder) : PlayerData {
 
 	override fun save(uuid: UUID) {
 		val player = holder.playerData.getPlayer(uuid) ?: return
-		val databasePlayer = DatabasePlayer.by(player.planet)
+		val databasePlayer = BasicDatabasePlayer.by(player.planet)
 		holder.databaseHandler.savePlayer(databasePlayer)
 	}
 

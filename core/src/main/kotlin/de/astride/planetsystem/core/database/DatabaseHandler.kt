@@ -18,24 +18,24 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 		val dataStore = morphia.createDatastore(mongoClient, "cosmic")
 		dataStore.ensureIndexes()
 
-		this.planetDAO = PlanetDAO(DatabasePlanet::class.java, dataStore)
-		this.playerDAO = PlayerDAO(DatabasePlayer::class.java, dataStore)
+		this.planetDAO = PlanetDAO(BasicDatabasePlanet::class.java, dataStore)
+		this.playerDAO = PlayerDAO(BasicDatabasePlayer::class.java, dataStore)
 
 	}
 
-	override fun getPlanet(uuid: UUID): DatabasePlanet = this.planetDAO.findOne("owner", uuid)
+	override fun getPlanet(uuid: UUID): BasicDatabasePlanet = this.planetDAO.findOne("owner", uuid)
 
 	override fun savePlanet(databasePlanet: de.astride.planetsystem.api.database.DatabasePlanet) {
-		this.planetDAO.save(databasePlanet as DatabasePlanet) //TODO FUCK YOU CAST!
+		this.planetDAO.save(databasePlanet as BasicDatabasePlanet) //TODO FUCK YOU CAST!
 	}
 
 	override fun create(planet: UUID, player: UUID, result: (Boolean) -> Unit) {
 		if (!this.playerDAO.exists("uuid", player)) {
 
-			val databasePlayer = DatabasePlayer(player, planet, listOf())
+			val databasePlayer = BasicDatabasePlayer(player, planet, listOf())
 			this.savePlayer(databasePlayer)
 
-			val databasePlanet = DatabasePlanet(
+			val databasePlanet = BasicDatabasePlanet(
 					planet,
 					"Alpha Centauri" /*TODO: Random Name*/,
 					player,
@@ -50,10 +50,10 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 			result(false)
 	}
 
-	override fun getPlayer(uuid: UUID): DatabasePlayer = this.playerDAO.findOne("uuid", uuid)
+	override fun getPlayer(uuid: UUID): BasicDatabasePlayer = this.playerDAO.findOne("uuid", uuid)
 
 	override fun savePlayer(databasePlayer: de.astride.planetsystem.api.database.DatabasePlayer) {
-		this.playerDAO.save(databasePlayer as DatabasePlayer) //TODO FUCK YOU CAST!
+		this.playerDAO.save(databasePlayer as BasicDatabasePlayer) //TODO FUCK YOU CAST!
 	}
 
 }

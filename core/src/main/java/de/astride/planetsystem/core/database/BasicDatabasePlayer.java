@@ -1,5 +1,6 @@
 package de.astride.planetsystem.core.database;
 
+import de.astride.planetsystem.api.database.DatabasePlayer;
 import lombok.Getter;
 import de.astride.planetsystem.api.planet.Planet;
 import org.mongodb.morphia.annotations.Entity;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 @Entity(value = "players", noClassnameStored = true)
 @Getter
-public class DatabasePlayer implements de.astride.planetsystem.api.database.DatabasePlayer
+public class BasicDatabasePlayer implements DatabasePlayer
 {
 	@Id
 	@Indexed(options = @IndexOptions(unique = true))
@@ -20,19 +21,19 @@ public class DatabasePlayer implements de.astride.planetsystem.api.database.Data
 	private UUID planetUniqueId;
 	private List<UUID> memberedPlanets;
 	
-	public DatabasePlayer()
+	public BasicDatabasePlayer()
 	{
 	}
 	
-	public DatabasePlayer(final UUID uuid, final UUID planetUniqueId, final List<UUID> memberedPlanets)
+	public BasicDatabasePlayer(final UUID uuid, final UUID planetUniqueId, final List<UUID> memberedPlanets)
 	{
 		this.uuid = uuid;
 		this.planetUniqueId = planetUniqueId;
 		this.memberedPlanets = memberedPlanets;
 	}
 	
-	public static DatabasePlayer by(final Planet planet)
+	public static BasicDatabasePlayer by(final Planet planet)
 	{
-		return new DatabasePlayer(planet.getOwnerUniqueID(), planet.getUniqueID(), planet.getMembers());
+		return new BasicDatabasePlayer(planet.getOwnerUniqueID(), planet.getUniqueID(), planet.getMembers());
 	}
 }
