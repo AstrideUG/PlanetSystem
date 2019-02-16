@@ -6,11 +6,8 @@ import me.devsnox.planetsystem.api.planet.LoadedPlanet
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
-import java.util.*
 
 interface PlanetPlayer : OfflinePlanetPlayer {
-
-	override val uuid: UUID get() = player.uniqueId
 
 	val player: Player
 

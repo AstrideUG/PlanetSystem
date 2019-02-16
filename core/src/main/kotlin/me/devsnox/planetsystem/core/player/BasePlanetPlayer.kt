@@ -12,7 +12,6 @@ import me.devsnox.planetsystem.api.player.PlanetPlayer
 import me.devsnox.planetsystem.core.log.BasePlayerKeyLogger
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import java.util.*
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -20,9 +19,7 @@ class BasePlanetPlayer(
 		override val player: Player,
 		loadedPlanet: LoadedPlanet,
 		override val memberedPlanets: List<Planet>
-) : BaseOfflinePlanetPlayer(player.uniqueId /*IGNORED*/, loadedPlanet, memberedPlanets), PlanetPlayer {
-
-	override val uuid: UUID get() = super<PlanetPlayer>.uuid
+) : BaseOfflinePlanetPlayer(player.uniqueId, loadedPlanet, memberedPlanets), PlanetPlayer {
 
 	override val planet: LoadedPlanet get() = super.planet as LoadedPlanet
 	override val isOnHisPlanet: Boolean get() = planet.inner.isInside(location)
