@@ -37,7 +37,8 @@ fun DatabasePlanet.toPlanet(): Planet = BasePlanet(
     Owner(ownerUniqueId),
     members.map(::Owner).toMutableList(),
     planetLocation,
-    CheckedAtmosphere(size)
+    CheckedAtmosphere(size),
+    metaData
 )
 
 /**

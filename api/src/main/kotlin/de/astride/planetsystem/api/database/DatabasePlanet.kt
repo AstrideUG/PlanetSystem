@@ -11,5 +11,6 @@ interface DatabasePlanet {
     val members: Set<UUID>
     val size: Byte
     val planetLocation: PlanetLocation
+    val metaData: Map<String, Any>
 
 }

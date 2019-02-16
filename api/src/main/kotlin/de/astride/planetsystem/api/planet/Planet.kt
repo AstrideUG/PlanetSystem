@@ -19,6 +19,8 @@ interface Planet {
 
     var atmosphere: Atmosphere
 
+    val metaData: Map<String, Any>
+
     //TODO: suspend fun load(): LoadedPlanet
     fun load(result: (LoadedPlanet) -> Unit)
 

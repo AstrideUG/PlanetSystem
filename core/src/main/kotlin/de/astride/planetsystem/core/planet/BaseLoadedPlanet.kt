@@ -37,8 +37,9 @@ class BaseLoadedPlanet(
     members: MutableList<Owner>,
     spawnLocation: PlanetLocation,
     atmosphere: Atmosphere,
+    metaData: Map<String, Any>,
     middle: Location
-) : LoadedPlanet, BasePlanet(uniqueID, name, owner, members, spawnLocation, atmosphere) {
+) : LoadedPlanet, BasePlanet(uniqueID, name, owner, members, spawnLocation, atmosphere, metaData) {
 
 
     constructor(planet: Planet, middle: Location) : this(
@@ -48,6 +49,7 @@ class BaseLoadedPlanet(
         planet.members,
         planet.spawnLocation,
         planet.atmosphere,
+        planet.metaData,
         middle
     )
 
