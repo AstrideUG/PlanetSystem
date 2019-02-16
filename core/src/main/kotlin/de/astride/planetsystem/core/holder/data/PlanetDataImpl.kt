@@ -10,7 +10,7 @@ import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.data.PlanetData
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.core.database.BasicDatabasePlanet
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import org.bukkit.Material
 import java.util.*
 

@@ -1,6 +1,7 @@
-package de.astride.planetsystem.core.database;
+package de.astride.planetsystem.core.database.entities;
 
 import de.astride.planetsystem.api.database.DatabasePlanet;
+import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import de.astride.planetsystem.api.location.PlanetLocation;
@@ -16,11 +17,7 @@ import java.util.UUID;
 @Entity(value = "planets", noClassnameStored = true)
 @Data
 @NoArgsConstructor
-public class BasicDatabasePlanet implements DatabasePlanet
-{
-	@Id
-	@Indexed(options = @IndexOptions(unique = true))
-	private UUID uuid;
+public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlanet {
 	@Indexed
 	private String name;
 	@Indexed
@@ -33,7 +30,7 @@ public class BasicDatabasePlanet implements DatabasePlanet
 	
 	public BasicDatabasePlanet(UUID uuid, String name, UUID ownerUniqueId, List<UUID> members, byte size, PlanetLocation planetLocation)
 	{
-		this.uuid = uuid;
+		super(uuid);
 		this.name = name;
 		this.ownerUniqueId = ownerUniqueId;
 		this.members = members;
@@ -54,6 +51,6 @@ public class BasicDatabasePlanet implements DatabasePlanet
 	@Override
 	public Planet toPlanet()
 	{
-		return new BasePlanet(this.uuid, this.name, this.ownerUniqueId, this.getMembers(), this.size, this.planetLocation, this.metaData);
+		return new BasePlanet(super.getUuid(), this.name, this.ownerUniqueId, this.getMembers(), this.size, this.planetLocation, this.metaData);
 	}
 }

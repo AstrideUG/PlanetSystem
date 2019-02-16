@@ -2,6 +2,8 @@ package de.astride.planetsystem.core.database
 
 import com.mongodb.MongoClient
 import de.astride.planetsystem.api.location.PlanetLocation
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import org.mongodb.morphia.Morphia
 import java.util.*
 
@@ -36,13 +38,13 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 			this.savePlayer(databasePlayer)
 
 			val databasePlanet = BasicDatabasePlanet(
-					planet,
-					"Alpha Centauri" /*TODO: Random Name*/,
-					player,
-					ArrayList(),
-					8.toByte(),
-					PlanetLocation(planet)
-			)
+                    planet,
+                    "Alpha Centauri" /*TODO: Random Name*/,
+                    player,
+                    ArrayList(),
+                    8.toByte(),
+                    PlanetLocation(planet)
+            )
 			this.savePlanet(databasePlanet)
 
 			result(true)

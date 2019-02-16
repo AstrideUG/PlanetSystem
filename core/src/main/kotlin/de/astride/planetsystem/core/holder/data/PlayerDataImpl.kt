@@ -4,7 +4,7 @@ import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.data.PlayerData
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.core.database.BasicDatabasePlayer
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import de.astride.planetsystem.core.player.BasePlanetPlayer
 import org.bukkit.Bukkit
 import java.util.*

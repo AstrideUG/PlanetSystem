@@ -3,7 +3,7 @@ package de.astride.planetsystem.core.player
 import lombok.Data
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.OfflinePlanetPlayer
-import de.astride.planetsystem.core.database.BasicDatabasePlayer
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import java.util.*
 
 @Data
