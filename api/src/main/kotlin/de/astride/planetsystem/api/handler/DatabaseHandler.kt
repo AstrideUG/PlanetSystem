@@ -15,5 +15,4 @@ interface DatabaseHandler {
     fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet
 
     fun savePlayer(databasePlayer: DatabasePlayer)
-
 }

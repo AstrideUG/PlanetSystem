@@ -17,7 +17,7 @@ import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.location.toBukkitVector
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
-import de.astride.planetsystem.core.database.DatabasePlanet
+import de.astride.planetsystem.core.database.BasicDatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
 import lombok.Data
 import lombok.EqualsAndHashCode
@@ -114,7 +114,7 @@ class BaseLoadedPlanet(
     }
 
     override fun save() {
-        val databasePlanet = DatabasePlanet.by(this)
+        val databasePlanet = BasicDatabasePlanet.by(this)
         holder.databaseHandler.savePlanet(databasePlanet)
         DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
     }

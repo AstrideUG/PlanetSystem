@@ -1,5 +1,6 @@
 package de.astride.planetsystem.core.database;
 
+import de.astride.planetsystem.api.database.DatabasePlanet;
 import de.astride.planetsystem.api.inline.Owner;
 import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
@@ -14,10 +15,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Entity(value = "planets", noClassnameStored = true)
-@Data
 @NoArgsConstructor
-public class DatabasePlanet implements de.astride.planetsystem.api.database.DatabasePlanet {
+@Data
+@Entity(value = "planets", noClassnameStored = true)
+public class BasicDatabasePlanet implements DatabasePlanet {
     @Id
     @Indexed(options = @IndexOptions(unique = true))
     private UUID uuid;
@@ -31,7 +32,7 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
     private PlanetLocation planetLocation;
     private Map<String, Object> metaData;
 
-    public DatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final Set<UUID> members, final byte size, final PlanetLocation planetLocation) {
+    public BasicDatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final Set<UUID> members, final byte size, final PlanetLocation planetLocation) {
         this.uuid = uuid;
         this.name = name;
         this.ownerUniqueId = ownerUniqueId;
@@ -40,8 +41,8 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
         this.planetLocation = planetLocation;
     }
 
-    public static DatabasePlanet by(final Planet planet) {
-        return new DatabasePlanet(
+    public static BasicDatabasePlanet by(final Planet planet) {
+        return new BasicDatabasePlanet(
                 planet.getUniqueID(),
                 planet.getName(),
                 planet.getOwner(),

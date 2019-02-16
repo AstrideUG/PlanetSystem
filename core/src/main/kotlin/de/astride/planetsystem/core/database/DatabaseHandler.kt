@@ -1,6 +1,8 @@
 package de.astride.planetsystem.core.database
 
 import com.mongodb.MongoClient
+import de.astride.planetsystem.api.database.DatabasePlanet
+import de.astride.planetsystem.api.database.DatabasePlayer
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
@@ -9,7 +11,7 @@ import xyz.morphia.Morphia
 
 class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
-    override val allPlanets: Set<DatabasePlanet> get() = planetDAO.find().toSet()
+    override val allPlanets: Set<BasicDatabasePlanet> get() = planetDAO.find().toSet()
 
     private val planetDAO: PlanetDAO
     private val playerDAO: PlayerDAO
@@ -47,19 +49,19 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
         val dataStore = morphia.createDatastore(mongoClient, "cosmic")
 //        dataStore.ensureIndexes()
 
-        this.planetDAO = PlanetDAO(DatabasePlanet::class.java, dataStore)
-        this.playerDAO = PlayerDAO(DatabasePlayer::class.java, dataStore)
+        this.planetDAO = PlanetDAO(BasicDatabasePlanet::class.java, dataStore)
+        this.playerDAO = PlayerDAO(BasicDatabasePlayer::class.java, dataStore)
 
     }
 
-    override fun savePlanet(databasePlanet: de.astride.planetsystem.api.database.DatabasePlanet) {
-        this.planetDAO.save(databasePlanet as DatabasePlanet) //TODO FUCK YOU CAST!
+    override fun savePlanet(databasePlanet: DatabasePlanet) {
+        this.planetDAO.save(databasePlanet as BasicDatabasePlanet)
     }
 
     override fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer {
         if (playerDAO.exists("uuid", owner.uuid)) return playerDAO.findOne("uuid", owner.uuid)
 
-        val databasePlayer = DatabasePlayer(owner.uuid, planet.uuid)
+        val databasePlayer = BasicDatabasePlayer(owner.uuid, planet.uuid)
         savePlayer(databasePlayer)
 
         return databasePlayer
@@ -69,7 +71,7 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
         if (planetDAO.exists("owner", owner.uuid)) return planetDAO.findOne("owner", owner.uuid)
 
-        val databasePlanet = DatabasePlanet(
+        val databasePlanet = BasicDatabasePlanet(
             planet.uuid,
             "Kepler-730 c" /*TODO: Random Name*/,
             owner.uuid,
@@ -82,8 +84,8 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
         return databasePlanet
     }
 
-    override fun savePlayer(databasePlayer: de.astride.planetsystem.api.database.DatabasePlayer) {
-        this.playerDAO.save(databasePlayer as DatabasePlayer) //TODO FUCK YOU CAST!
+    override fun savePlayer(databasePlayer: DatabasePlayer) {
+        this.playerDAO.save(databasePlayer as BasicDatabasePlayer)
     }
 
 }

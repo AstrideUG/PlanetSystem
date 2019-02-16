@@ -5,7 +5,7 @@ import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.log.KeyLogger
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.core.database.DatabasePlayer
+import de.astride.planetsystem.core.database.BasicDatabasePlayer
 import de.astride.planetsystem.core.log.BasePlayerKeyLogger
 import lombok.Data
 import lombok.EqualsAndHashCode
@@ -30,7 +30,7 @@ class BasePlanetPlayer(
     }
 
     override fun save() {
-        val databasePlayer = DatabasePlayer.by(planet)
+        val databasePlayer = BasicDatabasePlayer.by(planet)
         holder.databaseHandler.savePlayer(databasePlayer)
 //        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uuid, planet.schematic)
     }
