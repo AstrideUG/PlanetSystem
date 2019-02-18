@@ -16,19 +16,19 @@ import org.bukkit.entity.Player
 @EqualsAndHashCode(callSuper = true)
 @Data
 class BasePlanetPlayer(
-		override val player: Player,
-		loadedPlanet: LoadedPlanet,
-		override val memberedPlanets: List<Planet>
+    override val player: Player,
+    loadedPlanet: LoadedPlanet,
+    override val memberedPlanets: List<Planet>
 ) : BaseOfflinePlanetPlayer(player.uniqueId, loadedPlanet, memberedPlanets), PlanetPlayer {
 
-	override val planet: LoadedPlanet get() = super.planet as LoadedPlanet
-	override val isOnHisPlanet: Boolean get() = planet.inner.isInside(location)
-	override val location: PlanetLocation get() = PlanetLocation(planet, player.location)
+    override val planet: LoadedPlanet get() = super.planet as LoadedPlanet
+    override val isOnHisPlanet: Boolean get() = planet.inner.isInside(location)
+    override val location: PlanetLocation get() = PlanetLocation(planet, player.location)
 
-	override val logger: KeyLogger = BasePlayerKeyLogger(player)
+    override val logger: KeyLogger = BasePlayerKeyLogger(player)
 
-	override fun canBuild(location: Location): Boolean = if (isOnHisPlanet) true
-	else
-		holder.planetData.getPlanet(location)?.members?.contains(player.uniqueId) ?: false
+    override fun canBuild(location: Location): Boolean = if (isOnHisPlanet) true
+    else
+        holder.planetData.getPlanet(location)?.members?.contains(player.uniqueId) ?: false
 
 }

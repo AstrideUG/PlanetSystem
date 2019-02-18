@@ -12,12 +12,12 @@ import org.bukkit.World
 
 @Data
 class HolderImpl : Holder {
-	override val playerData: PlayerData = PlayerDataImpl(this)
-	override val planetData: PlanetData = PlanetDataImpl(this)
-	override val databaseHandler: DatabaseHandler = DatabaseHandler()
-	override val gridHandler: GridHandler = GridHandler("PlanetWorld", 2048)
+    override val playerData: PlayerData = PlayerDataImpl(this)
+    override val planetData: PlanetData = PlanetDataImpl(this)
+    override val databaseHandler: DatabaseHandler = DatabaseHandler()
+    override val gridHandler: GridHandler = GridHandler("PlanetWorld", 2048)
 
-	override val world: World get() = gridHandler.world
+    override val world: World get() = gridHandler.world
 
 }
 

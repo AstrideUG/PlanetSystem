@@ -1,7 +1,7 @@
 name: PlanetSystemPlugin
 author: DevSnox
-version: 1.0
-main: me.devsnox.planetsystem.core.PlanetSystem
+version: "1.0-SNAPSHOT"
+main: de.astride.planetsystem.core.PlanetSystem
 depend:
   - DynamicNetworkClient
 commands:

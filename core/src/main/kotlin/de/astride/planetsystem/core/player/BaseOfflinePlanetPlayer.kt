@@ -8,9 +8,10 @@ import java.util.*
 
 @Data
 open class BaseOfflinePlanetPlayer(
-		override val uuid: UUID,
-		override val planet: Planet,
-		override val memberedPlanets: List<Planet>
+    override val uuid: UUID,
+    override val planet: Planet,
+    override val memberedPlanets: List<Planet>
 ) : OfflinePlanetPlayer
 
-fun BaseOfflinePlanetPlayer.toDatabasePlayer(): DatabasePlayer = DatabasePlayer(uuid, planet.uniqueID, memberedPlanets.map { it.uniqueID })
+fun BaseOfflinePlanetPlayer.toDatabasePlayer(): DatabasePlayer =
+    DatabasePlayer(uuid, planet.uniqueID, memberedPlanets.map { it.uniqueID })

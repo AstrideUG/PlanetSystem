@@ -20,31 +20,31 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-	@EventHandler(priority = EventPriority.LOW)
-	fun onBlockPlaceEvent(event: BlockPlaceEvent) = blockBuild(event, event.block, event.player)
+    @EventHandler(priority = EventPriority.LOW)
+    fun onBlockPlaceEvent(event: BlockPlaceEvent) = blockBuild(event, event.block, event.player)
 
-	@EventHandler(priority = EventPriority.LOW)
-	fun onBlockBreakEvent(event: BlockBreakEvent) = blockBuild(event, event.block, event.player)
+    @EventHandler(priority = EventPriority.LOW)
+    fun onBlockBreakEvent(event: BlockBreakEvent) = blockBuild(event, event.block, event.player)
 
-	@Suppress("SimplifyNegatedBinaryExpression")
-	@EventHandler
-	fun onPlayerInteractEvent(event: PlayerInteractEvent) {
-		if (event.player.isNotInHolderWorld()) return
-		if (event.action != Action.PHYSICAL) return
-		if (!(event.clickedBlock?.type == Material.SOIL)) return
+    @Suppress("SimplifyNegatedBinaryExpression")
+    @EventHandler
+    fun onPlayerInteractEvent(event: PlayerInteractEvent) {
+        if (event.player.isNotInHolderWorld()) return
+        if (event.action != Action.PHYSICAL) return
+        if (!(event.clickedBlock?.type == Material.SOIL)) return
 
         event.cancel()
-		event.setUseInteractedBlock(Event.Result.DENY)
-	}
+        event.setUseInteractedBlock(Event.Result.DENY)
+    }
 
-	private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
-		if (player.isNotInHolderWorld()) return
+    private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
+        if (player.isNotInHolderWorld()) return
 
-		val planetPlayer = holder.playerData.getPlayer(player.uniqueId) ?: return
-		if (planetPlayer.canBuild(block)) return
+        val planetPlayer = holder.playerData.getPlayer(player.uniqueId) ?: return
+        if (planetPlayer.canBuild(block)) return
 
         cancellable.cancel()
-		planetPlayer.logger.warn(MessageKeys.LISTENER_PLANET_BUILD_DENY)
-	}
+        planetPlayer.logger.warn(MessageKeys.LISTENER_PLANET_BUILD_DENY)
+    }
 
 }

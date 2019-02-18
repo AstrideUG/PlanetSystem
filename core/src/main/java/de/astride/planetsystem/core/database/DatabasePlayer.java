@@ -12,27 +12,23 @@ import java.util.UUID;
 
 @Entity(value = "players", noClassnameStored = true)
 @Getter
-public class DatabasePlayer implements de.astride.planetsystem.api.database.DatabasePlayer
-{
-	@Id
-	@Indexed(options = @IndexOptions(unique = true))
-	private UUID uuid;
-	private UUID planetUniqueId;
-	private List<UUID> memberedPlanets;
-	
-	public DatabasePlayer()
-	{
-	}
-	
-	public DatabasePlayer(final UUID uuid, final UUID planetUniqueId, final List<UUID> memberedPlanets)
-	{
-		this.uuid = uuid;
-		this.planetUniqueId = planetUniqueId;
-		this.memberedPlanets = memberedPlanets;
-	}
-	
-	public static DatabasePlayer by(final Planet planet)
-	{
-		return new DatabasePlayer(planet.getOwnerUniqueID(), planet.getUniqueID(), planet.getMembers());
-	}
+public class DatabasePlayer implements de.astride.planetsystem.api.database.DatabasePlayer {
+    @Id
+    @Indexed(options = @IndexOptions(unique = true))
+    private UUID uuid;
+    private UUID planetUniqueId;
+    private List<UUID> memberedPlanets;
+
+    public DatabasePlayer() {
+    }
+
+    public DatabasePlayer(final UUID uuid, final UUID planetUniqueId, final List<UUID> memberedPlanets) {
+        this.uuid = uuid;
+        this.planetUniqueId = planetUniqueId;
+        this.memberedPlanets = memberedPlanets;
+    }
+
+    public static DatabasePlayer by(final Planet planet) {
+        return new DatabasePlayer(planet.getOwnerUniqueID(), planet.getUniqueID(), planet.getMembers());
+    }
 }

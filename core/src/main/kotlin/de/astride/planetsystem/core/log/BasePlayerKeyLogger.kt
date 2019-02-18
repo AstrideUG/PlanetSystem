@@ -15,13 +15,14 @@ import org.bukkit.plugin.java.JavaPlugin
 @Data
 class BasePlayerKeyLogger(player: Player) : BasePlayerLogger(player), PlayerKeyLogger {
 
-	private val directory = JavaPlugin.getPlugin(PlanetSystem::class.java).dataFolder
-	private val configData = ConfigData(directory, "messages.json")
-	private val config = @Suppress("DEPRECATION") GsonConfig(configData).load()
-	private val messages = SpigotGsonMessages(config).availableMessages
+    private val directory = JavaPlugin.getPlugin(PlanetSystem::class.java).dataFolder
+    private val configData = ConfigData(directory, "messages.json")
+    private val config = @Suppress("DEPRECATION") GsonConfig(configData).load()
+    private val messages = SpigotGsonMessages(config).availableMessages
 
-	override fun getValue(key: Any): Any = messages[key.toString()] ?: key
+    override fun getValue(key: Any): Any = messages[key.toString()] ?: key
 
-	override fun log(level: Logger.Level, vararg message: Any) = super.log(level, *message.map { getValue(it) }.toTypedArray())
+    override fun log(level: Logger.Level, vararg message: Any) =
+        super.log(level, *message.map { getValue(it) }.toTypedArray())
 
 }
