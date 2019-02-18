@@ -1,0 +1,7 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
+ */
+
+dependencies {
+    compileOnly("com.boydti:fawe-api:latest")
+}

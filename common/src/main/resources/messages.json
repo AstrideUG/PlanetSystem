@@ -1,0 +1,28 @@
+{
+  "Messages": {
+    "language": "de_DE",
+    "languages": {
+      "de_ASOCIAL": {},
+      "de_DE": {
+        "Prefix": "%Colors.PRIMARY%%Colors.EXTRA%Planets %Colors.IMPORTANT%┃ %Colors.RESET%",
+        "Prefix.TEXT": "%Prefix%%Colors.TEXT%",
+        "Prefix.WARNING": "%Prefix%%Colors.WARNING%",
+        "Colors.PRIMARY": "\u0026b",
+        "Colors.SECONDARY": "\u00269",
+        "Colors.IMPORTANT": "\u0026f",
+        "Colors.TEXT": "\u0026a",
+        "Colors.EXTRA": "\u0026l",
+        "Colors.DESIGN": "\u0026m",
+        "Colors.RESET": "\u0026r",
+        "Colors.WARNING": "\u0026c",
+        "command.args": "&7--------- &8[&a&lPlanets&8] &7---------\n&8/&aplanet &finfo &8- &eAlle Infos über den Planeten auf dem du dich gerade befindest\n&8/&aplanet &fchome &8- &eUm auf deinen Planeten zurück zu kehren\n&8/&aplanet &fsethome &8- &eVersetze den Home-Punkt auf deinem Planeten\n&8/&aplanet &finvite &8- &eUm jemanden auf deinen Planeten einzuladen\n&8/&aplanet &fkick &8- &eUm jemanden von deinem Planeten zu kicken\n&8/&aplanet &fvisit &8- &eUm einen Planeten auf dem du Mitglied bist zu besuchen\n&7--------- &8[&a&lPlanets&8] &7---------",
+        "commands.home.teleport.success": "%Prefix.TEXT%Willkommen zurück auf deinem Planeten",
+        "commands.info.success": "%Prefix.TEXT%Kommt vielleicht in den nächsten Lichtjahren",
+        "commands.info.failed.not_own_planet": "%Prefix.WARNING%Du befindest dich nicht auf deinem eigenen Planeten",
+        "commands.setspawn.success": "%Prefix.Text%Du hast deinen Planet-Spawn gesetzt",
+        "block_listener.deny_build": "%Prefix.WARNING%Du hast hier keine Baurechte",
+        "commands.sethome.not_in_planet_world": ""
+      }
+    }
+  }
+}
