@@ -1,0 +1,18 @@
+/*
+ * © Copyright - Lars Artmann aka. LartyHD 2019.
+ */
+
+dependencies {
+
+    jarLibs project(":PlanetSystem-Api")
+
+    jarLibs "org.mongodb.morphia:morphia:1.3.2"
+    jarLibs "org.mongodb:mongo-java-driver:3.9.1"
+
+    jarLibs "org.apache.logging.log4j:log4j-api:2.9.0"
+    jarLibs "ch.qos.logback:logback-classic:1.2.3"
+
+    compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
+    compileOnly("org.projectlombok:lombok:1.18.6")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:6.0")
+}

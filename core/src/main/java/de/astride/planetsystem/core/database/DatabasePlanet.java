@@ -1,0 +1,56 @@
+package de.astride.planetsystem.core.database;
+
+import de.astride.planetsystem.api.location.PlanetLocation;
+import de.astride.planetsystem.api.planet.Planet;
+import de.astride.planetsystem.core.planet.BasePlanet;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.mongodb.morphia.annotations.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@Entity(value = "planets", noClassnameStored = true)
+@Data
+@NoArgsConstructor
+public class DatabasePlanet implements de.astride.planetsystem.api.database.DatabasePlanet
+{
+	@Id
+	@Indexed(options = @IndexOptions(unique = true))
+	private UUID uuid;
+	@Indexed
+	private String name;
+	@Indexed
+	@Property("owner")
+	private UUID ownerUniqueId;
+	private List<UUID> members;
+	private byte size;
+	private PlanetLocation planetLocation;
+	
+	public DatabasePlanet(UUID uuid, String name, UUID ownerUniqueId, List<UUID> members, byte size, PlanetLocation planetLocation)
+	{
+		this.uuid = uuid;
+		this.name = name;
+		this.ownerUniqueId = ownerUniqueId;
+		this.members = members;
+		this.size = size;
+		this.planetLocation = planetLocation;
+	}
+	
+	public static DatabasePlanet by(final Planet planet)
+	{
+		return new DatabasePlanet(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
+	}
+	
+	public List<UUID> getMembers()
+	{
+		return this.members == null ? new ArrayList<>() : this.members;
+	}
+	
+	@Override
+	public Planet toPlanet()
+	{
+		return new BasePlanet(this.uuid, this.name, this.ownerUniqueId, this.getMembers(), this.size, this.planetLocation);
+	}
+}
