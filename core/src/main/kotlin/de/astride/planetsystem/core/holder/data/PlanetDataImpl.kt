@@ -12,6 +12,7 @@ import de.astride.planetsystem.core.database.DatabasePlanet
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkAPI
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import java.util.*
 
 
@@ -35,7 +36,14 @@ class PlanetDataImpl(private val holder: Holder) : PlanetData {
     //TODO: Move to LoadedPlanet
     override fun unload(owner: UUID) {
         save(owner)
-        val planet = holder.playerData.getPlayer(owner)!!.planet
+
+        val planet = holder.playerData.getPlayer(owner)?.planet ?: return
+        val distance = (planet.size * 2).toDouble()
+        planet.middle.world.getNearbyEntities(planet.middle, distance, distance, distance).forEach {
+            if (it is Player)
+                it.teleport(holder.planetData.getLoadedPlanetByOwner(it.uniqueId)?.middle ?: return@forEach)
+        }
+
         holder.gridHandler.removeEntry(holder.gridHandler.getId(planet.middle))
 
         @Suppress("DEPRECATION")
