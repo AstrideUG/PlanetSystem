@@ -1,25 +1,27 @@
 package de.astride.planetsystem.api.planet
 
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
-import java.util.*
 
 interface Planet {
 
-	val uniqueID: UUID
+    val uniqueID: UniqueID
 
-	val ownerUniqueID: UUID
+    val owner: Owner
 
-	val name: String
+    val name: String
 
-	val members: MutableList<UUID>
+    val members: MutableList<Owner>
 
-	/**
-	 * Change size and if loaded inner region
-	 */
-	var size: Byte
+    /**
+     * Change size and if loaded inner region
+     */
+    var size: Byte
 
-	var spawnLocation: PlanetLocation
+    var spawnLocation: PlanetLocation
 
-	fun load(result: (LoadedPlanet) -> Unit)
+    //TODO: suspend fun load(): LoadedPlanet
+    fun load(result: (LoadedPlanet) -> Unit)
 
 }

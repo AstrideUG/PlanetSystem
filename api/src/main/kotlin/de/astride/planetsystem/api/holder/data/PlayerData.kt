@@ -1,18 +1,18 @@
 package de.astride.planetsystem.api.holder.data
 
+import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
-import java.util.*
 
 interface PlayerData {
 
-	val players: Set<PlanetPlayer>
+    val players: Set<PlanetPlayer>
 
-	fun load(uuid: UUID, request: (PlanetPlayer) -> Unit)
+    fun load(owner: Owner, request: (PlanetPlayer) -> Unit)
 
-	fun save(uuid: UUID)
+    fun save(owner: Owner)
 
-	fun unload(uuid: UUID)
+    fun unload(owner: Owner)
 
-	fun getPlayer(uuid: UUID): PlanetPlayer? = players.find { it.uuid == uuid }
+    fun getPlayer(owner: Owner): PlanetPlayer? = players.find { it.owner == owner }
 
 }

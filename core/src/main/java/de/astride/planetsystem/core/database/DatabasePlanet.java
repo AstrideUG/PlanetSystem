@@ -1,8 +1,8 @@
 package de.astride.planetsystem.core.database;
 
+import de.astride.planetsystem.api.inline.Owner;
 import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
-import de.astride.planetsystem.core.planet.BasePlanet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mongodb.morphia.annotations.*;
@@ -10,6 +10,7 @@ import org.mongodb.morphia.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity(value = "planets", noClassnameStored = true)
 @Data
@@ -37,7 +38,14 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
     }
 
     public static DatabasePlanet by(final Planet planet) {
-        return new DatabasePlanet(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
+        return new DatabasePlanet(
+                planet.getUniqueID(),
+                planet.getName(),
+                planet.getOwner(),
+                planet.getMembers().stream().map(Owner::getUuid).collect(Collectors.toList()),
+                planet.getSize(),
+                planet.getSpawnLocation()
+        );
     }
 
     @Override
@@ -45,8 +53,5 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
         return this.members == null ? new ArrayList<>() : this.members;
     }
 
-    @Override
-    public Planet toPlanet() {
-        return new BasePlanet(this.uuid, this.name, this.ownerUniqueId, this.getMembers(), this.size, this.planetLocation);
-    }
+
 }

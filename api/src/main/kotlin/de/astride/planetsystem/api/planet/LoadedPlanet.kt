@@ -6,13 +6,14 @@ import org.bukkit.Location
 
 interface LoadedPlanet : Planet {
 
-	val inner: Region
-	val outer: Region
+    val inner: Region
+    val outer: Region
 
-	val middle: Location
+    val middle: Location
 
-	val schematic: Schematic
+    val schematic: Schematic
 
-	override fun load(result: (LoadedPlanet) -> Unit) = result(this)
+    //TODO: override suspend fun load(): LoadedPlanet = this
+    override fun load(result: (LoadedPlanet) -> Unit) = result(this)
 
 }

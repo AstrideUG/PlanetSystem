@@ -4,5 +4,3 @@ version: "1.0-SNAPSHOT"
 main: de.astride.planetsystem.core.PlanetSystem
 depend:
   - DynamicNetworkClient
-commands:
-  planet:

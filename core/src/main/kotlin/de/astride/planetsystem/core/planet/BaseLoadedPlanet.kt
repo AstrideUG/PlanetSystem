@@ -4,7 +4,7 @@ import com.boydti.fawe.`object`.schematic.Schematic
 import com.sk89q.worldedit.regions.CuboidRegion
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
-import de.astride.planetsystem.api.holder.Holder.Impl.holder
+import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.planet.LoadedPlanet
@@ -22,7 +22,7 @@ class BaseLoadedPlanet(
     middle: Location,
     maxSize: Int
 ) : LoadedPlanet,
-    BasePlanet(planet.uniqueID, planet.name, planet.ownerUniqueID, planet.members, planet.size, planet.spawnLocation) {
+    BasePlanet(planet.uniqueID, planet.name, planet.owner, planet.members, planet.size, planet.spawnLocation) {
 
     override val middle = middle
         get() = field.clone()
@@ -32,7 +32,7 @@ class BaseLoadedPlanet(
     override val schematic: Schematic
         get() = Schematic(
             CuboidRegion(
-                holder.world.toWEWorld(),
+                Holder.instance.world.toWEWorld(),
                 inner.min.toWEVector(),
                 inner.max.toWEVector()
             )

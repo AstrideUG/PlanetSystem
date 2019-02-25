@@ -1,8 +1,6 @@
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.api.holder.Holder.Impl.holder
 import de.astride.planetsystem.api.holder.isNotInHolderWorld
-import de.astride.planetsystem.api.location.toBukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -24,8 +22,8 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         val uniqueId = event.player.uniqueId
-        holder.databaseHandler.create(UUID.randomUUID(), uniqueId) { _ ->
-            holder.playerData.load(uniqueId) {
+        Holder.instance.databaseHandler.create(UUID.randomUUID(), uniqueId) { _ ->
+            Holder.instance.playerData.load(uniqueId) {
                 it.player.teleport(it.planet.spawnLocation.toBukkitLocation())
             }
         }
@@ -34,15 +32,15 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         val owner = event.player.uniqueId
-        holder.planetData.unload(owner)
-        holder.playerData.unload(owner)
+        Holder.instance.planetData.unload(owner)
+        Holder.instance.playerData.unload(owner)
     }
 
     @EventHandler
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        event.respawnLocation = holder
+        event.respawnLocation = Holder.instance
             .planetData
-            .getLoadedPlanetByOwner(event.player.uniqueId)
+            .getLoadedPlanet(event.player.uniqueId)
             ?.spawnLocation
             ?.toBukkitLocation()
             ?: return

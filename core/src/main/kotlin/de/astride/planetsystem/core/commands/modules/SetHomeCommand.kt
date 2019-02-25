@@ -7,7 +7,7 @@ import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_SET_HOME_NOT_IN_PLANET_WORLD
 import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_SET_HOME_SUCCESSES
 
-class SethomeCommand : PlanetCommandModule {
+class SetHomeCommand : PlanetCommandModule {
 
     override fun execute(player: PlanetPlayer, args: Array<String>) = if (player.player.isNotInHolderWorld())
         player.logger.warn(COMMANDS_SET_HOME_NOT_IN_PLANET_WORLD)

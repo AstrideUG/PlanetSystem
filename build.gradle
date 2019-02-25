@@ -76,7 +76,7 @@ subprojects {
 
     compileKotlin {
         kotlinOptions {
-            freeCompilerArgs = ['-Xjsr305=strict']
+            freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xjsr305=strict"]
             jvmTarget = '1.8'
             suppressWarnings = true
         }
@@ -84,7 +84,7 @@ subprojects {
 
     compileTestKotlin {
         kotlinOptions {
-            freeCompilerArgs = ['-Xjsr305=strict']
+            freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xjsr305=strict"]
             jvmTarget = '1.8'
             suppressWarnings = true
         }

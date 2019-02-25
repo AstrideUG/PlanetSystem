@@ -1,14 +1,14 @@
 package de.astride.planetsystem.api.player
 
+import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.planet.Planet
-import java.util.*
 
 interface OfflinePlanetPlayer {
 
-	val uuid: UUID
+    val owner: Owner
 
-	val planet: Planet
+    val planet: Planet
 
-	val memberedPlanets: List<Planet>
+    val memberedPlanets: List<Planet>
 
 }

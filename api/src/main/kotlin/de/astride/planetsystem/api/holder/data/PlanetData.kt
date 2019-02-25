@@ -1,26 +1,27 @@
 package de.astride.planetsystem.api.holder.data
 
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import org.bukkit.Location
-import java.util.*
 
 interface PlanetData {
 
-	val loadedPlanets: MutableSet<LoadedPlanet>
+    val loadedPlanets: MutableSet<LoadedPlanet>
 
-	fun load(owner: UUID, request: (LoadedPlanet) -> Unit)
+    fun load(owner: Owner, request: (LoadedPlanet) -> Unit)
 
-	fun save(owner: UUID)
+    fun save(owner: Owner)
 
-	fun unload(owner: UUID)
+    fun unload(owner: Owner)
 
-	fun getLoadedPlanetByOwner(owner: UUID): LoadedPlanet? = loadedPlanets.find { it.ownerUniqueID == owner }
+    fun getLoadedPlanet(owner: Owner): LoadedPlanet? = loadedPlanets.find { it.owner == owner }
 
-	fun getLoadedPlanet(uuid: UUID): LoadedPlanet? = loadedPlanets.find { it.uniqueID == uuid }
+    fun getLoadedPlanet(id: UniqueID): LoadedPlanet? = loadedPlanets.find { it.uniqueID == id }
 
-	fun getPlanet(location: Location): Planet? = loadedPlanets.find { it.inner.isInside(PlanetLocation(it, location)) }
+    fun getPlanet(location: Location): Planet? = loadedPlanets.find { it.inner.isInside(PlanetLocation(it, location)) }
 
 }

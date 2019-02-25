@@ -4,6 +4,8 @@ import de.astride.planetsystem.api.player.PlanetPlayer
 
 interface PlanetCommandModule {
 
-	fun execute(player: PlanetPlayer, args: Array<String>)
+    val usage: Array<String> get() = arrayOf(javaClass.canonicalName.replace("Command", ""))
+
+    fun execute(player: PlanetPlayer, args: Array<String>)
 
 }

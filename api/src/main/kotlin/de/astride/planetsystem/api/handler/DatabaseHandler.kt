@@ -1,19 +1,19 @@
 package de.astride.planetsystem.api.handler
 
-import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.database.DatabasePlayer
-import java.util.*
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.UniqueID
 
 interface DatabaseHandler {
 
-	fun getPlanet(uuid: UUID): de.astride.planetsystem.api.database.DatabasePlanet
+    fun getPlanet(uuid: Owner): de.astride.planetsystem.api.database.DatabasePlanet
 
-	fun savePlanet(databasePlanet: de.astride.planetsystem.api.database.DatabasePlanet)
+    fun savePlanet(databasePlanet: de.astride.planetsystem.api.database.DatabasePlanet)
 
-	fun create(planet: UUID, player: UUID, result: (Boolean) -> Unit)
+    fun create(planet: UniqueID, player: Owner, result: (Boolean) -> Unit)
 
-	fun getPlayer(uuid: UUID): DatabasePlayer
+    fun getPlayer(uuid: Owner): DatabasePlayer
 
-	fun savePlayer(databasePlayer: DatabasePlayer)
+    fun savePlayer(databasePlayer: DatabasePlayer)
 
 }

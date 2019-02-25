@@ -2,7 +2,6 @@ package de.astride.planetsystem.api.holder
 
 import de.astride.planetsystem.api.handler.DatabaseHandler
 import de.astride.planetsystem.api.handler.GridHandler
-import de.astride.planetsystem.api.holder.Holder.Impl.holder
 import de.astride.planetsystem.api.holder.data.PlanetData
 import de.astride.planetsystem.api.holder.data.PlayerData
 import org.bukkit.World
@@ -10,22 +9,29 @@ import org.bukkit.entity.Entity
 
 interface Holder {
 
-	val databaseHandler: DatabaseHandler
+    val databaseHandler: DatabaseHandler
 
-	val world: World
+    val world: World
 
-	val playerData: PlayerData
+    val playerData: PlayerData
 
-	val planetData: PlanetData
+    val planetData: PlanetData
 
-	val gridHandler: GridHandler
+    val gridHandler: GridHandler
 
-	object Impl {
+    companion object {
 
-		lateinit var holder: Holder
+        lateinit var instance: Holder
 
-	}
+    }
+
+    object Impl {
+
+        @Deprecated("", ReplaceWith("Holder.instance", "de.astride.planetsystem.api.holder.Holder"))
+        lateinit var holder: Holder
+
+    }
 
 }
 
-fun Entity.isNotInHolderWorld() = this.world != holder.world
+fun Entity.isNotInHolderWorld() = this.world != Holder.instance.world
