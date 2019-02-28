@@ -9,11 +9,12 @@ import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_SET_HOME_SUCCESSES
 
 class SetHomeCommand : PlanetCommandModule {
 
-    override fun execute(player: PlanetPlayer, args: Array<String>) = if (player.player.isNotInHolderWorld())
-        player.logger.warn(COMMANDS_SET_HOME_NOT_IN_PLANET_WORLD)
-    else {
-        player.planet.spawnLocation = PlanetLocation(player.planet, player.player.location)
-        player.logger.info(COMMANDS_SET_HOME_SUCCESSES)
-    }
+    override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) =
+        if (planetPlayer.player.isNotInHolderWorld())
+            planetPlayer.logger.warn(COMMANDS_SET_HOME_NOT_IN_PLANET_WORLD)
+        else {
+            planetPlayer.planet.spawnLocation = PlanetLocation(planetPlayer.planet, planetPlayer.player.location)
+            planetPlayer.logger.info(COMMANDS_SET_HOME_SUCCESSES)
+        }
 
 }

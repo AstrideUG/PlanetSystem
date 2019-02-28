@@ -3,7 +3,6 @@ package de.astride.planetsystem.core.holder.data
 import com.boydti.fawe.util.EditSessionBuilder
 import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.regions.CuboidRegion
-import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.data.PlanetData
@@ -29,7 +28,7 @@ class PlanetDataImpl(private val holder: Holder) : PlanetData {
 
     //TODO: Move to LoadedPlanet
     override fun save(owner: Owner) {
-        val loadedPlanet = holder.planetData.getLoadedPlanet(owner) ?: return
+        val loadedPlanet = holder.planetData.find(owner) ?: return
         val databasePlanet = DatabasePlanet.by(loadedPlanet)
         dynamicNetworkAPI.saveSchematic(databasePlanet.uuid, loadedPlanet.schematic)
         holder.databaseHandler.savePlanet(databasePlanet)
@@ -39,13 +38,13 @@ class PlanetDataImpl(private val holder: Holder) : PlanetData {
     override fun unload(owner: Owner) {
         save(owner)
 
-        val planet = holder.playerData.getPlayer(owner)?.planet ?: return
-        val distance = (planet.size * 2).toDouble()
+        val planet = holder.playerData.find(owner).planet ?: return
+        val distance = (planet.atmosphere.size * 2).toDouble()
         planet.middle.world.getNearbyEntities(planet.middle, distance, distance, distance)
 
         arrayOf<Entity>().forEach {
             if (it is Player)
-                it.teleport(holder.planetData.getLoadedPlanet(Owner(it.uniqueId))?.middle ?: return@forEach)
+                it.teleport(holder.planetData.find(Owner(it.uniqueId)).middle ?: return@forEach)
         }
 
         holder.gridHandler.removeEntry(holder.gridHandler.getId(planet.middle))

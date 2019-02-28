@@ -2,6 +2,7 @@ package de.astride.planetsystem.core.holder.data
 
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.data.PlayerData
+import de.astride.planetsystem.api.holder.data.find
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -18,7 +19,7 @@ data class PlayerDataImpl(val holder: Holder) : PlayerData {
 
         holder.planetData.load(owner) {
             val members =
-                ArrayList<Planet>()//TODO databasePlayer.getMemberedPlanets().stream().map(this::getPlanet).collect(Collectors.toList());
+                setOf<Planet>()//TODO databasePlayer.getMemberedPlanets().stream().map(this::find).collect(Collectors.toList());
             val planetPlayer = BasePlanetPlayer(Bukkit.getPlayer(owner.uuid), it, members)
 
             players.add(planetPlayer)
@@ -28,14 +29,14 @@ data class PlayerDataImpl(val holder: Holder) : PlayerData {
     }
 
     override fun save(owner: Owner) {
-        val player = holder.playerData.getPlayer(owner) ?: return
+        val player = holder.playerData.find(owner) ?: return
         val databasePlayer = DatabasePlayer.by(player.planet)
         holder.databaseHandler.savePlayer(databasePlayer)
     }
 
     override fun unload(owner: Owner) {
         save(owner)
-        players.remove(getPlayer(owner))
+        players.remove(find(owner))
     }
 
 }

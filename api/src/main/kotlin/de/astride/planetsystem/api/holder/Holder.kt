@@ -25,13 +25,6 @@ interface Holder {
 
     }
 
-    object Impl {
-
-        @Deprecated("", ReplaceWith("Holder.instance", "de.astride.planetsystem.api.holder.Holder"))
-        lateinit var holder: Holder
-
-    }
-
 }
 
 fun Entity.isNotInHolderWorld() = this.world != Holder.instance.world

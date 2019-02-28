@@ -7,8 +7,8 @@ import de.astride.planetsystem.core.log.MessageKeys
 
 class InfoCommand : PlanetCommandModule {
 
-    override fun execute(player: PlanetPlayer, args: Array<String>) = if (player.isOnHisPlanet())
-        player.logger.success(MessageKeys.COMMANDS_INFO_SUCCESS)
+    override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) = if (planetPlayer.isOnHisPlanet())
+        planetPlayer.logger.success(MessageKeys.COMMANDS_INFO_SUCCESS)
     else
-        player.logger.warn(MessageKeys.COMMANDS_INFO_FAILED_NOT_OWN_PLANET)
+        planetPlayer.logger.warn(MessageKeys.COMMANDS_INFO_FAILED_NOT_OWN_PLANET)
 }

@@ -5,7 +5,6 @@ import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
 import org.bukkit.Location
 
 interface PlanetData {
@@ -18,10 +17,11 @@ interface PlanetData {
 
     fun unload(owner: Owner)
 
-    fun getLoadedPlanet(owner: Owner): LoadedPlanet? = loadedPlanets.find { it.owner == owner }
 
-    fun getLoadedPlanet(id: UniqueID): LoadedPlanet? = loadedPlanets.find { it.uniqueID == id }
+}
 
-    fun getPlanet(location: Location): Planet? = loadedPlanets.find { it.inner.isInside(PlanetLocation(it, location)) }
-
+fun PlanetData.find(owner: Owner): LoadedPlanet? = loadedPlanets.find { it.owner == owner }
+fun PlanetData.find(id: UniqueID): LoadedPlanet? = loadedPlanets.find { it.uniqueID == id }
+fun PlanetData.find(location: Location): LoadedPlanet? = loadedPlanets.find {
+    it.inner.isInside(PlanetLocation(it, location))
 }

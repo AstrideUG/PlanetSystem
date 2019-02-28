@@ -2,9 +2,12 @@ package de.astride.planetsystem.core.planet
 
 import com.boydti.fawe.`object`.schematic.Schematic
 import com.sk89q.worldedit.regions.CuboidRegion
+import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
 import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.planet.LoadedPlanet
@@ -18,11 +21,24 @@ import org.bukkit.util.Vector
 @EqualsAndHashCode(callSuper = true)
 @Data
 class BaseLoadedPlanet(
-    planet: Planet,
-    middle: Location,
-    maxSize: Int
-) : LoadedPlanet,
-    BasePlanet(planet.uniqueID, planet.name, planet.owner, planet.members, planet.size, planet.spawnLocation) {
+    uniqueID: UniqueID,
+    name: String,
+    owner: Owner,
+    members: MutableList<Owner>,
+    spawnLocation: PlanetLocation,
+    atmosphere: Atmosphere,
+    middle: Location
+) : LoadedPlanet, BasePlanet(uniqueID, name, owner, members, spawnLocation, atmosphere) {
+
+    constructor(planet: Planet, middle: Location) : this(
+        planet.uniqueID,
+        planet.name,
+        planet.owner,
+        planet.members,
+        planet.spawnLocation,
+        planet.atmosphere,
+        middle
+    )
 
     override val middle = middle
         get() = field.clone()
@@ -40,39 +56,37 @@ class BaseLoadedPlanet(
             clipboard!!.origin = middle.toWEVector()
         }
 
-    /**
-     * @author Lars Artmann | LartyHD
-     * Created by Lars Artmann | LartyHD on 12.02.2019 17:55.
-     * Current Version: 1.0 (12.02.2019 - 12.02.2019)
-     */
-    override var size: Byte
-        get() = super.size
-        set(size) {
-            super.size = size
-            val vector = Vector(size.toInt(), size - 1, size.toInt())
-            inner.max.vector = vector.subtract(Vector(1, 0, 1))
-            inner.min.vector = vector.clone().multiply(-1)
+    override var atmosphere: Atmosphere
+        get() = super.atmosphere
+        set(atmosphere) {
+            super.atmosphere = atmosphere
+            val (min, max) = super.atmosphere.size.toBukkitVector().generateMinAndMax()
+            inner.min.vector = min
+            inner.max.vector = max
         }
 
     init {
+        val region = atmosphere.size.toBukkitVector().generateMinAndMax().toBaseRegion()
 
-        val innerMin = size.toBukkitVector().multiply(-1).toPlanetLocation()
-        val innerMax = size.toBukkitVector().subtract(Vector(1, 1, 1)).toPlanetLocation()
-
-        val outerMin = maxSize.toBukkitVector().multiply(-1).toPlanetLocation()
-        val outerMax = maxSize.toBukkitVector().toPlanetLocation()
-
-        inner = BaseRegion(innerMin, innerMax)
-        outer = BaseRegion(outerMin, outerMax)
+        inner = region
+        outer = region
 
     }
 
     override fun load(result: (LoadedPlanet) -> Unit) = super<LoadedPlanet>.load(result)
 
-    //TODO Add to Darkness
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun Number.toBukkitVector() = toDouble().run { Vector(this, this, this) }
 
+    @JvmName("toBaseRegion0")
+    private fun Pair<PlanetLocation, PlanetLocation>.toBaseRegion() = BaseRegion(first, second)
+
+    private fun Pair<Vector, Vector>.toBaseRegion() = toPlanetLocation().toBaseRegion()
+    private fun Pair<Vector, Vector>.toPlanetLocation() = first.toPlanetLocation() to second.toPlanetLocation()
     private fun Vector.toPlanetLocation() = PlanetLocation(uniqueID, this, middle.yaw, middle.pitch)
-
 }
+
+//TODO Add to Darkness
+private fun Number.toBukkitVector() = toDouble().run { Vector(this, this, this) }
+
+private fun Vector.generateMinAndMax() = clone().multiply(-1) to clone().subtract(1.toBukkitVector())
+
+

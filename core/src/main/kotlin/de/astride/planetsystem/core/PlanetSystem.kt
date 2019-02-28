@@ -1,12 +1,11 @@
 package de.astride.planetsystem.core
 
+import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.core.commands.PlanetCommand
-import de.astride.planetsystem.core.commands.modules.ExpandCommand
 import de.astride.planetsystem.core.holder.HolderImpl
 import de.astride.planetsystem.core.listeners.PlanetCommandListener
 import de.astride.planetsystem.core.listeners.PlanetListener
 import de.astride.planetsystem.core.listeners.PlayerListener
-import de.astride.planetsystem.core.planets.Planet
 import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
@@ -32,37 +31,28 @@ class PlanetSystem : DarkPlugin() {
     override fun onEnable() = onEnable {
         register()
 
-        Planet.planets.addAll(ConfigService.instance.data.planets.load())
         PlanetCommandListener(this)
-        ExpandCommand(this, ConfigService.instance.config.permissions?.available ?: emptyMap()) //TODO: IMPL
 
         logger.info("PlanetSystem started")
     }
 
     override fun onDisable() = onDisable {
+        Bukkit.getScheduler().cancelTasks(this)
+
         saveAll()
 
-
         HandlerList.unregisterAll(this)
-        ConfigService.instance.data.planets.save(Planet.planets)
         Bukkit.getServicesManager().unregisterAll(this)
-        Planet.planets.clear()
-
 
         logger.info("PlanetSystem stopped")
-    }
-
-    private fun saveAll() {
-        Holder.instance.planetData.loadedPlanets.forEach { Holder.instance.planetData.save(it.owner) }
-        Holder.instance.playerData.players.forEach { Holder.instance.playerData.save(it.owner) }
     }
 
     private fun register() {
         registerCommands()
         registerListeners()
 
-        //TODO: Add config handling
-        Bukkit.getScheduler().runTaskTimer(this, { saveAll() }, 0, 20 * 60)
+        //TODO: Add planets handling
+        Bukkit.getScheduler().runTaskTimer(this, { if (isEnabled) saveAll() }, 0, 20 * 60)
     }
 
     private fun registerCommands() {
@@ -72,6 +62,11 @@ class PlanetSystem : DarkPlugin() {
     private fun registerListeners() {
         PlanetListener(this)
         PlayerListener(this)
+    }
+
+    private fun saveAll() {
+        Holder.instance.planetData.loadedPlanets.forEach { Holder.instance.planetData.save(it.owner) }
+        Holder.instance.playerData.players.forEach { Holder.instance.playerData.save(it.owner) }
     }
 
 }

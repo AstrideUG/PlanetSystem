@@ -10,7 +10,7 @@ import lombok.Data
 open class BaseOfflinePlanetPlayer(
     override val owner: Owner,
     override val planet: Planet,
-    override val memberedPlanets: List<Planet>
+    override val memberedPlanets: Set<Planet>
 ) : OfflinePlanetPlayer
 
 fun BaseOfflinePlanetPlayer.toDatabasePlayer(): DatabasePlayer =

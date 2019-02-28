@@ -13,6 +13,6 @@ interface PlayerData {
 
     fun unload(owner: Owner)
 
-    fun getPlayer(owner: Owner): PlanetPlayer? = players.find { it.owner == owner }
-
 }
+
+fun PlayerData.find(owner: Owner): PlanetPlayer? = players.find { it.owner == owner }

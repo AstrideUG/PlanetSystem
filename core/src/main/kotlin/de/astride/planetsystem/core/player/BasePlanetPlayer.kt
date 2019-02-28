@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 class BasePlanetPlayer(
     override val player: Player,
     loadedPlanet: LoadedPlanet,
-    override val memberedPlanets: List<Planet>
+    override val memberedPlanets: Set<Planet>
 ) : BaseOfflinePlanetPlayer(Owner(player.uniqueId), loadedPlanet, memberedPlanets), PlanetPlayer {
 
     override val logger: KeyLogger = BasePlayerKeyLogger(player)

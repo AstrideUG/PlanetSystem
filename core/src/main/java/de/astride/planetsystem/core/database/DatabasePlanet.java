@@ -43,7 +43,6 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
                 planet.getName(),
                 planet.getOwner(),
                 planet.getMembers().stream().map(Owner::getUuid).collect(Collectors.toList()),
-                planet.getSize(),
                 planet.getSpawnLocation()
         );
     }

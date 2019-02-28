@@ -9,6 +9,6 @@ interface OfflinePlanetPlayer {
 
     val planet: Planet
 
-    val memberedPlanets: List<Planet>
+    val memberedPlanets: Set<Planet>
 
 }
