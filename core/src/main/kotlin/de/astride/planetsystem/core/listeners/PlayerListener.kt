@@ -1,9 +1,11 @@
 package de.astride.planetsystem.core.listeners
 
+import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.isNotInHolderWorld
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
+import org.bukkit.GameMode
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.EntityType.*
 import org.bukkit.entity.FishHook
@@ -12,12 +14,19 @@ import org.bukkit.entity.TNTPrimed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+
+    @EventHandler
+    fun on(event: PlayerChangedWorldEvent) {
+        if (event.player.isNotInHolderWorld()) return
+        event.player.gameMode = GameMode.SURVIVAL
+    }
 
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
@@ -41,8 +50,7 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         event.respawnLocation = Holder.instance
             .planetData
             .getLoadedPlanet(event.player.uniqueId)
-            ?.spawnLocation
-            ?.toBukkitLocation()
+            ?.spawnLocation.toBukkitLocation()
             ?: return
     }
 
