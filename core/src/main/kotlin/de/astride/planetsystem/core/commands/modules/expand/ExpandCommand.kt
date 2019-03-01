@@ -12,6 +12,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Material
+import org.bukkit.command.CommandSender
 import org.bukkit.event.inventory.InventoryType
 import java.util.*
 
@@ -135,3 +136,6 @@ class ExpandCommand : PlanetCommandModule {
     }
 
 }
+
+fun CommandSender.sendUsage() =
+    sendMessage("Nutze es bitte.... ups hier fehlt source code :c sry\nWir arbeiten dran...")

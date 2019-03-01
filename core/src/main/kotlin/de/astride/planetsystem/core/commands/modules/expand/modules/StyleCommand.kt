@@ -5,6 +5,7 @@ import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
+import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 import de.astride.planetsystem.core.functions.*
 import org.bukkit.Material
 
@@ -21,7 +22,7 @@ class StyleCommand : PlanetCommandModule {
         val player = planetPlayer.player
         if (args.isEmpty()) player.openInventory(ExpandCommand.INVENTORY_STYLE)
         else if (args.size == 1) {
-            val loadedPlanet = Holder.instance.planetData.findOrMessage(Owner(player.uniqueId), player) ?: return
+            val loadedPlanet = Holder.instance.findOrMessage(Owner(player.uniqueId), player) ?: return
 
             if ("ID" == args.firstOrNull()  /*TODO: ADD PERMS*/) {
 
@@ -61,7 +62,7 @@ class StyleCommand : PlanetCommandModule {
 
             }
 
-        } else sendUseMessage(planetPlayer)
+        } else planetPlayer.player.sendUsage()
 
     }
 

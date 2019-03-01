@@ -5,6 +5,7 @@ import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.player.isOnHisPlanet
 import de.astride.planetsystem.core.commands.PlanetCommandModule
+import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 import de.astride.planetsystem.core.functions.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
@@ -43,7 +44,7 @@ class ExpandCommand : PlanetCommandModule {
                 ?: messages["Planet.Command.NoArgs.Inventory.Entry.Expand"]
                 ?: "Error"
 
-            val planet = Holder.instance.planetData.findOrMessage(Owner(player.uniqueId), player) ?: return
+            val planet = Holder.instance.findOrMessage(Owner(player.uniqueId), player) ?: return
             val price = planet.atmosphere.price
 
             val color = if (economy.has(player, price)) Colors.PRIMARY else ChatColor.RED
@@ -94,23 +95,20 @@ class ExpandCommand : PlanetCommandModule {
                 else -> player.sendConfigurableMessage("Planet.Command.Expand.Force.PlayerIsNotOnHisIsLand")
             }
 
-        } else sendUseMessage(planetPlayer)
+        } else planetPlayer.player.sendUsage()
 
     }
 
     private fun expand(planetPlayer: PlanetPlayer) {
-        val player = planetPlayer.player
         val loadedPlanet = planetPlayer.planet
-        val atmosphere = loadedPlanet.atmosphere
-
-        if (atmosphere.size >= atmosphere.maxSize) player.sendConfigurableMessage("ExpandToBiggerSizeThanMaxSize")//TODO: CONVERT
-        else player.removeIfHasEnough(atmosphere.price) {
-            loadedPlanet.delete()
-            loadedPlanet.atmosphere =
-                loadedPlanet.atmosphere.toMutable().apply { size++ }
-            loadedPlanet.place()
+        loadedPlanet.atmosphere.apply {
+            if (size >= maxSize) planetPlayer.player.sendConfigurableMessage("ExpandToBiggerSizeThanMaxSize")//TODO: CONVERT
+            else planetPlayer.player.removeIfHasEnough(price) {
+                loadedPlanet.delete()
+                loadedPlanet.atmosphere = toMutable().apply { size++ }
+                loadedPlanet.place()
+            }
         }
-
     }
 
 }

@@ -9,6 +9,6 @@ interface OfflinePlanetPlayer {
 
     val planet: Planet
 
-    val memberedPlanets: Set<Planet>
+    fun load(request: (PlanetPlayer) -> Unit)
 
 }

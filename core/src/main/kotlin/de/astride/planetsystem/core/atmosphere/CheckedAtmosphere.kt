@@ -43,6 +43,9 @@ class CheckedAtmosphere(
         internal val planets get() = ConfigService.instance.config.planets
     }
 
+    override fun copy(size: Byte, maxSize: Byte, blockID: Int, blockDamage: Int): CheckedAtmosphere =
+        CheckedAtmosphere(size, maxSize, blockDamage, blockID)
+
     object SizeChecker {
         private const val MIN_SIZE: Byte = 2
         private const val MAX_SIZE: Byte = 126

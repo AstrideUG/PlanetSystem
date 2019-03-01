@@ -65,8 +65,8 @@ class PlanetSystem : DarkPlugin() {
     }
 
     private fun saveAll() {
-        Holder.instance.planetData.loadedPlanets.forEach { Holder.instance.planetData.save(it.owner) }
-        Holder.instance.playerData.players.forEach { Holder.instance.playerData.save(it.owner) }
+        Holder.instance.loadedPlanets.forEach { it.save() }
+        Holder.instance.players.forEach { it.save() }
     }
 
 }

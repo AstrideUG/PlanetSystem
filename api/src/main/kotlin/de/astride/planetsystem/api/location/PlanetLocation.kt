@@ -1,5 +1,7 @@
 package de.astride.planetsystem.api.location
 
+import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import lombok.NoArgsConstructor
@@ -27,10 +29,12 @@ data class PlanetLocation(
 }
 
 fun PlanetLocation.toBukkitLocation(input: Vector): Location =
-    vector.clone().add(input).toLocation(Holder.instance.world).also {
+    vector.clone().add(input).toLocation(Holder.instance.gridHandler.world).also {
         it.yaw = yaw
         it.pitch = pitch
     }
 
-fun PlanetLocation.toBukkitLocation() =
-    this.toBukkitLocation(Holder.instance.planetData.getLoadedPlanet(planetID)!!.middle.toVector())
+fun PlanetLocation.toBukkitLocation(): Location? {
+    val toVector = Holder.instance.find(planetID)?.middle?.toVector() ?: return null
+    return toBukkitLocation(toVector)
+}

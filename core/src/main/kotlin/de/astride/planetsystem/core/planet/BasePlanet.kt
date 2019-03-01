@@ -9,6 +9,7 @@ import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.core.functions.place
 import lombok.Data
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
 
@@ -26,19 +27,16 @@ open class BasePlanet(
         val location = Holder.instance.gridHandler.findEmptyLocation()
 
         val loadedPlanet = BaseLoadedPlanet(this, location)
-        Holder.instance.planetData.loadedPlanets += loadedPlanet
+        Holder.instance.loadedPlanets += loadedPlanet
 
         DynamicNetworkFactory.dynamicNetworkAPI.getSchematic(this.uniqueID.uuid) { schematic ->
 
             schematic.paste(location.toWEWorld(), location.toWEVector())
-
-            loadedPlanet.atmosphere =
-                SpherePlanet(loadedPlanet.owner, loadedPlanet.middle, atmosphere.size).apply { fix() }
+            loadedPlanet.place()
 
             result(loadedPlanet)
         }
 
     }
-
 
 }

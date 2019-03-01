@@ -16,4 +16,8 @@ interface LoadedPlanet : Planet {
     //TODO: override suspend fun load(): LoadedPlanet = this
     override fun load(result: (LoadedPlanet) -> Unit) = result(this)
 
+    /*TODO suspend*/ fun unload()
+
+    /*TODO suspend*/ fun save()
+
 }

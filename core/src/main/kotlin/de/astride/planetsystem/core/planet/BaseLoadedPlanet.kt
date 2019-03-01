@@ -1,21 +1,29 @@
 package de.astride.planetsystem.core.planet
 
 import com.boydti.fawe.`object`.schematic.Schematic
+import com.boydti.fawe.util.EditSessionBuilder
+import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.regions.CuboidRegion
 import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
 import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.core.database.DatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
 import lombok.Data
 import lombok.EqualsAndHashCode
+import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
 import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.entity.Entity
+import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
 @EqualsAndHashCode(callSuper = true)
@@ -29,6 +37,7 @@ class BaseLoadedPlanet(
     atmosphere: Atmosphere,
     middle: Location
 ) : LoadedPlanet, BasePlanet(uniqueID, name, owner, members, spawnLocation, atmosphere) {
+
 
     constructor(planet: Planet, middle: Location) : this(
         planet.uniqueID,
@@ -48,7 +57,7 @@ class BaseLoadedPlanet(
     override val schematic: Schematic
         get() = Schematic(
             CuboidRegion(
-                Holder.instance.world.toWEWorld(),
+                Holder.instance.gridHandler.world.toWEWorld(),
                 inner.min.toWEVector(),
                 inner.max.toWEVector()
             )
@@ -66,6 +75,7 @@ class BaseLoadedPlanet(
         }
 
     init {
+
         val region = atmosphere.size.toBukkitVector().generateMinAndMax().toBaseRegion()
 
         inner = region
@@ -74,6 +84,35 @@ class BaseLoadedPlanet(
     }
 
     override fun load(result: (LoadedPlanet) -> Unit) = super<LoadedPlanet>.load(result)
+
+    override fun unload() {
+        save()
+
+        val distance = (atmosphere.size * 2).toDouble()
+        val entities: Iterable<Entity> =
+            middle.world.getNearbyEntities(middle, distance, distance, distance)
+        val holder = Holder.instance
+
+        entities.filter { it is Player }.forEach {
+            it.teleport(holder.find(Owner(it.uniqueId))?.middle ?: return@forEach)
+        }
+
+        holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
+
+        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).fastmode(true).build().apply {
+            val cuboidRegion = CuboidRegion(this.world, outer.min.toWEVector(), outer.max.toWEVector())
+            setBlocks(cuboidRegion, @Suppress("DEPRECATION") (BaseBlock(Material.AIR.id)))
+            flushQueue()
+        }
+
+        holder.loadedPlanets -= this
+    }
+
+    override fun save() {
+        val databasePlanet = DatabasePlanet.by(this)
+        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(databasePlanet.uuid, schematic)
+        Holder.instance.databaseHandler.savePlanet(databasePlanet)
+    }
 
 
     @JvmName("toBaseRegion0")

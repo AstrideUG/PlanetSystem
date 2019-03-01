@@ -12,4 +12,6 @@ interface MutableAtmosphere : Atmosphere {
     override var blockID: Int
     override var blockDamage: Int
 
+    override fun copy(size: Byte, maxSize: Byte, blockID: Int, blockDamage: Int): MutableAtmosphere
+
 }

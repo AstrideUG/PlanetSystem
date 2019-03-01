@@ -20,4 +20,11 @@ interface Atmosphere {
     val blockID: Int
     val blockDamage: Int
 
+    fun copy(
+        size: Byte = this.size,
+        maxSize: Byte = this.maxSize,
+        blockID: Int = this.blockID,
+        blockDamage: Int = this.blockDamage
+    ): Atmosphere
+
 }

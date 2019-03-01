@@ -1,12 +1,13 @@
 package de.astride.planetsystem.core.world
 
+import de.astride.planetsystem.api.handler.GridHandler
 import org.bukkit.*
 import java.io.File
 
 //TODO refactor
-class GridHandler(name: String, override val maxSize: Int) : de.astride.planetsystem.api.handler.GridHandler {
+class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
-    val world: World
+    override val world: World
     private val used = /*TreeSet<Int>()*/ mutableSetOf<Int>()
 
     init {

@@ -1,7 +1,7 @@
 package de.astride.planetsystem.core.commands.modules.expand.modules
 
 import de.astride.planetsystem.api.holder.Holder
-import de.astride.planetsystem.api.holder.data.find
+import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInHolderWorld
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
@@ -28,7 +28,7 @@ class InfoCommand : PlanetCommandModule {
 
             //TODO: ADD 1 arg check
 
-            val loadedPlanet = Holder.instance.planetData.find(player.location)
+            val loadedPlanet = Holder.instance.find(player.location)
             if (loadedPlanet == null)
                 player.sendConfigurableMessage("Planet.Command.Info.CanNotFindLoadedPlanetAtThatLocation")
             else {

@@ -1,8 +1,6 @@
 package de.astride.planetsystem.core.commands
 
 import de.astride.planetsystem.api.holder.Holder
-import de.astride.planetsystem.api.holder.data.find
-import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.core.commands.modules.*
 import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
 import de.astride.planetsystem.core.log.MessageKeys
@@ -29,15 +27,15 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(javaPlugin, "Planet") {
         }
     }
 
-    override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer {
-        val player = Holder.instance.playerData.find(Owner(it.uniqueId)) ?: return@isPlayer
+    override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer { player ->
+        val planetPlayer = Holder.instance.players.find { it.player == player } ?: return@isPlayer
         if (args[0].isModule()) {
             val command = commandModules[args[0].toLowerCase()] ?: return@isPlayer
             val droppedArgs = args.drop(1).toTypedArray()
             hasPermission(sender, command.permissions(droppedArgs)) {
-                command.execute(player, droppedArgs)
+                command.execute(planetPlayer, droppedArgs)
             }
-        } else player.logger.warn(MessageKeys.COMMANDS_MAIN_HELP)
+        } else planetPlayer.logger.warn(MessageKeys.COMMANDS_MAIN_HELP)
     }
 
     private fun String.isModule() = commandModules.containsKey(toLowerCase())

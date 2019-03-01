@@ -3,6 +3,7 @@ package de.astride.planetsystem.core.commands.modules.expand.modules
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
+import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 
 /**
  * @author Lars Artmann | LartyHD
@@ -25,7 +26,7 @@ class ShapeCommand : PlanetCommandModule {
                 //TODO Add success message
                 //                }
             }
-            else -> sendUseMessage(planetPlayer)
+            else -> planetPlayer.player.sendUsage()
         }
     }
 
