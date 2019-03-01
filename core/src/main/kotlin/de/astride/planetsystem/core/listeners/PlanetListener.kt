@@ -1,5 +1,7 @@
 package de.astride.planetsystem.core.listeners
 
+import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInHolderWorld
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.canBuild
@@ -44,7 +46,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
     if (player.isNotInHolderWorld()) return
 
-    val planetPlayer = Holder.instance.playerData.getPlayer(Owner(player.uniqueId)) ?: return
+    val planetPlayer = Holder.instance.players.find(Owner(player.uniqueId)) ?: return
     if (planetPlayer.canBuild(block)) return
 
     cancellable.cancel()

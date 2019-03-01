@@ -35,3 +35,7 @@ fun Holder.find(id: UniqueID): LoadedPlanet? = loadedPlanets.find { it.uniqueID 
 fun Holder.find(location: Location): LoadedPlanet? = loadedPlanets.find {
     it.inner.isInside(PlanetLocation(it, location))
 }
+
+
+fun MutableSet<PlanetPlayer>.find(owner: Owner) = find { it.owner == owner }
+fun MutableSet<LoadedPlanet>.find(owner: Owner) = find { it.owner == owner }

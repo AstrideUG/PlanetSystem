@@ -1,6 +1,7 @@
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
@@ -17,7 +18,7 @@ class InviteCommand : PlanetCommandModule {
                 planetPlayer.planet.members += owner
 
                 logger.success(COMMANDS_INVITE_SUCCESSES_PLAYER)
-                Holder.instance.playerData.find(owner).logger.success(COMMANDS_INVITE_SUCCESSES_TARGET)
+                Holder.instance.players.find(owner)?.logger?.success(COMMANDS_INVITE_SUCCESSES_TARGET)
             } else logger.warn(COMMANDS_INVITE_FAILED_IS_ALREADY_A_PLANET_MEMBER)
         } else logger.warn(COMMANDS_INVITE_FAILED_ARGS_SIZE_IS_NOT_1)
     }

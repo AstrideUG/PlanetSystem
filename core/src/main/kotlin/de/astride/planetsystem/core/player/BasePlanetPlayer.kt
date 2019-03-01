@@ -4,7 +4,6 @@ import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.log.KeyLogger
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.database.DatabasePlayer
 import de.astride.planetsystem.core.log.BasePlayerKeyLogger
@@ -16,9 +15,8 @@ import org.bukkit.entity.Player
 @Data
 class BasePlanetPlayer(
     override val player: Player,
-    loadedPlanet: LoadedPlanet,
-    override val memberedPlanets: Set<Planet>
-) : BaseOfflinePlanetPlayer(Owner(player.uniqueId), loadedPlanet, memberedPlanets), PlanetPlayer {
+    loadedPlanet: LoadedPlanet
+) : BaseOfflinePlanetPlayer(Owner(player.uniqueId), loadedPlanet), PlanetPlayer {
 
     override val logger: KeyLogger = BasePlayerKeyLogger(player)
     override val planet: LoadedPlanet get() = super.planet as LoadedPlanet

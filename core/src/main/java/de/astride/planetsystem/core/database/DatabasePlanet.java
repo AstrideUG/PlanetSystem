@@ -5,6 +5,7 @@ import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.mongodb.morphia.annotations.*;
 
 import java.util.ArrayList;
@@ -43,10 +44,12 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
                 planet.getName(),
                 planet.getOwner(),
                 planet.getMembers().stream().map(Owner::getUuid).collect(Collectors.toList()),
+                planet.getAtmosphere().getSize(),
                 planet.getSpawnLocation()
         );
     }
 
+    @NotNull
     @Override
     public List<UUID> getMembers() {
         return this.members == null ? new ArrayList<>() : this.members;

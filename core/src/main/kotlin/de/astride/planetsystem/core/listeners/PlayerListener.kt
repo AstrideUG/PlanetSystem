@@ -1,7 +1,11 @@
 package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInHolderWorld
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.location.toBukkitLocation
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -22,6 +26,8 @@ import java.util.*
 
 class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
+    private val holder get() = Holder.instance
+
     @EventHandler
     fun on(event: PlayerChangedWorldEvent) {
         if (event.player.isNotInHolderWorld()) return
@@ -30,28 +36,25 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
-        val uniqueId = event.player.uniqueId
-        Holder.instance.databaseHandler.create(UUID.randomUUID(), uniqueId) { _ ->
-            Holder.instance.playerData.load(uniqueId) {
-                it.player.teleport(it.planet.spawnLocation.toBukkitLocation())
+        val owner = Owner(event.player.uniqueId)
+        holder.databaseHandler.create(UniqueID(UUID.randomUUID()), owner) { _ ->
+            holder.players.find(owner)?.apply {
+                player.teleport(planet.spawnLocation.toBukkitLocation())
             }
         }
     }
 
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
-        val owner = event.player.uniqueId
-        Holder.instance.planetData.unload(owner)
-        Holder.instance.playerData.unload(owner)
+        val owner = Owner(event.player.uniqueId)
+        holder.loadedPlanets.find(owner)?.unload()
+        holder.players.find(owner)?.unload()
     }
 
     @EventHandler
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        event.respawnLocation = Holder.instance
-            .planetData
-            .getLoadedPlanet(event.player.uniqueId)
-            ?.spawnLocation.toBukkitLocation()
-            ?: return
+        event.respawnLocation =
+            holder.loadedPlanets.find(Owner(event.player.uniqueId))?.spawnLocation?.toBukkitLocation() ?: return
     }
 
     @EventHandler(priority = EventPriority.LOW)
