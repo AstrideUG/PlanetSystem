@@ -8,7 +8,7 @@ interface DatabasePlanet {
     val uuid: UUID
     val name: String
     val ownerUniqueId: UUID
-    val members: List<UUID>
+    val members: Set<UUID>
     val size: Byte
     val planetLocation: PlanetLocation
 

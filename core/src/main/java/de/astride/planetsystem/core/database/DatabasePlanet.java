@@ -5,11 +5,9 @@ import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.mongodb.morphia.annotations.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,11 +23,11 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
     @Indexed
     @Property("owner")
     private UUID ownerUniqueId;
-    private List<UUID> members;
+    private Set<UUID> members;
     private byte size;
     private PlanetLocation planetLocation;
 
-    public DatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final List<UUID> members, final byte size, final PlanetLocation planetLocation) {
+    public DatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final Set<UUID> members, final byte size, final PlanetLocation planetLocation) {
         this.uuid = uuid;
         this.name = name;
         this.ownerUniqueId = ownerUniqueId;
@@ -43,17 +41,10 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
                 planet.getUniqueID(),
                 planet.getName(),
                 planet.getOwner(),
-                planet.getMembers().stream().map(Owner::getUuid).collect(Collectors.toList()),
+                planet.getMembers().stream().map(Owner::getUuid).collect(Collectors.toSet()),
                 planet.getAtmosphere().getSize(),
                 planet.getSpawnLocation()
         );
     }
-
-    @NotNull
-    @Override
-    public List<UUID> getMembers() {
-        return this.members == null ? new ArrayList<>() : this.members;
-    }
-
 
 }

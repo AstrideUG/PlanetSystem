@@ -5,7 +5,6 @@ import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import org.mongodb.morphia.Morphia
-import java.util.*
 
 class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
@@ -32,16 +31,16 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
     }
 
     override fun create(planet: UniqueID, player: Owner, result: (Boolean) -> Unit) {
-        if (!this.playerDAO.exists("owner", player)) {
+        if (!this.playerDAO.exists("owner", player.uuid)) {
 
-            val databasePlayer = DatabasePlayer(player.uuid, planet.uuid, listOf())
+            val databasePlayer = DatabasePlayer(player.uuid, planet.uuid)
             this.savePlayer(databasePlayer)
 
             val databasePlanet = DatabasePlanet(
                 planet.uuid,
                 "Alpha Centauri" /*TODO: Random Name*/,
                 player.uuid,
-                ArrayList(),
+                mutableSetOf(),
                 8.toByte(),
                 PlanetLocation(planet)
             )

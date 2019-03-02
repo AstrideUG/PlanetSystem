@@ -1,5 +1,7 @@
-name: PlanetSystemPlugin
-author: DevSnox
+name: PlanetSystem
+authors:
+  - Lars Artmann | LartyHD
+  - DevSnox
 version: "1.0-SNAPSHOT"
 main: de.astride.planetsystem.core.PlanetSystem
 depend:
