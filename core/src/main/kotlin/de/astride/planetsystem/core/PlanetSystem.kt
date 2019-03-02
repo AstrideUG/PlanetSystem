@@ -1,5 +1,7 @@
 package de.astride.planetsystem.core
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.LoggerContext
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.holder.HolderImpl
@@ -12,7 +14,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
 import org.bukkit.Bukkit
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.ServicePriority
-
+import org.slf4j.LoggerFactory
 
 class PlanetSystem : DarkPlugin() {
 
@@ -25,13 +27,17 @@ class PlanetSystem : DarkPlugin() {
         ) //Important for ConfigService.instance
         messages =
             ConfigService.instance.config.spigotGsonMessages.availableMessages //Important for CommandSender.sendConfigurableMessage(name: String)
-        Holder.instance = HolderImpl() //For Holder.Impl.holder
+
     }
 
     override fun onEnable() = onEnable {
-        register()
+        Holder.instance = HolderImpl() //For Holder.Impl.holder
 
-        PlanetCommandListener(this)
+        //For Mongodb logs (stops this stuff)!
+        (LoggerFactory.getILoggerFactory() as LoggerContext).getLogger("org.mongodb.driver").level = Level.ERROR
+
+
+        register()
 
         logger.info("PlanetSystem started")
     }
@@ -62,6 +68,7 @@ class PlanetSystem : DarkPlugin() {
     private fun registerListeners() {
         PlanetListener(this)
         PlayerListener(this)
+        PlanetCommandListener(this)
     }
 
     private fun saveAll() {
