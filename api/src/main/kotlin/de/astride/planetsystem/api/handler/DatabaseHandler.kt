@@ -9,8 +9,6 @@ interface DatabaseHandler {
 
     fun savePlanet(databasePlanet: de.astride.planetsystem.api.database.DatabasePlanet)
 
-    fun create(planet: UniqueID, player: Owner, result: (Boolean) -> Unit)
-
     fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer
     fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet
 

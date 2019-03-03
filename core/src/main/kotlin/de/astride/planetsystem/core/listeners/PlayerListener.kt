@@ -49,7 +49,10 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         val owner = Owner(event.player.uniqueId)
-        holder.loadedPlanets.find(owner)?.unload()
+        println(owner)
+        println(holder.loadedPlanets)
+        println(holder.players)
+        holder.loadedPlanets.find(owner)?.unload() ?: println("holder.loadedPlanets.find(owner) = null")
         holder.players.find(owner)?.unload()
     }
 

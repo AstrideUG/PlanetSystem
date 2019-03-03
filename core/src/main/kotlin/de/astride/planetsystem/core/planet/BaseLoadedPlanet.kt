@@ -13,6 +13,7 @@ import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
+import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.core.database.DatabasePlanet
@@ -57,13 +58,15 @@ class BaseLoadedPlanet(
     override val schematic: Schematic
         get() = Schematic(
             CuboidRegion(
-                Holder.instance.gridHandler.world.toWEWorld(),
-                inner.min.toWEVector(),
-                inner.max.toWEVector()
+                holder.gridHandler.world.toWEWorld(),
+                inner.min.toBukkitLocation(middle.toVector()).toWEVector(),
+                inner.max.toBukkitLocation(middle.toVector()).toWEVector()
             )
         ).apply {
             clipboard!!.origin = middle.toWEVector()
         }
+
+    private val holder get() = Holder.instance
 
     override var atmosphere: Atmosphere
         get() = super.atmosphere
@@ -91,7 +94,6 @@ class BaseLoadedPlanet(
         val distance = (atmosphere.size * 2).toDouble()
         val entities: Iterable<Entity> =
             middle.world.getNearbyEntities(middle, distance, distance, distance)
-        val holder = Holder.instance
 
         entities.filter { it is Player }.forEach {
             it.teleport(holder.find(Owner(it.uniqueId))?.middle ?: return@forEach)
@@ -110,8 +112,12 @@ class BaseLoadedPlanet(
 
     override fun save() {
         val databasePlanet = DatabasePlanet.by(this)
-        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(databasePlanet.uuid, schematic)
-        Holder.instance.databaseHandler.savePlanet(databasePlanet)
+        println("hallo")
+        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
+        DynamicNetworkFactory.dynamicNetworkAPI.hasSchematic(uniqueID.uuid) {
+            println("hasSchematic ${uniqueID.uuid}: $it")
+        }
+        holder.databaseHandler.savePlanet(databasePlanet)
     }
 
 

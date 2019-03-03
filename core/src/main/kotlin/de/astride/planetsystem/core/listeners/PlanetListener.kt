@@ -19,6 +19,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.server.PluginDisableEvent
 import org.bukkit.plugin.java.JavaPlugin
 
 @Suppress("unused")
@@ -39,6 +40,13 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
         event.cancel()
         event.setUseInteractedBlock(Event.Result.DENY)
+    }
+
+    @EventHandler
+    fun on(event: PluginDisableEvent) {
+        if (event.plugin.name != "FastAsyncWorldEdit") return
+        Holder.instance.loadedPlanets.forEach { it.save() }
+        Holder.instance.players.forEach { it.save() }
     }
 
 }

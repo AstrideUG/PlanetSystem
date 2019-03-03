@@ -32,6 +32,7 @@ class BasePlanetPlayer(
     override fun save() {
         val databasePlayer = DatabasePlayer.by(planet)
         holder.databaseHandler.savePlayer(databasePlayer)
+//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uuid, planet.schematic)
     }
 
 }

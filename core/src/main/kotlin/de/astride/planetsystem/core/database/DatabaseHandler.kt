@@ -37,28 +37,6 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
         this.planetDAO.save(databasePlanet as DatabasePlanet) //TODO FUCK YOU CAST!
     }
 
-    override fun create(planet: UniqueID, player: Owner, result: (Boolean) -> Unit) {
-        if (!this.playerDAO.exists("uuid", player.uuid)) {
-
-            val databasePlayer = DatabasePlayer(player.uuid, planet.uuid)
-            this.savePlayer(databasePlayer)
-
-            val databasePlanet = DatabasePlanet(
-                planet.uuid,
-                "Kepler-730 c" /*TODO: Random Name*/,
-                player.uuid,
-                mutableSetOf(),
-                8.toByte(),
-                PlanetLocation(planet)
-            )
-            this.savePlanet(databasePlanet)
-
-            result(true)
-        } else
-            result(false)
-    }
-
-
     override fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer {
         if (playerDAO.exists("uuid", owner.uuid)) return playerDAO.findOne("uuid", owner.uuid)
 
@@ -70,7 +48,7 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
     override fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet {
 
-        if (planetDAO.exists("uuid", planet.uuid)) return planetDAO.findOne("uuid", planet.uuid)
+        if (planetDAO.exists("owner", owner.uuid)) return planetDAO.findOne("owner", owner.uuid)
 
         val databasePlanet = DatabasePlanet(
             planet.uuid,
