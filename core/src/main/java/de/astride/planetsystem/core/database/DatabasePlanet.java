@@ -5,7 +5,7 @@ import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mongodb.morphia.annotations.*;
+import xyz.morphia.annotations.*;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class DatabasePlanet implements de.astride.planetsystem.api.database.DatabasePlanet {
+
     @Id
     @Indexed(options = @IndexOptions(unique = true))
     private UUID uuid;
-    @Indexed
     private String name;
     @Indexed
     @Property("owner")

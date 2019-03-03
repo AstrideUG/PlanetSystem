@@ -6,8 +6,8 @@ dependencies {
 
     jarLibs project(":PlanetSystem-Api")
 
-    jarLibs "org.mongodb.morphia:morphia:1.3.2"
     jarLibs "org.mongodb:mongo-java-driver:3.9.1"
+    jarLibs "xyz.morphia.morphia:core:1.4.0"
 
     jarLibs "org.apache.logging.log4j:log4j-api:2.9.0"
     jarLibs "ch.qos.logback:logback-classic:1.2.3"

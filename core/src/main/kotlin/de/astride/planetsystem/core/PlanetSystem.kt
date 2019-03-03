@@ -36,7 +36,6 @@ class PlanetSystem : DarkPlugin() {
         //For Mongodb logs (stops this stuff)!
         (LoggerFactory.getILoggerFactory() as LoggerContext).getLogger("org.mongodb.driver").level = Level.ERROR
 
-
         register()
 
         logger.info("PlanetSystem started")
