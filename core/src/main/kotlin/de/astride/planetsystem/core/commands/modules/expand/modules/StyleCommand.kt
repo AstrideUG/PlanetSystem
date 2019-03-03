@@ -21,13 +21,13 @@ class StyleCommand : PlanetCommandModule {
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val player = planetPlayer.player
         if (args.isEmpty()) player.openInventory(ExpandCommand.INVENTORY_STYLE)
-        else if (args.size == 1) {
+        else if (args.size == 2) {
             val loadedPlanet = Holder.instance.findOrMessage(Owner(player.uniqueId), player) ?: return
 
-            if ("ID" == args.firstOrNull()  /*TODO: ADD PERMS*/) {
+            if ("ID".toLowerCase() == args.firstOrNull()?.toLowerCase()) {
 
                 //TODO add a message if the Material was not found
-                val material: Material = args[0].toMaterial() ?: return
+                val material: Material = args[1].toMaterial() ?: return
                 //TODO improve
                 val permission = permissions["Planet.Command.Style.ID.$material"]
                     ?: permissions["Planet.Command.Style.ID.<Material>"].replace("<Material>", material)
@@ -41,11 +41,11 @@ class StyleCommand : PlanetCommandModule {
                 }
 
 
-            } else if ("SubID" == args.firstOrNull()  /*TODO: ADD PERMS*/) {
+            } else if ("SubID".toLowerCase() == args.firstOrNull()?.toLowerCase()) {
 
                 //TODO add a message if the Material was not found
                 val material = loadedPlanet.atmosphere.blockID.toMaterial() ?: return
-                val subID = args[0].toInt()
+                val subID = args[1].toInt()
                 //TODO improve
                 val permission = permissions["Planet.Command.Style.SubID.$material.$subID"]
                     ?: permissions["Planet.Command.Style.SubID.<Material>.<ID>"]

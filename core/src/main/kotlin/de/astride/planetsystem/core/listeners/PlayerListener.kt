@@ -6,6 +6,8 @@ import de.astride.planetsystem.api.holder.isNotInHolderWorld
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.toBukkitLocation
+import de.astride.planetsystem.core.functions.toPlanet
+import de.astride.planetsystem.core.player.BaseOfflinePlanetPlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -37,10 +39,10 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
-        holder.databaseHandler.create(UniqueID(UUID.randomUUID()), owner) { _ ->
-            holder.players.find(owner)?.apply {
-                player.teleport(planet.spawnLocation.toBukkitLocation())
-            }
+
+        val databasePlanet = holder.databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
+        BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load {
+            it.player.teleport(it.planet.spawnLocation.toBukkitLocation())
         }
     }
 

@@ -5,13 +5,11 @@ import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.modules.*
 import de.astride.planetsystem.core.commands.modules.expand.modules.ExpandCommand
 import de.astride.planetsystem.core.log.MessageKeys
+import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
-import org.bukkit.ChatColor
-import org.bukkit.Color
-import org.bukkit.FireworkEffect
-import org.bukkit.Material
+import org.bukkit.*
 import org.bukkit.command.CommandSender
 import org.bukkit.event.inventory.InventoryType
 import java.util.*
@@ -61,7 +59,7 @@ class ExpandCommand : PlanetCommandModule {
      */
     override fun permissions(args: Array<String>): String {
         val result = super.permissions(args)
-        return if (args[0].isModule()) "$result.${commandModules[args[0].toLowerCase()]}" else result
+        return if (args.isNotEmpty() && args[0].isModule()) "$result.${commandModules[args[0].toLowerCase()]}" else result
     }
 
     private fun String.isModule() = commandModules.containsKey(toLowerCase())
@@ -118,24 +116,23 @@ class ExpandCommand : PlanetCommandModule {
         ).setDesign().apply {
             for (i in 0..2) setItem(
                 12 + i,
-                ItemBuilder(Material.STAINED_GLASS, i.toShort()).setName(ChatColor.BLACK.toString()).build()
+                ItemBuilder(Material.STAINED_GLASS, i.toShort()).setName(ChatColor.GREEN.toString()).build()
             )
             for (i in 0..4) setItem(
                 20 + i,
-                ItemBuilder(Material.STAINED_GLASS, (i + 3).toShort()).setName(ChatColor.BLACK.toString()).build()
+                ItemBuilder(Material.STAINED_GLASS, (i + 3).toShort()).setName(ChatColor.GREEN.toString()).build()
             )
             for (i in 0..4) setItem(
                 29 + i,
-                ItemBuilder(Material.STAINED_GLASS, (i + 8).toShort()).setName(ChatColor.BLACK.toString()).build()
+                ItemBuilder(Material.STAINED_GLASS, (i + 8).toShort()).setName(ChatColor.GREEN.toString()).build()
             )
             for (i in 0..2) setItem(
                 39 + i,
-                ItemBuilder(Material.STAINED_GLASS, (i + 13).toShort()).setName(ChatColor.BLACK.toString()).build()
+                ItemBuilder(Material.STAINED_GLASS, (i + 13).toShort()).setName(ChatColor.GREEN.toString()).build()
             )
         }.build()
     }
 
 }
 
-fun CommandSender.sendUsage() =
-    sendMessage("Nutze es bitte.... ups hier fehlt source code :c sry\nWir arbeiten dran...")
+fun CommandSender.sendUsage() = Bukkit.dispatchCommand(this, ConfigService.instance.config.planetCommand)

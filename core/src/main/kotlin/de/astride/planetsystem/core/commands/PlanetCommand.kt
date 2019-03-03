@@ -3,6 +3,7 @@ package de.astride.planetsystem.core.commands
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.core.commands.modules.*
 import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
+import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
 import org.bukkit.command.CommandSender
@@ -11,7 +12,7 @@ import java.util.*
 
 class PlanetCommand(javaPlugin: JavaPlugin) : Command(
     javaPlugin,
-    "Planet",
+    ConfigService.instance.config.planetCommand,
     usage = "[Home]" +
             "|[Info]" +
             "|[Invite]" +
@@ -28,7 +29,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|[Expand Style ID <ID>]" +
             "|[Expand Style SubID <ID>]",
     minLength = 1,
-    maxLength = 3
+    maxLength = 4
 ) {
 
     private val commandModules: MutableMap<String, PlanetCommandModule> = HashMap()
@@ -38,8 +39,8 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             ExpandCommand(),
             HomeCommand(),
             InfoCommand(),
-            InviteCommand(),
-            KickCommand(),
+            AddCommand(),
+            RemoveCommand(),
             SetHomeCommand(),
             VisitCommand()
         ).forEach { command ->

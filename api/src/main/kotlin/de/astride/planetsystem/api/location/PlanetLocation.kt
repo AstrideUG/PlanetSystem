@@ -7,9 +7,11 @@ import de.astride.planetsystem.api.planet.LoadedPlanet
 import lombok.NoArgsConstructor
 import org.bukkit.Location
 import org.bukkit.util.Vector
+import xyz.morphia.annotations.Transient
 
 @NoArgsConstructor
 data class PlanetLocation(
+    @Transient
     var planetID: UniqueID,
     var vector: Vector = Vector(),
     var yaw: Float = 0f,

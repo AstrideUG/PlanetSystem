@@ -8,7 +8,7 @@ import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.log.MessageKeys.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 
-class InviteCommand : PlanetCommandModule {
+class AddCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val logger = planetPlayer.logger

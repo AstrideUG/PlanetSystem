@@ -5,7 +5,7 @@ import de.astride.planetsystem.core.PlanetSystem
 
 interface PlanetCommandModule {
 
-    val usage: Array<String> get() = arrayOf(javaClass.canonicalName.replace("Command", ""))
+    val usage: Array<String> get() = arrayOf(javaClass.simpleName.replace("Command", ""))
 
     fun execute(planetPlayer: PlanetPlayer, args: Array<String>)
 

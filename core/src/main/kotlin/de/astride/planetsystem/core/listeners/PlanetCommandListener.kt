@@ -9,6 +9,7 @@ import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -47,8 +48,10 @@ class PlanetCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
                 takeIf { displayName == messages["${prefix}Cube"] }?.apply { player.command("Shape Cube") }
             },
             messages["Planet.Command.Style.Inventory.Name"]?.takeIf { it.checkTitle() }?.apply {
-                val prefix = "Planet.Command.Style.Inventory.Entry."
-                takeIf { displayName == messages["${prefix}Style"] }?.apply { player.sendMessage("Work in progress") }
+                //                val prefix = "Planet.Command.Style.Inventory.Entry."
+                takeIf { displayName == ChatColor.GREEN.toString()/*messages["${prefix}Style"]*/ }?.apply {
+                    player.command("Style SubID ${event.currentItem.durability}")
+                }
             },
             messages["Planet.Command.Expand.Inventory.Name"]?.takeIf { it.checkTitle() }?.apply {
                 val prefix = "Planet.Command.Expand.Inventory.Entry."
@@ -63,7 +66,7 @@ class PlanetCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
 }
 
-private fun Player.command(args: String) = this.chat("/${ConfigService.instance.config.planetCommand} $args")
+private fun Player.command(args: String) = this.chat("/${ConfigService.instance.config.planetCommand} Expand $args")
 
 
 
