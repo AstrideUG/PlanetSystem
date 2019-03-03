@@ -29,7 +29,8 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|[Expand Style ID <ID>]" +
             "|[Expand Style SubID <ID>]",
     minLength = 1,
-    maxLength = 4
+    maxLength = 4,
+    aliases = *ConfigService.instance.config.planetCommandAliases
 ) {
 
     private val commandModules: MutableMap<String, PlanetCommandModule> = HashMap()

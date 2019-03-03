@@ -42,6 +42,9 @@ internal class ConfigService(var directory: File) {
         /* Values */
 //        val dataFileName by lazy { jsonObject["DataFileName"]?.asString ?: "data.json" }
         val planetCommand by lazy { jsonObject["PlanetCommand"]?.asString ?: "Planet" }
+        val planetCommandAliases by lazy {
+            jsonObject["PlanetCommandAliases"]?.asJsonArray?.toList()?.toTypedArray() as? Array<String> ?: arrayOf("p")
+        }
         val spigotGsonMessages by lazy { SpigotGsonMessages(config) }
         val permissions by lazy { GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: return@lazy null) }
         /* SubClass */
