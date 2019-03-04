@@ -3,12 +3,13 @@ package de.astride.planetsystem.core.world
 import de.astride.planetsystem.api.handler.GridHandler
 import org.bukkit.*
 import java.io.File
+import java.util.*
 
 //TODO refactor
 class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
     override val world: World
-    private val used = /*TreeSet<Int>()*/ mutableSetOf<Int>()
+    private val used = TreeSet<Int>()
 
     init {
         val file = File(Bukkit.getWorldContainer(), name)
@@ -34,8 +35,9 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
     private fun findFreeAndAdd(): Int = findFree().apply { used.add(this) }
 
     private fun findFree(): Int {
-        val integer = used.lastOrNull() ?: 0
-        for (i in 0 until integer) if (i !in used) return i
+        println(used)
+        val integer = used.lastOrNull() ?: return 0
+        for (i in 1 until integer) if (i !in used) return i
         return integer.inc()
     }
 
