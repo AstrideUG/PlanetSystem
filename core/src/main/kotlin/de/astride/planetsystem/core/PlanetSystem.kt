@@ -44,8 +44,6 @@ class PlanetSystem : DarkPlugin() {
     override fun onDisable() = onDisable {
         Bukkit.getScheduler().cancelTasks(this)
 
-//        saveAll()
-
         HandlerList.unregisterAll(this)
         Bukkit.getServicesManager().unregisterAll(this)
 

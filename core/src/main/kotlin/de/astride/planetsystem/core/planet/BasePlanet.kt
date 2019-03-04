@@ -30,7 +30,6 @@ open class BasePlanet(
         Holder.instance.loadedPlanets += loadedPlanet
 
         DynamicNetworkFactory.dynamicNetworkAPI.getSchematic(uniqueID.uuid) { schematic ->
-
             schematic.paste(location.toWEWorld(), location.toWEVector())
             loadedPlanet.place()
 

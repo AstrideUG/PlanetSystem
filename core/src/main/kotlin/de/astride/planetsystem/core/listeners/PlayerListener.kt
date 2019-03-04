@@ -52,7 +52,7 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         println(owner)
         println(holder.loadedPlanets)
         println(holder.players)
-        holder.loadedPlanets.find(owner)?.unload() ?: println("holder.loadedPlanets.find(owner) = null")
+        holder.loadedPlanets.find(owner)?.unload()
         holder.players.find(owner)?.unload()
     }
 

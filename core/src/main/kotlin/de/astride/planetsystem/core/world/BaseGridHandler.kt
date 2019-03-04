@@ -14,7 +14,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
         val file = File(Bukkit.getWorldContainer(), name)
         if (file.exists() && file.isDirectory) {
             Bukkit.unloadWorld(name, false)
-            file.delete()
+            file.deleteRecursively()
         }
 
         world = generateVoidWorld(name)
