@@ -24,7 +24,7 @@ class TopCommand : PlanetCommandModule {
         "${prefix}Top #10".sendTo(planetPlayer.player)
 
         @Suppress("UNCHECKED_CAST")
-        (holder.loadedPlanets as MutableSet<Planet>)
+        (holder.loadedPlanets.toMutableSet() as MutableSet<Planet>)
             .apply {
                 holder.databaseHandler.allPlanets.map { it.toPlanet() }.forEach { planet ->
                     if (none { it.owner == planet.owner }) this.add(planet)
