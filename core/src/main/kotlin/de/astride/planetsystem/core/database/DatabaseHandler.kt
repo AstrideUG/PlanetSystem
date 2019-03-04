@@ -9,6 +9,8 @@ import xyz.morphia.Morphia
 
 class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
+    override val allPlanets: Set<DatabasePlanet> get() = planetDAO.find().toSet()
+
     private val planetDAO: PlanetDAO
     private val playerDAO: PlayerDAO
 
@@ -79,8 +81,6 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
         return databasePlanet
     }
-
-    override fun getPlayer(uuid: Owner): DatabasePlayer = this.playerDAO.findOne("owner", uuid)
 
     override fun savePlayer(databasePlayer: de.astride.planetsystem.api.database.DatabasePlayer) {
         this.playerDAO.save(databasePlayer as DatabasePlayer) //TODO FUCK YOU CAST!

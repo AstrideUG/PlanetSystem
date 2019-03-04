@@ -15,8 +15,9 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
     ConfigService.instance.config.planetCommand,
     usage = "Home" +
             "|Info" +
-            "|List" +
+            "|List <Loaded/Database>" +
             "|Top" +
+            "|ShowInner" +
             "|Add <Spieler>" +
             "|Remove <Spieler>" +
             "|SetHome" +
@@ -54,8 +55,8 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
         }
     }
 
-    override fun perform(sender: CommandSender, args: Array<String>) = sender.isPlayer { player ->
-        if (args[0].isModule()) {
+    override fun perform(sender: CommandSender, args: Array<String>) {
+        if (args[0].isModule()) sender.isPlayer { player ->
             val planetPlayer =
                 Holder.instance.players.find { it.player == player } ?: return@isPlayer //TODO Add error message
             val command = commandModules[args[0].toLowerCase()] ?: return@isPlayer

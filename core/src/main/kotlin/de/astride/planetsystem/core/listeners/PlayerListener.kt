@@ -65,8 +65,8 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        event.respawnLocation =
-            holder.loadedPlanets.find(Owner(event.player.uniqueId))?.spawnLocation?.toBukkitLocation() ?: return
+        val planet = holder.loadedPlanets.find(Owner(event.player.uniqueId)) ?: return
+        event.respawnLocation = planet.spawnLocation.toBukkitLocation(planet)
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -86,7 +86,7 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     }
 
-    private fun Player.teleportHome(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
-    private fun PlanetPlayer.teleportHome() = player.teleportHome(planet)
-
 }
+
+fun Player.teleportHome(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
+fun PlanetPlayer.teleportHome() = player.teleportHome(planet)

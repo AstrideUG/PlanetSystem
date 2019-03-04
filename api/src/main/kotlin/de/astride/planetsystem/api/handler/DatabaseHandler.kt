@@ -7,12 +7,12 @@ import de.astride.planetsystem.api.inline.UniqueID
 
 interface DatabaseHandler {
 
+    val allPlanets: Set<DatabasePlanet>
+
     fun savePlanet(databasePlanet: de.astride.planetsystem.api.database.DatabasePlanet)
 
     fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer
     fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet
-
-    fun getPlayer(uuid: Owner): DatabasePlayer
 
     fun savePlayer(databasePlayer: DatabasePlayer)
 
