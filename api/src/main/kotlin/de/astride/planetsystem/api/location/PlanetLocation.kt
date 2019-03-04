@@ -40,9 +40,11 @@ fun PlanetLocation.toBukkitLocation(input: Vector): Location =
         it.pitch = pitch
     }
 
+fun PlanetLocation.toBukkitLocation(planet: LoadedPlanet): Location = toBukkitLocation(planet.middle.toVector())
+
 fun PlanetLocation.toBukkitLocation(): Location? {
-    val toVector = Holder.instance.loadedPlanets.find(planetID!!)?.middle?.toVector() ?: return null
-    return toBukkitLocation(toVector)
+    val planet = Holder.instance.loadedPlanets.find(planetID ?: return null) ?: return null
+    return toBukkitLocation(planet)
 }
 
 //TODO Add to Darkness

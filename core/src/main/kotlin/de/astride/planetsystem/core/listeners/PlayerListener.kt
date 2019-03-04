@@ -6,7 +6,7 @@ import de.astride.planetsystem.api.holder.isNotInGameWorld
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.toBukkitLocation
-import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.functions.toPlanet
@@ -86,7 +86,7 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     }
 
-    private fun Player.teleportHome(planet: Planet) = teleport(planet.spawnLocation.toBukkitLocation())
+    private fun Player.teleportHome(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
     private fun PlanetPlayer.teleportHome() = player.teleportHome(planet)
 
 }

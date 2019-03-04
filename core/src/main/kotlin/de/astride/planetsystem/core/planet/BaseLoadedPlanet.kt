@@ -60,8 +60,8 @@ class BaseLoadedPlanet(
         get() = Schematic(
             CuboidRegion(
                 holder.gridHandler.world.toWEWorld(),
-                inner.min.toBukkitLocation(middle.toVector()).toWEVector(),
-                inner.max.toBukkitLocation(middle.toVector()).toWEVector()
+                inner.min.toBukkitLocation(this).toWEVector(),
+                inner.max.toBukkitLocation(this).toWEVector()
             )
         ).apply {
             clipboard!!.origin = middle.toWEVector()
