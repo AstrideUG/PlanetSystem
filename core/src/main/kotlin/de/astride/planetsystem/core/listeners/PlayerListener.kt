@@ -45,7 +45,7 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         if (event.player.isNotInHolderWorld()) return
         val planet = holder.loadedPlanets.find(event.player.location) ?: return
         val vector = event.to.toVector()
-        if (!planet.outer.isInside(vector) && planet.outer.isInside(vector))
+        if (!planet.inner.isInside(vector) && planet.outer.isInside(vector))
             event.player.teleportHome(planet)
     }
 
