@@ -3,8 +3,12 @@
  */
 
 dependencies {
+
+    jarLibs "xyz.morphia.morphia:core:1.4.0"
+
     compileOnly("com.boydti:fawe-api:19.01.12-dc2d277-1245-22.0.7")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:6.0")
+    
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
     compileOnly("org.projectlombok:lombok:1.18.6")
 }

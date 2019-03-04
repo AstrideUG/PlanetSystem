@@ -1,34 +1,38 @@
 package de.astride.planetsystem.core.player
 
-import de.astride.planetsystem.api.holder.Holder.Impl.holder
-import de.astride.planetsystem.api.location.PlanetLocation
-import de.astride.planetsystem.api.location.isInside
+import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.log.KeyLogger
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.core.database.DatabasePlayer
 import de.astride.planetsystem.core.log.BasePlayerKeyLogger
 import lombok.Data
 import lombok.EqualsAndHashCode
-import org.bukkit.Location
 import org.bukkit.entity.Player
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 class BasePlanetPlayer(
     override val player: Player,
-    loadedPlanet: LoadedPlanet,
-    override val memberedPlanets: List<Planet>
-) : BaseOfflinePlanetPlayer(player.uniqueId, loadedPlanet, memberedPlanets), PlanetPlayer {
-
-    override val planet: LoadedPlanet get() = super.planet as LoadedPlanet
-    override val isOnHisPlanet: Boolean get() = planet.inner.isInside(location)
-    override val location: PlanetLocation get() = PlanetLocation(planet, player.location)
+    loadedPlanet: LoadedPlanet
+) : BaseOfflinePlanetPlayer(Owner(player.uniqueId), loadedPlanet), PlanetPlayer {
 
     override val logger: KeyLogger = BasePlayerKeyLogger(player)
+    override val planet: LoadedPlanet get() = super.planet as LoadedPlanet
+    override val owner: Owner get() = super<PlanetPlayer>.owner
 
-    override fun canBuild(location: Location): Boolean = if (isOnHisPlanet) true
-    else
-        holder.planetData.getPlanet(location)?.members?.contains(player.uniqueId) ?: false
+    private val holder get() = Holder.instance
+
+    override fun unload() {
+        save()
+        holder.players -= this
+    }
+
+    override fun save() {
+        val databasePlayer = DatabasePlayer.by(planet)
+        holder.databaseHandler.savePlayer(databasePlayer)
+//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uuid, planet.schematic)
+    }
 
 }

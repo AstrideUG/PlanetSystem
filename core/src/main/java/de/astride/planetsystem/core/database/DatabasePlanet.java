@@ -1,33 +1,35 @@
 package de.astride.planetsystem.core.database;
 
+import de.astride.planetsystem.api.inline.Owner;
 import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
-import de.astride.planetsystem.core.planet.BasePlanet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mongodb.morphia.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import xyz.morphia.annotations.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity(value = "planets", noClassnameStored = true)
 @Data
 @NoArgsConstructor
 public class DatabasePlanet implements de.astride.planetsystem.api.database.DatabasePlanet {
+
     @Id
     @Indexed(options = @IndexOptions(unique = true))
     private UUID uuid;
-    @Indexed
     private String name;
     @Indexed
     @Property("owner")
     private UUID ownerUniqueId;
-    private List<UUID> members;
+    private Set<UUID> members;
     private byte size;
     private PlanetLocation planetLocation;
 
-    public DatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final List<UUID> members, final byte size, final PlanetLocation planetLocation) {
+    public DatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final Set<UUID> members, final byte size, final PlanetLocation planetLocation) {
         this.uuid = uuid;
         this.name = name;
         this.ownerUniqueId = ownerUniqueId;
@@ -37,16 +39,18 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
     }
 
     public static DatabasePlanet by(final Planet planet) {
-        return new DatabasePlanet(planet.getUniqueID(), planet.getName(), planet.getOwnerUniqueID(), planet.getMembers(), planet.getSize(), planet.getSpawnLocation());
+        return new DatabasePlanet(
+                planet.getUniqueID(),
+                planet.getName(),
+                planet.getOwner(),
+                planet.getMembers().stream().map(Owner::getUuid).collect(Collectors.toSet()),
+                planet.getAtmosphere().getSize(),
+                planet.getSpawnLocation()
+        );
     }
 
-    @Override
-    public List<UUID> getMembers() {
-        return this.members == null ? new ArrayList<>() : this.members;
-    }
-
-    @Override
-    public Planet toPlanet() {
-        return new BasePlanet(this.uuid, this.name, this.ownerUniqueId, this.getMembers(), this.size, this.planetLocation);
+    @NotNull
+    public Set<UUID> getMembers() {
+        return this.members != null ? this.members : new HashSet<>();
     }
 }

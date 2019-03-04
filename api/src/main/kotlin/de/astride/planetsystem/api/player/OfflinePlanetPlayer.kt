@@ -1,14 +1,16 @@
 package de.astride.planetsystem.api.player
 
+import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.planet.Planet
-import java.util.*
 
+
+//TODO Check (planet has already the owner)
 interface OfflinePlanetPlayer {
 
-	val uuid: UUID
+    val owner: Owner
 
-	val planet: Planet
+    val planet: Planet
 
-	val memberedPlanets: List<Planet>
+    fun load(request: (PlanetPlayer) -> Unit)
 
 }

@@ -16,7 +16,7 @@ import org.bukkit.World
 
 fun org.bukkit.util.Vector.toWEVector(): Vector = Vector(x, y, z)
 fun Location.toWEVector(): Vector = Vector(x, y, z)
-fun PlanetLocation.toWEVector(): Vector = toBukkitLocation().toWEVector()
+fun PlanetLocation.toWEVector(): Vector? = toBukkitLocation()?.toWEVector()
 
 fun World.toWEWorld() = FaweAPI.getWorld(name)
 fun Location.toWEWorld() = world.toWEWorld()

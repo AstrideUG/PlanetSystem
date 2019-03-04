@@ -1,50 +1,76 @@
 package de.astride.planetsystem.core
 
-import de.astride.planetsystem.api.holder.Holder.Impl.holder
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.LoggerContext
+import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.holder.HolderImpl
+import de.astride.planetsystem.core.listeners.PlanetCommandListener
 import de.astride.planetsystem.core.listeners.PlanetListener
 import de.astride.planetsystem.core.listeners.PlayerListener
+import de.astride.planetsystem.core.service.ConfigService
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
+import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
 import org.bukkit.Bukkit
-import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.event.HandlerList
+import org.bukkit.plugin.ServicePriority
+import org.slf4j.LoggerFactory
 
+class PlanetSystem : DarkPlugin() {
 
-class PlanetSystem : JavaPlugin() {
+    override fun onLoad() = onLoad {
+        Bukkit.getServicesManager().register(
+            ConfigService::class.java,
+            ConfigService(dataFolder),
+            this,
+            ServicePriority.Normal
+        ) //Important for ConfigService.instance
+        messages =
+            ConfigService.instance.config.spigotGsonMessages.availableMessages //Important for CommandSender.sendConfigurableMessage(name: String)
 
-	override fun onLoad() {
-		holder = HolderImpl()
-	}
+    }
 
-	override fun onEnable() {
-		register()
-		logger.info("PlanetSystem started")
-	}
+    override fun onEnable() = onEnable {
+        Holder.instance = HolderImpl() //For Holder.Impl.holder
 
-	override fun onDisable() {
-		saveAll()
-		logger.info("PlanetSystem stopped")
-	}
+        //For Mongodb logs (stops this stuff)!
+        (LoggerFactory.getILoggerFactory() as LoggerContext).getLogger("org.mongodb.driver").level = Level.ERROR
 
-	private fun saveAll() {
-		holder.planetData.loadedPlanets.forEach { holder.planetData.save(it.ownerUniqueID) }
-		holder.playerData.players.forEach { holder.playerData.save(it.uuid) }
-	}
+        register()
 
-	private fun register() {
-		registerCommands()
-		registerListeners()
+        logger.info("PlanetSystem started")
+    }
 
-		//TODO: Add config handling
-		Bukkit.getScheduler().runTaskTimer(this, { saveAll() }, 0, 20 * 60)
-	}
+    override fun onDisable() = onDisable {
+        Bukkit.getScheduler().cancelTasks(this)
 
-	private fun registerCommands() {
-		PlanetCommand(this)
-	}
+        HandlerList.unregisterAll(this)
+        Bukkit.getServicesManager().unregisterAll(this)
 
-	private fun registerListeners() {
-		PlanetListener(this)
-		PlayerListener(this)
-	}
+        logger.info("PlanetSystem stopped")
+    }
+
+    private fun register() {
+        registerCommands()
+        registerListeners()
+
+        //TODO: Add planets handling
+        Bukkit.getScheduler().runTaskTimer(this, { if (isEnabled) saveAll() }, 0, 20 * 60)
+    }
+
+    private fun registerCommands() {
+        PlanetCommand(this)
+    }
+
+    private fun registerListeners() {
+        PlanetListener(this)
+        PlayerListener(this)
+        PlanetCommandListener(this)
+    }
+
+    private fun saveAll() {
+        Holder.instance.loadedPlanets.forEach { it.save() }
+        Holder.instance.players.forEach { it.save() }
+    }
 
 }

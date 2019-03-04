@@ -1,11 +1,20 @@
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.api.holder.Holder.Impl.holder
-import de.astride.planetsystem.api.holder.isNotInHolderWorld
+import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.find
+import de.astride.planetsystem.api.holder.isNotInGameWorld
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.toBukkitLocation
+import de.astride.planetsystem.api.planet.LoadedPlanet
+import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.core.flags.Flags
+import de.astride.planetsystem.core.functions.toPlanet
+import de.astride.planetsystem.core.player.BaseOfflinePlanetPlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
+import org.bukkit.GameMode
 import org.bukkit.entity.Arrow
 import org.bukkit.entity.EntityType.*
 import org.bukkit.entity.FishHook
@@ -14,6 +23,7 @@ import org.bukkit.entity.TNTPrimed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
@@ -21,40 +31,53 @@ import java.util.*
 
 class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
+    private val holder get() = Holder.instance
+
     @EventHandler
-    fun onPlayerJoinEvent(event: PlayerJoinEvent) {
-        val uniqueId = event.player.uniqueId
-        holder.databaseHandler.create(UUID.randomUUID(), uniqueId) { _ ->
-            holder.playerData.load(uniqueId) {
-                it.player.teleport(it.planet.spawnLocation.toBukkitLocation())
-            }
-        }
+    fun on(event: PlayerChangedWorldEvent) {
+        if (event.player.isNotInGameWorld()) return
+        event.player.gameMode = GameMode.SURVIVAL
+    }
+
+//    @EventHandler
+//    fun on(event: PlayerMoveEvent) {
+//        if (event.player.isNotInGameWorld()) return
+//        val planet = holder.loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
+//        if (!planet.inner.isInside(event.to.toVector())) event.player.teleportHome(planet)
+//    }
+
+    @EventHandler
+    fun onPlayerLoginEvent(event: PlayerJoinEvent) {
+        val owner = Owner(event.player.uniqueId)
+        val databasePlanet = holder.databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
+        BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load { it.teleportHome() }
     }
 
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
-        val owner = event.player.uniqueId
-        holder.planetData.unload(owner)
-        holder.playerData.unload(owner)
+        val owner = Owner(event.player.uniqueId)
+        println(owner)
+        println(holder.loadedPlanets)
+        println(holder.players)
+        holder.loadedPlanets.find(owner)?.unload()
+        holder.players.find(owner)?.unload()
     }
 
     @EventHandler
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        event.respawnLocation = holder
-            .planetData
-            .getLoadedPlanetByOwner(event.player.uniqueId)
-            ?.spawnLocation
-            ?.toBukkitLocation()
-            ?: return
+        val planet = holder.loadedPlanets.find(Owner(event.player.uniqueId)) ?: return
+        event.respawnLocation = planet.spawnLocation.toBukkitLocation(planet)
     }
 
     @EventHandler(priority = EventPriority.LOW)
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
+        if (!Flags.PvP.value) return
+
         val damager = event.damager
         val type = damager.type
         when {
             event.entity.type != PLAYER -> return
-            event.entity.isNotInHolderWorld() -> return
+            event.entity.isNotInGameWorld() -> return
             type == PLAYER ||
                     type == PRIMED_TNT && (damager as TNTPrimed).source.type == PLAYER ||
                     type == ARROW && (damager as Arrow).shooter is Player ||
@@ -64,3 +87,6 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
 }
+
+fun Player.teleportHome(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
+fun PlanetPlayer.teleportHome() = player.teleportHome(planet)

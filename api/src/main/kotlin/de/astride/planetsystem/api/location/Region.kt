@@ -4,8 +4,8 @@ import org.bukkit.util.Vector
 
 interface Region {
 
-	val min: PlanetLocation
-	val max: PlanetLocation
+    val min: PlanetLocation
+    val max: PlanetLocation
 
 }
 
