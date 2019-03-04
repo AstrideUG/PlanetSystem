@@ -30,12 +30,9 @@ interface Holder {
 
 fun Entity.isNotInHolderWorld() = world != Holder.instance.gridHandler.world
 
-fun Holder.find(owner: Owner): LoadedPlanet? = loadedPlanets.find { it.owner == owner }
-fun Holder.find(id: UniqueID): LoadedPlanet? = loadedPlanets.find { it.uniqueID == id }
-fun Holder.find(location: Location): LoadedPlanet? = loadedPlanets.find {
-    it.inner.isInside(PlanetLocation(it, location))
-}
-
-
 fun MutableSet<PlanetPlayer>.find(owner: Owner) = find { it.owner == owner }
 fun MutableSet<LoadedPlanet>.find(owner: Owner) = find { it.owner == owner }
+fun MutableSet<LoadedPlanet>.find(id: UniqueID): LoadedPlanet? = find { it.uniqueID == id }
+fun MutableSet<LoadedPlanet>.find(location: Location) = find {
+    it.inner.isInside(PlanetLocation(it, location))
+}

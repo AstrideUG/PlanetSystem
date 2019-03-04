@@ -39,6 +39,6 @@ fun PlanetLocation.toBukkitLocation(input: Vector): Location =
     }
 
 fun PlanetLocation.toBukkitLocation(): Location? {
-    val toVector = Holder.instance.find(planetID!!)?.middle?.toVector() ?: return null
+    val toVector = Holder.instance.loadedPlanets.find(planetID!!)?.middle?.toVector() ?: return null
     return toBukkitLocation(toVector)
 }

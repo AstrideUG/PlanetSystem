@@ -96,7 +96,7 @@ fun Holder.findOrMessage(
     byTarget: Boolean = false
 ): LoadedPlanet? {
     val prefix = if (byTarget) "Target" else "Player"
-    val planet = find(owner)
+    val planet = loadedPlanets.find(owner)
     if (planet == null) sender.sendMessage(
         messages["${prefix}AreNotAOwnerOfAIsland"]
             ?.replace("<UUID>", owner.toString(), true)

@@ -96,7 +96,7 @@ class BaseLoadedPlanet(
             middle.world.getNearbyEntities(middle, distance, distance, distance)
 
         entities.filter { it is Player }.forEach {
-            it.teleport(holder.find(Owner(it.uniqueId))?.middle ?: return@forEach)
+            it.teleport(holder.loadedPlanets.find(Owner(it.uniqueId))?.middle ?: return@forEach)
         }
 
         holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))

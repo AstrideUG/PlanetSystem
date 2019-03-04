@@ -27,7 +27,7 @@ interface PlanetPlayer : OfflinePlanetPlayer {
 
 fun PlanetPlayer.canBuild(block: Block) = canBuild(block.location)
 fun PlanetPlayer.canBuild(location: Location): Boolean {
-    val planet = Holder.instance.find(location) ?: return false
+    val planet = Holder.instance.loadedPlanets.find(location) ?: return false
     return planet.owner == owner || owner in planet.members
 }
 

@@ -28,7 +28,7 @@ class InfoCommand : PlanetCommandModule {
 
             //TODO: ADD 1 arg check
 
-            val loadedPlanet = Holder.instance.find(player.location)
+            val loadedPlanet = Holder.instance.loadedPlanets.find(player.location)
             if (loadedPlanet == null)
                 player.sendConfigurableMessage("Planet.Command.Info.CanNotFindLoadedPlanetAtThatLocation")
             else {

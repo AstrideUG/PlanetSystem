@@ -5,7 +5,10 @@ import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInHolderWorld
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.location.toBukkitLocation
+import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.player.BaseOfflinePlanetPlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
@@ -22,6 +25,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
@@ -37,13 +41,19 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
+    fun on(event: PlayerMoveEvent) {
+        if (event.player.isNotInHolderWorld()) return
+        val planet = holder.loadedPlanets.find(event.player.location) ?: return
+        val vector = event.to.toVector()
+        if (!planet.outer.isInside(vector) && planet.outer.isInside(vector))
+            event.player.teleportHome(planet)
+    }
+
+    @EventHandler
     fun onPlayerJoinEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
-
         val databasePlanet = holder.databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
-        BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load {
-            it.player.teleport(it.planet.spawnLocation.toBukkitLocation())
-        }
+        BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load { it.teleportHome() }
     }
 
     @EventHandler
@@ -76,5 +86,8 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         }
 
     }
+
+    private fun Player.teleportHome(planet: Planet) = teleport(planet.spawnLocation.toBukkitLocation())
+    private fun PlanetPlayer.teleportHome() = player.teleportHome(planet)
 
 }
