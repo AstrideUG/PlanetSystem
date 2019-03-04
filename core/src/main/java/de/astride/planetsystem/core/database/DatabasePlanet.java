@@ -5,8 +5,10 @@ import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import xyz.morphia.annotations.*;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -47,4 +49,8 @@ public class DatabasePlanet implements de.astride.planetsystem.api.database.Data
         );
     }
 
+    @NotNull
+    public Set<UUID> getMembers() {
+        return this.members != null ? this.members : new HashSet<>();
+    }
 }

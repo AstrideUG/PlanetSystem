@@ -24,6 +24,23 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 //        }
 
         morphia.map(DatabasePlanet::class.java, DatabasePlayer::class.java)
+//        morphia.mapper.addMappedClass(PlanetLocation::class.java).
+
+//        morphia.mapper.converters.addConverter(object : TypeConverter() {
+//            override fun decode(
+//                targetClass: Class<*>?,
+//                fromDBObject: Any,
+//                optionalExtraInfo: MappedField?
+//            ): PlanetLocation {
+//                fromDBObject as BasicDBObject
+//
+//                val id = UniqueID(fromDBObject["planetID"] as UUID)
+//                val vector = fromDBObject["vector"] as Vector
+//                val yaw = fromDBObject["yaw"] as Float
+//                val pitch = fromDBObject["pitch"] as Float
+//                return PlanetLocation(id, vector, yaw, pitch)
+//            }
+//        })
 
         val dataStore = morphia.createDatastore(mongoClient, "cosmic")
 //        dataStore.ensureIndexes()

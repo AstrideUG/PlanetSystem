@@ -112,12 +112,8 @@ class BaseLoadedPlanet(
 
     override fun save() {
         val databasePlanet = DatabasePlanet.by(this)
-        println("hallo")
-        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
-        DynamicNetworkFactory.dynamicNetworkAPI.hasSchematic(uniqueID.uuid) {
-            println("hasSchematic ${uniqueID.uuid}: $it")
-        }
         holder.databaseHandler.savePlanet(databasePlanet)
+        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
     }
 
 

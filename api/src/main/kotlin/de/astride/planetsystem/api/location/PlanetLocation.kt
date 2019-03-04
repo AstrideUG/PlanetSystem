@@ -7,16 +7,18 @@ import de.astride.planetsystem.api.planet.LoadedPlanet
 import lombok.NoArgsConstructor
 import org.bukkit.Location
 import org.bukkit.util.Vector
-import xyz.morphia.annotations.Transient
 
 @NoArgsConstructor
-data class PlanetLocation(
-    @Transient
-    var planetID: UniqueID,
+
+data class PlanetLocation constructor(
+//    @Transient
+    var planetID: UniqueID?,
     var vector: Vector = Vector(),
     var yaw: Float = 0f,
     var pitch: Float = 0f
 ) {
+
+    constructor() : this(null)
 
     constructor(planetID: UniqueID, location: Location) : this(
         planetID,
@@ -37,6 +39,6 @@ fun PlanetLocation.toBukkitLocation(input: Vector): Location =
     }
 
 fun PlanetLocation.toBukkitLocation(): Location? {
-    val toVector = Holder.instance.find(planetID)?.middle?.toVector() ?: return null
+    val toVector = Holder.instance.find(planetID!!)?.middle?.toVector() ?: return null
     return toBukkitLocation(toVector)
 }
