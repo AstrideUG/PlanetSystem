@@ -21,7 +21,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
         world = generateVoidWorld(name)
     }
 
-    override fun getId(location: Location): Int = location.clone().blockX / (maxSize / 2)
+    override fun getId(location: Location): Int = location.clone().blockX / maxSize
 
     override fun removeEntry(i: Int) {
         used.remove(i)
