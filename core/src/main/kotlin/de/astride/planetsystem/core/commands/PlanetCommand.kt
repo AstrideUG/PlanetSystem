@@ -47,6 +47,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             AddCommand(),
             RemoveCommand(),
             SetHomeCommand(),
+            ShowInnerCommand(),
             VisitCommand()
         ).forEach { command ->
             command.usage.forEach { commandModules[it.toLowerCase()] = command }

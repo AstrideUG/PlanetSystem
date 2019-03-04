@@ -2,7 +2,7 @@ package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
-import de.astride.planetsystem.api.holder.isNotInHolderWorld
+import de.astride.planetsystem.api.holder.isNotInGameWorld
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.canBuild
 import de.astride.planetsystem.core.log.MessageKeys
@@ -33,7 +33,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun onPlayerInteractEvent(event: PlayerInteractEvent) {
-        if (event.player.isNotInHolderWorld()) return
+        if (event.player.isNotInGameWorld()) return
         if (event.action != Action.PHYSICAL) return
         val material = event.clickedBlock?.type ?: return
         if (material == Material.SOIL) return
@@ -52,7 +52,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 }
 
 private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
-    if (player.isNotInHolderWorld()) return
+    if (player.isNotInGameWorld()) return
 
     val planetPlayer = Holder.instance.players.find(Owner(player.uniqueId)) ?: return
     if (planetPlayer.canBuild(block)) return

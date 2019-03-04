@@ -2,7 +2,7 @@ package de.astride.planetsystem.core.commands.modules.expand.modules
 
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
-import de.astride.planetsystem.api.holder.isNotInHolderWorld
+import de.astride.planetsystem.api.holder.isNotInGameWorld
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.replace
@@ -22,7 +22,7 @@ class InfoCommand : PlanetCommandModule {
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
 
         val player = planetPlayer.player
-        if (player.isNotInHolderWorld())
+        if (player.isNotInGameWorld())
             player.sendConfigurableMessage("Planet.Command.Info.WorldIsNotSkyBlockWorld")
         else {
 

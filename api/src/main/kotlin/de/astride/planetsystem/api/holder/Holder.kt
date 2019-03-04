@@ -9,6 +9,7 @@ import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import org.bukkit.Location
+import org.bukkit.World
 import org.bukkit.entity.Entity
 
 interface Holder {
@@ -28,11 +29,13 @@ interface Holder {
 
 }
 
-fun Entity.isNotInHolderWorld() = world != Holder.instance.gridHandler.world
+fun Entity.isNotInGameWorld() = world.isNotGameWorld()
+fun World.isNotGameWorld() = this != Holder.instance.gridHandler.world
 
 fun MutableSet<PlanetPlayer>.find(owner: Owner) = find { it.owner == owner }
 fun MutableSet<LoadedPlanet>.find(owner: Owner) = find { it.owner == owner }
 fun MutableSet<LoadedPlanet>.find(id: UniqueID): LoadedPlanet? = find { it.uniqueID == id }
-fun MutableSet<LoadedPlanet>.find(location: Location) = find {
-    it.inner.isInside(PlanetLocation(it, location))
-}
+fun MutableSet<LoadedPlanet>.find(location: Location): LoadedPlanet? =
+    if (location.world.isNotGameWorld()) null else find {
+        it.inner.isInside(PlanetLocation(it, location))
+    }

@@ -2,7 +2,7 @@ package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
-import de.astride.planetsystem.api.holder.isNotInHolderWorld
+import de.astride.planetsystem.api.holder.isNotInGameWorld
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.isInside
@@ -36,13 +36,13 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun on(event: PlayerChangedWorldEvent) {
-        if (event.player.isNotInHolderWorld()) return
+        if (event.player.isNotInGameWorld()) return
         event.player.gameMode = GameMode.SURVIVAL
     }
 
     @EventHandler
     fun on(event: PlayerMoveEvent) {
-        if (event.player.isNotInHolderWorld()) return
+        if (event.player.isNotInGameWorld()) return
         val planet = holder.loadedPlanets.find(event.player.location) ?: return
         val vector = event.to.toVector()
         if (!planet.inner.isInside(vector) && planet.outer.isInside(vector))
@@ -78,7 +78,7 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         val type = damager.type
         when {
             event.entity.type != PLAYER -> return
-            event.entity.isNotInHolderWorld() -> return
+            event.entity.isNotInGameWorld() -> return
             type == PLAYER ||
                     type == PRIMED_TNT && (damager as TNTPrimed).source.type == PLAYER ||
                     type == ARROW && (damager as Arrow).shooter is Player ||
