@@ -13,21 +13,23 @@ import java.util.*
 class PlanetCommand(javaPlugin: JavaPlugin) : Command(
     javaPlugin,
     ConfigService.instance.config.planetCommand,
-    usage = "[Home]" +
-            "|[Info]" +
-            "|[Invite]" +
-            "|[Kick]" +
-            "|[SetHome]" +
-            "|[Visit]" +
-            "|[Expand Info]" +
-            "|[Expand Expand]" +
-            "|[Expand Expand Chat]" +
-            "|[Expand Expand Force]" +
-            "|[Expand Shape]" +
-            "|[Expand Shape Cube]" +
-            "|[Expand Style]" +
-            "|[Expand Style ID <ID>]" +
-            "|[Expand Style SubID <ID>]",
+    usage = "Home" +
+            "|Info" +
+            "|List" +
+            "|Top" +
+            "|Add <Spieler>" +
+            "|Remove <Spieler>" +
+            "|SetHome" +
+            "|Visit <Spieler>" +
+            "|Expand Info" +
+            "|Expand Expand" +
+            "|Expand Expand Chat" +
+            "|Expand Expand Force" +
+            "|Expand Shape" +
+            "|Expand Shape Cube" +
+            "|Expand Style" +
+            "|Expand Style ID <ID>" +
+            "|Expand Style SubID <ID>",
     minLength = 1,
     maxLength = 4,
     aliases = *ConfigService.instance.config.planetCommandAliases
@@ -40,6 +42,8 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             ExpandCommand(),
             HomeCommand(),
             InfoCommand(),
+            ListCommand(),
+            TopCommand(),
             AddCommand(),
             RemoveCommand(),
             SetHomeCommand(),

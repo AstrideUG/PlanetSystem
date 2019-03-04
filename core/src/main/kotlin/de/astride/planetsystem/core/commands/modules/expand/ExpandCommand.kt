@@ -2,8 +2,10 @@ package de.astride.planetsystem.core.commands.modules.expand
 
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
-import de.astride.planetsystem.core.commands.modules.expand.modules.*
 import de.astride.planetsystem.core.commands.modules.expand.modules.ExpandCommand
+import de.astride.planetsystem.core.commands.modules.expand.modules.InfoCommand
+import de.astride.planetsystem.core.commands.modules.expand.modules.ShapeCommand
+import de.astride.planetsystem.core.commands.modules.expand.modules.StyleCommand
 import de.astride.planetsystem.core.log.MessageKeys
 import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
@@ -29,17 +31,14 @@ class ExpandCommand : PlanetCommandModule {
         arrayOf(
             ExpandCommand(),
             InfoCommand(),
-            ListCommand(),
             ShapeCommand(),
-            StyleCommand(),
-            TopCommand()
+            StyleCommand()
         ).forEach { command ->
             command.usage.forEach { commandModules[it.toLowerCase()] = command }
         }
     }
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
-
         when {
             args.isEmpty() -> planetPlayer.player.openInventory(INVENTORY_MAIN)
             args[0].isModule() ->

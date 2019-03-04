@@ -24,7 +24,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
-import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerLoginEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
@@ -50,7 +50,7 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
-    fun onPlayerJoinEvent(event: PlayerJoinEvent) {
+    fun onPlayerLoginEvent(event: PlayerLoginEvent) {
         val owner = Owner(event.player.uniqueId)
         val databasePlanet = holder.databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
         BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load { it.teleportHome() }

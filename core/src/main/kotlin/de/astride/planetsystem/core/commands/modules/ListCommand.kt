@@ -1,4 +1,4 @@
-package de.astride.planetsystem.core.commands.modules.expand.modules
+package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule

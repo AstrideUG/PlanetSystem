@@ -9,6 +9,7 @@ interface PlanetCommandModule {
 
     fun execute(planetPlayer: PlanetPlayer, args: Array<String>)
 
-    fun permissions(args: Array<String>): String = "${PlanetSystem::class.qualifiedName}.Commands.Planet.$usage"
+    fun permissions(args: Array<String>): String =
+        "${PlanetSystem::class.simpleName}.Commands.Planet.${usage.firstOrNull()}"
 
 }
