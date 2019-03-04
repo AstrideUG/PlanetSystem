@@ -17,7 +17,7 @@ import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.location.toBukkitVector
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
-import de.astride.planetsystem.core.database.BasicDatabasePlanet
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
 import lombok.Data
 import lombok.EqualsAndHashCode

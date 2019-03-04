@@ -1,13 +1,17 @@
-package de.astride.planetsystem.core.database;
+package de.astride.planetsystem.core.database.entities;
 
 import de.astride.planetsystem.api.database.DatabasePlanet;
 import de.astride.planetsystem.api.inline.Owner;
 import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.planet.Planet;
+import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import xyz.morphia.annotations.*;
+import xyz.morphia.annotations.Entity;
+import xyz.morphia.annotations.Indexed;
+import xyz.morphia.annotations.Property;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -17,11 +21,10 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity(value = "planets", noClassnameStored = true)
-public class BasicDatabasePlanet implements DatabasePlanet {
-    @Id
-    @Indexed(options = @IndexOptions(unique = true))
-    private UUID uuid;
+public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlanet {
+
     @Indexed
     private String name;
     @Indexed
@@ -33,7 +36,7 @@ public class BasicDatabasePlanet implements DatabasePlanet {
     private Map<String, Object> metaData;
 
     public BasicDatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final Set<UUID> members, final byte size, final PlanetLocation planetLocation) {
-        this.uuid = uuid;
+        super(uuid);
         this.name = name;
         this.ownerUniqueId = ownerUniqueId;
         this.members = members;

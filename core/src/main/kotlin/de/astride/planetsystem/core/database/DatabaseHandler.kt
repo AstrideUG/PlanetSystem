@@ -6,6 +6,8 @@ import de.astride.planetsystem.api.database.DatabasePlayer
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import xyz.morphia.Morphia
 
 

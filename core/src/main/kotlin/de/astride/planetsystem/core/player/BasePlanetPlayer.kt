@@ -5,7 +5,7 @@ import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.log.KeyLogger
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.core.database.BasicDatabasePlayer
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import de.astride.planetsystem.core.log.BasePlayerKeyLogger
 import lombok.Data
 import lombok.EqualsAndHashCode
