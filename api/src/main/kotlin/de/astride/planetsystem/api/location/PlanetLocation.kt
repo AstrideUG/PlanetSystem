@@ -27,8 +27,10 @@ data class PlanetLocation constructor(
         location.pitch
     )
 
-    constructor(planet: LoadedPlanet, location: Location) :
-            this(planet.uniqueID, location.clone().subtract(planet.middle) /* Location - middle-point */)
+    constructor(planet: LoadedPlanet, location: Location) : this(
+        planet.uniqueID,
+        location.clone().subtract(planet.middle).add(Vector(0.5, 0.0, 0.5))/* Location - middle-point */
+    )
 
 }
 
@@ -42,3 +44,6 @@ fun PlanetLocation.toBukkitLocation(): Location? {
     val toVector = Holder.instance.loadedPlanets.find(planetID!!)?.middle?.toVector() ?: return null
     return toBukkitLocation(toVector)
 }
+
+//TODO Add to Darkness
+fun Number.toBukkitVector() = toDouble().run { Vector(this, this, this) }

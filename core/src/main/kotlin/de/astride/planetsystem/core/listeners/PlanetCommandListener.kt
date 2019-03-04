@@ -50,6 +50,7 @@ class PlanetCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             messages["Planet.Command.Style.Inventory.Name"]?.takeIf { it.checkTitle() }?.apply {
                 //                val prefix = "Planet.Command.Style.Inventory.Entry."
                 takeIf { displayName == ChatColor.GREEN.toString()/*messages["${prefix}Style"]*/ }?.apply {
+                    player.closeInventory()
                     player.command("Style SubID ${event.currentItem.durability}")
                 }
             },

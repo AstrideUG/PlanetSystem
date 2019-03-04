@@ -14,6 +14,7 @@ import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.toBukkitLocation
+import de.astride.planetsystem.api.location.toBukkitVector
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.core.database.DatabasePlanet
@@ -72,14 +73,14 @@ class BaseLoadedPlanet(
         get() = super.atmosphere
         set(atmosphere) {
             super.atmosphere = atmosphere
-            val (min, max) = super.atmosphere.size.toBukkitVector().generateMinAndMax()
+            val (min, max) = (super.atmosphere.size - 1).toBukkitVector().generateMinAndMax()
             inner.min.vector = min
             inner.max.vector = max
         }
 
     init {
 
-        val region = atmosphere.size.toBukkitVector().generateMinAndMax().toBaseRegion()
+        val region = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
 
         inner = region
         outer = region
@@ -125,9 +126,6 @@ class BaseLoadedPlanet(
     private fun Vector.toPlanetLocation() = PlanetLocation(uniqueID, this, middle.yaw, middle.pitch)
 }
 
-//TODO Add to Darkness
-private fun Number.toBukkitVector() = toDouble().run { Vector(this, this, this) }
-
-private fun Vector.generateMinAndMax() = clone().multiply(-1) to clone().subtract(1.toBukkitVector())
+private fun Vector.generateMinAndMax() = clone().multiply(-1) to clone()
 
 

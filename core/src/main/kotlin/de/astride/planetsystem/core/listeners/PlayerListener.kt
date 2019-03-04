@@ -5,7 +5,6 @@ import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInGameWorld
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
-import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -25,7 +24,6 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerChangedWorldEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
@@ -40,14 +38,12 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         event.player.gameMode = GameMode.SURVIVAL
     }
 
-    @EventHandler
-    fun on(event: PlayerMoveEvent) {
-        if (event.player.isNotInGameWorld()) return
-        val planet = holder.loadedPlanets.find(event.player.location) ?: return
-        val vector = event.to.toVector()
-        if (!planet.inner.isInside(vector) && planet.outer.isInside(vector))
-            event.player.teleportHome(planet)
-    }
+//    @EventHandler
+//    fun on(event: PlayerMoveEvent) {
+//        if (event.player.isNotInGameWorld()) return
+//        val planet = holder.loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
+//        if (!planet.inner.isInside(event.to.toVector())) event.player.teleportHome(planet)
+//    }
 
     @EventHandler
     fun onPlayerLoginEvent(event: PlayerJoinEvent) {

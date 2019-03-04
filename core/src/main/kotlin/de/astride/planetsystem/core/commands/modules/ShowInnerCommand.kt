@@ -16,10 +16,12 @@ class ShowInnerCommand : PlanetCommandModule {
             return
         }
         val inner = planet.inner
-        inner.min.toBukkitLocation()?.block?.type = Material.REDSTONE_BLOCK
-        inner.max.toBukkitLocation()?.block?.type = Material.REDSTONE_BLOCK
-        inner.min.vector.midpoint(inner.max.vector)?.toLocation(Holder.instance.gridHandler.world)?.block?.type =
-            Material.REDSTONE_BLOCK
+        val min = inner.min.toBukkitLocation() ?: return
+        val max = inner.max.toBukkitLocation() ?: return
+        min.block?.type = Material.REDSTONE_BLOCK
+        max.block?.type = Material.REDSTONE_BLOCK
+        val midpoint = min.toVector().getMidpoint(max.toVector()).toLocation(Holder.instance.gridHandler.world)
+        midpoint.block.type = Material.EMERALD_BLOCK
     }
 
 }
