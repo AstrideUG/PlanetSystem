@@ -8,6 +8,7 @@ import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.player.BaseOfflinePlanetPlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
@@ -70,6 +71,8 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler(priority = EventPriority.LOW)
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
+        if (!Flags.PvP.value) return
+
         val damager = event.damager
         val type = damager.type
         when {
