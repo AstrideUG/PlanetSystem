@@ -21,7 +21,18 @@ class TopCommand : PlanetCommandModule {
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val prefix =
             "${ChatColor.AQUA}${ChatColor.BOLD}Planets ${ChatColor.WHITE}┃${ChatColor.RESET} ${ChatColor.GREEN}"
-        "${prefix}Top #10".sendTo(planetPlayer.player)
+
+        val player = planetPlayer.player
+        if (args.size > 1) {
+            //TODO: Send better error message (use a better message system)
+            "Use /planet Top [size]".sendTo(player)
+            return
+        }
+
+        val size = args.ifEmpty { arrayOf(10) }[0].toString().toIntOrNull() ?: 10
+
+
+        "${prefix}Top #$size".sendTo(player)
 
         @Suppress("UNCHECKED_CAST")
         (holder.loadedPlanets.toMutableSet() as MutableSet<Planet>)
@@ -31,15 +42,14 @@ class TopCommand : PlanetCommandModule {
                 }
             }
             .sortedBy { it.atmosphere.size }
+            .take(size)
             .asReversed()
-            .take(10)
             .withIndex()
             .forEach { (index, planet) ->
                 "$prefix#${index + 1}: ${ChatColor.WHITE}${Fetcher.getName(planet.owner.uuid)} (${planet.atmosphere.size})"
-                    .sendTo(planetPlayer.player)
+                    .sendTo(player)
             }
 
-        planetPlayer.player.sendMessage("${usage.first().capitalize()} not implemented yet. Sorry :(")
     }
 
 }
