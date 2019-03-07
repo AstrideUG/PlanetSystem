@@ -83,7 +83,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         if (event.player.isNotInGameWorld()) return
         if (event.action != Action.PHYSICAL) return
         val material = event.clickedBlock?.type ?: return
-        if (material == Material.SOIL) return
+        if (material != Material.SOIL) return
 
         event.cancel()
         event.setUseInteractedBlock(Event.Result.DENY)
