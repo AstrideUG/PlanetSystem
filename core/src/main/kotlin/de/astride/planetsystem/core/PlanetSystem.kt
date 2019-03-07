@@ -5,6 +5,7 @@ import ch.qos.logback.classic.LoggerContext
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.flags.Flags
+import de.astride.planetsystem.core.functions.deleteGameWorld
 import de.astride.planetsystem.core.holder.HolderImpl
 import de.astride.planetsystem.core.listeners.PlanetCommandListener
 import de.astride.planetsystem.core.listeners.PlanetListener
@@ -48,6 +49,8 @@ class PlanetSystem : DarkPlugin() {
 
         HandlerList.unregisterAll(this)
         Bukkit.getServicesManager().unregisterAll(this)
+
+        deleteGameWorld()
 
         logger.info("PlanetSystem stopped")
     }
