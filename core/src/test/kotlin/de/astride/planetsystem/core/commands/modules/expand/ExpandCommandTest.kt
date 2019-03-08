@@ -69,7 +69,7 @@ class ExpandCommandTest {
         val planetLocation = PlanetLocation(null)
         whenever(planetPlayer.planet.inner).thenReturn(BaseRegion(planetLocation, planetLocation))
         whenever(planetPlayer.player).thenReturn(mock())
-        val location = Location(mock(), 0.0, 0.0, 0.0)
+        val location = Location(mock(), 10.0, 10.0, 10.0)
         whenever(planetPlayer.planet.middle).thenReturn(location)
         whenever(planetPlayer.player.location).thenReturn(location)
         whenever(command.execute(planetPlayer, emptyArray())).thenCallRealMethod()
