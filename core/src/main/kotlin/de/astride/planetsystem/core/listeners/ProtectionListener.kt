@@ -48,9 +48,29 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             type != Material.TRAPPED_CHEST &&
             type != Material.ANVIL &&
             type != Material.CAKE_BLOCK &&
+            type != Material.DISPENSER &&
+            type != Material.DROPPER &&
+            type != Material.HOPPER &&
+            type != Material.STONE_BUTTON &&
+            type != Material.STONE_PLATE &&
+            type != Material.TRAP_DOOR &&
+            type != Material.LEVER &&
             type != Material.JUKEBOX &&
             type != Material.FURNACE &&
-            type != Material.BURNING_FURNACE
+            type != Material.BURNING_FURNACE &&
+            type != Material.ACACIA_DOOR &&
+            type != Material.BIRCH_DOOR &&
+            type != Material.DARK_OAK_DOOR &&
+            type != Material.JUNGLE_DOOR &&
+            type != Material.SPRUCE_DOOR &&
+            type != Material.WOODEN_DOOR &&
+            type != Material.ACACIA_FENCE_GATE &&
+            type != Material.BIRCH_FENCE_GATE &&
+            type != Material.DARK_OAK_FENCE_GATE &&
+            type != Material.JUNGLE_FENCE_GATE &&
+            type != Material.SPRUCE_FENCE_GATE &&
+            type != Material.FENCE_GATE &&
+            type != Material.LEVER
         ) return
 
         event.block(block.location, event.player.uniqueId)
