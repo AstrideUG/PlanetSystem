@@ -1,6 +1,7 @@
 package de.astride.planetsystem.core.flags
 
 import org.bukkit.World
+import org.bukkit.entity.EntityType
 
 /**
  * @author Lars Artmann | LartyHD
@@ -18,10 +19,48 @@ sealed class Flags {
     object Animals : Flags() {
         override var value: Boolean = true
 
+        val types = arrayOf(
+            EntityType.WOLF,
+            EntityType.PIG,
+            EntityType.SHEEP,
+            EntityType.COW,
+            EntityType.CHICKEN,
+            EntityType.SQUID,
+            EntityType.BAT,
+            EntityType.MUSHROOM_COW,
+//            SNOWMAN,
+            EntityType.OCELOT,
+            EntityType.HORSE,
+            EntityType.RABBIT,
+            EntityType.VILLAGER
+        )
+
     }
 
     object Mobs : Flags() {
         override var value: Boolean = true
+
+        val types = arrayOf(
+            EntityType.IRON_GOLEM,
+            EntityType.CREEPER,
+            EntityType.SKELETON,
+            EntityType.SPIDER,
+            EntityType.GIANT,
+            EntityType.ZOMBIE,
+            EntityType.SLIME,
+            EntityType.GHAST,
+            EntityType.PIG_ZOMBIE,
+            EntityType.ENDERMAN,
+            EntityType.CAVE_SPIDER,
+            EntityType.SILVERFISH,
+            EntityType.BLAZE,
+            EntityType.MAGMA_CUBE,
+            EntityType.ENDER_DRAGON,
+            EntityType.WITHER,
+            EntityType.WITCH,
+            EntityType.ENDERMITE,
+            EntityType.GUARDIAN
+        )
     }
 
     object FireTick : Flags() {

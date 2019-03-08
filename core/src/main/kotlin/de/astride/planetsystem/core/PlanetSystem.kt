@@ -10,6 +10,7 @@ import de.astride.planetsystem.core.holder.HolderImpl
 import de.astride.planetsystem.core.listeners.PlanetCommandListener
 import de.astride.planetsystem.core.listeners.PlanetListener
 import de.astride.planetsystem.core.listeners.PlayerListener
+import de.astride.planetsystem.core.listeners.ProtectionListener
 import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
@@ -71,6 +72,7 @@ class PlanetSystem : DarkPlugin() {
         PlanetListener(this)
         PlayerListener(this)
         PlanetCommandListener(this)
+        ProtectionListener(this)
     }
 
     private fun saveAll() {
