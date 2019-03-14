@@ -104,9 +104,13 @@ class BaseLoadedPlanet(
 
         holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
 
-        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).fastmode(true).build().apply {
-            val cuboidRegion = CuboidRegion(this.world, outer.min.toWEVector(), outer.max.toWEVector())
-            setBlocks(cuboidRegion, @Suppress("DEPRECATION") (BaseBlock(Material.AIR.id)))
+        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).build().apply {
+            val cuboidRegion = CuboidRegion(
+                this.world,
+                outer.min.toWEVector(this@BaseLoadedPlanet),
+                outer.max.toWEVector(this@BaseLoadedPlanet)
+            )
+            setBlocks(cuboidRegion, @Suppress("DEPRECATION") BaseBlock(Material.AIR.id))
             flushQueue()
         }
 

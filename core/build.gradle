@@ -19,6 +19,10 @@ dependencies {
     }
 
     // https://mvnrepository.com/artifact/net.milkbowl.vault/VaultAPI
-    compileOnly group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6'
+    compileOnly("net.milkbowl.vault:VaultAPI:1.6") {
+        exclude(group: "org.bukkit")
+    }
+
+    testCompile("org.spigotmc:spigot-api:${versions_spigot}")
 
 }

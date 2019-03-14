@@ -29,9 +29,8 @@ import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+class PlayerListener(javaPlugin: JavaPlugin, val holder: Holder = Holder.instance) : Listener(javaPlugin) {
 
-    private val holder get() = Holder.instance
 
     @EventHandler
     fun on(event: PlayerChangedWorldEvent) {
@@ -56,9 +55,6 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         val owner = Owner(event.player.uniqueId)
-        println(owner)
-        println(holder.loadedPlanets)
-        println(holder.players)
         holder.loadedPlanets.find(owner)?.unload()
         holder.players.find(owner)?.unload()
     }
@@ -71,12 +67,12 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler(priority = EventPriority.LOW)
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
-        if (!Flags.PvP.value) return
+        if (Flags.PvP.value) return
 
         val damager = event.damager
         val type = damager.type
         when {
-            event.entity.type != PLAYER -> return
+            event.entityType != PLAYER -> return
             event.entity.isNotInGameWorld() -> return
             type == PLAYER ||
                     type == PRIMED_TNT && (damager as TNTPrimed).source.type == PLAYER ||
