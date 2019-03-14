@@ -22,7 +22,7 @@ subprojects {
     apply plugin: 'idea'
 
     group = "de.astride"
-    version = "1.0-RELEASE"
+    version = "1.0.1-SNAPSHOT"
     libsDirName = "libraries"
 
     sourceCompatibility = JavaVersion.VERSION_1_8
