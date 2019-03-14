@@ -18,6 +18,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|List <Loaded/Database>" +
             "|Top" +
             "|ShowInner" +
+            "|Restart" +
             "|Add <Spieler>" +
             "|Remove <Spieler>" +
             "|SetHome" +
@@ -44,6 +45,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             HomeCommand(),
             InfoCommand(),
             ListCommand(),
+            RestartCommand(),
             TopCommand(),
             AddCommand(),
             RemoveCommand(),

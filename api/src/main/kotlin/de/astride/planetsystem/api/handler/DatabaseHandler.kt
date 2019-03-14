@@ -9,10 +9,12 @@ interface DatabaseHandler {
 
     val allPlanets: Set<DatabasePlanet>
 
-    fun savePlanet(databasePlanet: de.astride.planetsystem.api.database.DatabasePlanet)
 
     fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer
     fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet
 
     fun savePlayer(databasePlayer: DatabasePlayer)
+    fun savePlanet(databasePlanet: DatabasePlanet)
+
+    fun deletePlanet(databasePlanet: DatabasePlanet)
 }
