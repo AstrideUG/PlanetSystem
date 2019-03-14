@@ -49,6 +49,7 @@ internal class ConfigService(var directory: File) {
         val permissions by lazy { GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: return@lazy null) }
         /* SubClass */
         val planets by lazy { Planets(jsonObject[Planets::class.java.simpleName]?.asJsonObject) }
+        val gameWorld: String by lazy { jsonObject["GameWorld"]?.asString ?: "PlanetWorld" }
 
         inner class Planets internal constructor(jsonObject: JsonObject?) {
 
