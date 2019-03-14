@@ -82,10 +82,8 @@ class BaseLoadedPlanet(
 
     init {
 
-        val region = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
-
-        inner = region
-        outer = region
+        inner = (atmosphere.size - 1).toBaseRegion()
+        outer = (Holder.instance.gridHandler.maxSize - 1).toBaseRegion()
 
     }
 
@@ -119,6 +117,8 @@ class BaseLoadedPlanet(
         DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
     }
 
+
+    private fun Int.toBaseRegion() = toBukkitVector().generateMinAndMax().toBaseRegion()
 
     @JvmName("toBaseRegion0")
     private fun Pair<PlanetLocation, PlanetLocation>.toBaseRegion() = BaseRegion(first, second)
