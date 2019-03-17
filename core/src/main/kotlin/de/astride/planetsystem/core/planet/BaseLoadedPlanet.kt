@@ -34,7 +34,7 @@ class BaseLoadedPlanet(
     uniqueID: UniqueID,
     name: String,
     owner: Owner,
-    members: MutableList<Owner>,
+    members: MutableSet<Owner>,
     spawnLocation: PlanetLocation,
     atmosphere: Atmosphere,
     metaData: Map<String, Any>,
