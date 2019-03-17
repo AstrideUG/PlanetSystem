@@ -49,7 +49,9 @@ internal class ConfigService(var directory: File) {
         val permissions by lazy { GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: return@lazy null) }
         /* SubClass */
         val planets by lazy { Planets(jsonObject[Planets::class.java.simpleName]?.asJsonObject) }
+
         val gridMaxSize: Int by lazy { jsonObject["GridMaxSize"]?.asInt ?: 2048 }
+        val gameWorld: String by lazy { jsonObject["GameWorld"]?.asString ?: "PlanetWorld" }
 
         inner class Planets internal constructor(jsonObject: JsonObject?) {
 

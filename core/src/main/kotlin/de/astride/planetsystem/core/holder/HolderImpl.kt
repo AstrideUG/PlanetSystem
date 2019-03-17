@@ -14,8 +14,9 @@ class HolderImpl : Holder {
     override val loadedPlanets: MutableSet<LoadedPlanet> = mutableSetOf()
     override val players: MutableSet<PlanetPlayer> = mutableSetOf()
     override val databaseHandler: DatabaseHandler = DatabaseHandler()
+  
     override val gridHandler: BaseGridHandler =
-        BaseGridHandler("PlanetWorld", ConfigService.instance.config.gridMaxSize)
+        BaseGridHandler(ConfigService.instance.config.gameWorld, ConfigService.instance.config.gridMaxSize)
 
 }
 
