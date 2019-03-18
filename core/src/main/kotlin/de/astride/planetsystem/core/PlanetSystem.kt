@@ -3,12 +3,14 @@ package de.astride.planetsystem.core
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
 import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.saveAll
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.holder.HolderImpl
 import de.astride.planetsystem.core.listeners.PlanetCommandListener
 import de.astride.planetsystem.core.listeners.PlanetListener
 import de.astride.planetsystem.core.listeners.PlayerListener
 import de.astride.planetsystem.core.listeners.RestartCommandListener
+import de.astride.planetsystem.core.proxies.configs
 import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
@@ -27,7 +29,7 @@ class PlanetSystem : DarkPlugin() {
             ServicePriority.Normal
         ) //Important for ConfigService.instance
         messages =
-            ConfigService.instance.config.spigotGsonMessages.availableMessages //Important for CommandSender.sendConfigurableMessage(name: String)
+            configs.config.spigotGsonMessages.availableMessages //Important for CommandSender.sendConfigurableMessage(name: String)
 
     }
 
@@ -68,11 +70,6 @@ class PlanetSystem : DarkPlugin() {
         PlayerListener(this)
         PlanetCommandListener(this)
         RestartCommandListener(this)
-    }
-
-    private fun saveAll() {
-        Holder.instance.loadedPlanets.forEach { it.save() }
-        Holder.instance.players.forEach { it.save() }
     }
 
 }

@@ -3,19 +3,18 @@ package de.astride.planetsystem.core.functions
 import com.sk89q.worldedit.function.pattern.BlockPattern
 import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.database.DatabasePlanet
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.atmosphere.CheckedAtmosphere
 import de.astride.planetsystem.core.planet.BasePlanet
-import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.proxies.config
 import de.astride.planetsystem.core.utils.FaweUtils
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
 
@@ -89,10 +88,10 @@ fun LoadedPlanet.delete(
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.02.2019 06:43.
- * Current Version: 1.0 (28.02.2019 - 28.02.2019)
+ * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
 //TODO make logging better (AOP?)!
-fun Holder.findOrMessage(
+fun findPlanetOrMessage(
     owner: Owner,
     sender: CommandSender,
     byTarget: Boolean = false
@@ -100,9 +99,8 @@ fun Holder.findOrMessage(
     val prefix = if (byTarget) "Target" else "Player"
     val planet = loadedPlanets.find(owner)
     if (planet == null) sender.sendMessage(
-        messages["${prefix}AreNotAOwnerOfAIsland"]
-            ?.replace("<UUID>", owner.toString(), true)
-            ?.replace("<Target>", Bukkit.getOfflinePlayer(owner.uuid).name, true)
+        messages["${prefix}HasNoLoadedPlanet"]
+            ?.replacePlayer("Target", owner.uuid)
             ?.replace("<Sender>", sender.name, true)
     )
     return planet
@@ -120,9 +118,9 @@ val Atmosphere.price get() = generatePrice(size.toDouble())
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.02.2019 07:45.
- * Current Version: 1.0 (28.02.2019 - 28.02.2019)
+ * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
-fun generatePrice(size: Double) = Math.pow(size, ConfigService.instance.config.planets.pow)
+fun generatePrice(size: Double) = Math.pow(size, config.planets.pow)
 
 
 /**

@@ -1,6 +1,5 @@
 package de.astride.planetsystem.core.commands.modules.expand.modules
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.player.isOnHisPlanet
@@ -44,7 +43,7 @@ class ExpandCommand : PlanetCommandModule {
                 ?: messages["Planet.Command.NoArgs.Inventory.Entry.Expand"]
                 ?: "Error"
 
-            val planet = Holder.instance.findOrMessage(Owner(player.uniqueId), player) ?: return
+            val planet = findPlanetOrMessage(Owner(player.uniqueId), player) ?: return
             val price = planet.atmosphere.price
 
             val color = if (economy.has(player, price)) Colors.PRIMARY else ChatColor.RED
