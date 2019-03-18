@@ -4,6 +4,7 @@ import de.astride.planetsystem.api.handler.GridHandler
 import org.bukkit.*
 import java.io.File
 import java.util.*
+import de.astride.planetsystem.core.functions.deleteGameWorld
 
 //TODO refactor
 class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
@@ -12,13 +13,10 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
     private val used = TreeSet<Int>()
 
     init {
-        val file = File(Bukkit.getWorldContainer(), name)
-        if (file.exists() && file.isDirectory) {
-            Bukkit.unloadWorld(name, false)
-            file.deleteRecursively()
-        }
 
+        deleteGameWorld()
         world = generateVoidWorld(name)
+
     }
 
     override fun getId(location: Location): Int = location.clone().blockX / maxSize

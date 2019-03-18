@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 /*
  * © Copyright - Lars Artmann aka. LartyHD 2019.
  */
@@ -21,8 +23,9 @@ subprojects {
     apply plugin: 'kotlin'
     apply plugin: 'idea'
 
-    group = "de.astride"
-    version = "1.0-SNAPSHOT"
+    group = pluginGroup
+    version = pluginVersion
+
     libsDirName = "libraries"
 
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -41,6 +44,7 @@ subprojects {
         maven { url = ("http://repo.spongepowered.org/maven") }
         maven { url = ("https://maven.sk89q.com/repo/") }
         maven { url = ("http://ci.athion.net/job/FastAsyncWorldEdit/ws/mvn/") }
+        maven { url = ("https://jitpack.io") }
 //        maven { url = ("http://nexus.hc.to/content/repositories/pub_releases/") }
     }
 
@@ -52,16 +56,23 @@ subprojects {
     dependencies {
 
         compileOnly(fileTree(libsDirName))
+        testCompile(fileTree(libsDirName))
 
         compileOnly "org.jetbrains.kotlin:kotlin-stdlib"
         compileOnly "org.jetbrains.kotlin:kotlin-reflect"
         compileOnly "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
 
-        testCompileOnly "org.jetbrains.kotlin:kotlin-test"
-        testCompileOnly "org.jetbrains.kotlin:kotlin-test-junit5"
-        testCompileOnly "org.mockito:mockito-all:2.0.2-beta"
-        testCompileOnly "org.junit.jupiter:junit-jupiter-api:5.3.1"
+        testCompile "org.jetbrains.kotlin:kotlin-test"
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+        testCompile group: 'junit', name: 'junit', version: '4.13-beta-2'
+        testCompile "com.github.nhaarman:mockito-kotlin:2.1.0"
 
+    }
+
+    processResources {
+        from(sourceSets.main.resources.srcDirs) {
+            filter ReplaceTokens, tokens: [version: version]
+        }
     }
 
     jar {

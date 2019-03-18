@@ -18,9 +18,10 @@ open class BasePlanet(
     override val uniqueID: UniqueID,
     override val name: String,
     override val owner: Owner,
-    override val members: MutableList<Owner>,
+    override val members: MutableSet<Owner>,
     override var spawnLocation: PlanetLocation,
-    override var atmosphere: Atmosphere
+    override var atmosphere: Atmosphere,
+    override val metaData: Map<String, Any>
 ) : Planet {
 
     override fun load(result: (LoadedPlanet) -> Unit) {

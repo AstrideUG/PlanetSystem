@@ -17,7 +17,7 @@ import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.location.toBukkitVector
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
-import de.astride.planetsystem.core.database.DatabasePlanet
+import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
 import lombok.Data
 import lombok.EqualsAndHashCode
@@ -34,11 +34,12 @@ class BaseLoadedPlanet(
     uniqueID: UniqueID,
     name: String,
     owner: Owner,
-    members: MutableList<Owner>,
+    members: MutableSet<Owner>,
     spawnLocation: PlanetLocation,
     atmosphere: Atmosphere,
+    metaData: Map<String, Any>,
     middle: Location
-) : LoadedPlanet, BasePlanet(uniqueID, name, owner, members, spawnLocation, atmosphere) {
+) : LoadedPlanet, BasePlanet(uniqueID, name, owner, members, spawnLocation, atmosphere, metaData) {
 
 
     constructor(planet: Planet, middle: Location) : this(
@@ -48,6 +49,7 @@ class BaseLoadedPlanet(
         planet.members,
         planet.spawnLocation,
         planet.atmosphere,
+        planet.metaData,
         middle
     )
 
@@ -102,9 +104,13 @@ class BaseLoadedPlanet(
 
         holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
 
-        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).fastmode(true).build().apply {
-            val cuboidRegion = CuboidRegion(this.world, outer.min.toWEVector(), outer.max.toWEVector())
-            setBlocks(cuboidRegion, @Suppress("DEPRECATION") (BaseBlock(Material.AIR.id)))
+        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
+            val cuboidRegion = CuboidRegion(
+                this.world,
+                outer.min.toWEVector(this@BaseLoadedPlanet),
+                outer.max.toWEVector(this@BaseLoadedPlanet)
+            )
+            setBlocks(cuboidRegion, @Suppress("DEPRECATION") BaseBlock(Material.AIR.id))
             flushQueue()
         }
 
@@ -112,7 +118,7 @@ class BaseLoadedPlanet(
     }
 
     override fun save() {
-        val databasePlanet = DatabasePlanet.by(this)
+        val databasePlanet = BasicDatabasePlanet.by(this)
         holder.databaseHandler.savePlanet(databasePlanet)
         DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
     }
