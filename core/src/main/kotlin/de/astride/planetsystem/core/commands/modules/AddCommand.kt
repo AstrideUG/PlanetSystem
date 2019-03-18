@@ -20,11 +20,13 @@ class AddCommand : PlanetCommandModule {
         val logger = planetPlayer.logger
         if (args.size == 1) {
             val owner = Owner(args[0].toPlayerUUID())
-            if (owner !in planetPlayer.planet.members) {
-                planetPlayer.planet.members += owner
-
-                logger.success(COMMANDS_INVITE_SUCCESSES_PLAYER)
-                players.find(owner)?.logger?.success(COMMANDS_INVITE_SUCCESSES_TARGET)
+            val planet = planetPlayer.planet
+            if (owner !in planet.members) {
+                if (planetPlayer.player.hasPermission("${permissions(args)}.amount.${planet.members.size + 1}")) {
+                    planet.members += owner
+                    logger.success(COMMANDS_INVITE_SUCCESSES_PLAYER)
+                    players.find(owner)?.logger?.success(COMMANDS_INVITE_SUCCESSES_TARGET)
+                } else logger.warn(COMMANDS_INVITE_FAILED_NO_PERMS_FOR_MORE_MEMBER)
             } else logger.warn(COMMANDS_INVITE_FAILED_IS_ALREADY_A_PLANET_MEMBER)
         } else logger.warn(COMMANDS_INVITE_FAILED_ARGS_SIZE_IS_NOT_1)
     }
