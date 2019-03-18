@@ -3,6 +3,7 @@ package de.astride.planetsystem.core
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
 import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.saveAll
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.holder.HolderImpl
 import de.astride.planetsystem.core.listeners.PlanetCommandListener
@@ -56,10 +57,7 @@ class PlanetSystem : DarkPlugin() {
         registerListeners()
 
         //TODO: Add planets handling
-        Bukkit.getScheduler().runTaskTimer(this, {
-            if (isEnabled) sav
-            eAll()
-        }, 0, 20 * 60)
+        Bukkit.getScheduler().runTaskTimer(this, { if (isEnabled) saveAll() }, 0, 20 * 60)
     }
 
     private fun registerCommands() {
