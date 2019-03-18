@@ -1,6 +1,5 @@
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.core.commands.modules.RestartCommand
 import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Bukkit
@@ -25,8 +24,10 @@ class RestartCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
         val item = event.currentItem ?: return
 
-        if (RestartCommand.inventory != event.inventory) return
-        if (RestartCommand.inventory.getItem(13) != item) return
+        val inventory = ConfigService.instance.config.commands.restart.inventory
+
+        if (inventory != event.inventory) return
+        if (inventory.getItem(13) != item) return
 
         event.whoClicked.closeInventory()
         Bukkit.dispatchCommand(event.whoClicked, "${ConfigService.instance.config.planetCommand} restart confirmed")

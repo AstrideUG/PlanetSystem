@@ -1,0 +1,235 @@
+{
+  "PlanetCommand": "Planet",
+  "PlanetCommandAliases": [
+    "p"
+  ],
+  "Planets": {
+    "DefaultSize": 8,
+    "MaxSize": 50,
+    "Pow": 3.0,
+    "DoNotThrowIllegalStateExceptionBySizeCheck": true,
+    "BlockPattern": {
+      "ID": 95,
+      "Damage": 7
+    }
+  },
+  "Commands": {
+    "Restart": {
+      "size": null,
+      "type": "CHEST",
+      "name": "§cRestart",
+      "contents": [
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "REDSTONE_BLOCK",
+          "name": "§4Restart Planet",
+          "lore": [
+            "",
+            "",
+            "§4§l§mACHTUNG: Die Löschung ist unwiderruflich!",
+            "",
+            ""
+          ]
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "STAINED_GLASS_PANE",
+          "damage": 14,
+          "name": "§r"
+        },
+        {
+          "material": "SKULL_ITEM",
+          "damage": 3,
+          "name": "§aAbbrechen",
+          "owner": {
+            "name": "MHF_ArrowRight",
+            "url": "http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b"
+          }
+        }
+      ]
+    }
+  },
+  "Messages": {
+    "language": "de_DE",
+    "languages": {
+      "de_DE": {
+        "Prefix": "%Colors.PRIMARY%%Colors.EXTRA%CosmicSky %Colors.IMPORTANT%┃ %Colors.RESET%",
+        "TextPrefix": "%Prefix%%Colors.TEXT%",
+        "WarnPrefix": "%Prefix%%Colors.WARNING%",
+        "Colors.PRIMARY": "\u0026b",
+        "Colors.SECONDARY": "\u00269",
+        "Colors.IMPORTANT": "\u0026f",
+        "Colors.TEXT": "\u0026a",
+        "Colors.EXTRA": "\u0026l",
+        "Colors.DESIGN": "\u0026m",
+        "Colors.RESET": "\u0026r",
+        "Colors.WARNING": "\u0026c",
+        "ContactATeamMember": "%WarnPrefix%Melde dich bitte, mit deinem Spielernamen, bei einem Teammitglied!",
+        "RunningInAError": "%WarnPrefix%Es ist ein Fehler aufgetreten!\n%ContactATeamMember%\n%TextPrefix%ID: %Colors.IMPORTANT%",
+        "ToUseThisCommand": "%TextPrefix%Damit du diesen Command benutzen kannst.",
+        "PlayerHasNotEnoughMoney": "%WarnPrefix%Du hast nicht genug Geld!",
+        "ExpandToBiggerSizeThanMaxSize": "%WarnPrefix%Die maximale größe wurde erreicht!",
+        "PlayerAreNotTheOwnerOfAIsland": "%TextPrefix%Du musst der %Colors.IMPORTANT%Besitzer %Colors.TEXT%eine Insel sein.\n%ToUseThisCommand%",
+        "TargetAreNotTheOwnerOfAIsland": "%TextPrefix%\u003cTarget\u003e muss %Colors.IMPORTANT%Besitzer %Colors.TEXT%eine Insel sein.\n%ToUseThisCommand%",
+        "PlayerHasAnIslandButNotAPlanet": "%RunningInAError%\"PlayerHasAnIslandButNotAPlanet\"",
+        "TargetHasAnIslandButNotAPlanet": "%RunningInAError%\"TargetHasAnIslandButNotAPlanet\"",
+        "OldOwnerPlanetChangeOwnerFailed": "%RunningInAError%\"OldOwnerPlanetChangeOwnerFailed\"",
+        "NewOwnerPlanetChangeOwnerFailed": "%RunningInAError%\"NewOwnerPlanetChangeOwnerFailed\"",
+        "Planet.Command.NoArgs.Inventory.Name": "%Colors.SECONDARY%Planet",
+        "Planet.Command.Shape.Inventory.Name": "%Colors.SECONDARY%Shape",
+        "Planet.Command.Style.Inventory.Name": "%Colors.SECONDARY%Style",
+        "Planet.Command.Expand.Inventory.Name": "%Colors.SECONDARY%Expand",
+        "Planet.Command.NoArgs.Inventory.Entry.Info": "%Colors.SECONDARY%Info",
+        "Planet.Command.NoArgs.Inventory.Entry.Shape": "%Colors.SECONDARY%Shape",
+        "Planet.Command.NoArgs.Inventory.Entry.Style": "%Colors.SECONDARY%Style",
+        "Planet.Command.NoArgs.Inventory.Entry.Expand": "%Colors.SECONDARY%Expand",
+        "Planet.Command.Info.Inventory.Entry.Info": "%Colors.SECONDARY%Info",
+        "Planet.Command.Shape.Inventory.Entry.Cube": "%Colors.SECONDARY%Cube",
+        "Planet.Command.Style.Inventory.Entry.Style": "%Colors.SECONDARY%Style",
+        "Planet.Command.Expand.Inventory.Entry.Expand": "%Colors.SECONDARY%Expand",
+        "Planet.Command.Info": "%TextPrefix%Informationen über den Planeten von %Colors.IMPORTANT%\u003cOwner\u003e%Colors.TEXT%:\n%TextPrefix%Größe: %Colors.IMPORTANT%\u003cSize\u003e\n%TextPrefix%Maximale Größe: %Colors.IMPORTANT%\u003cMaxSize\u003e\n%TextPrefix%Material: %Colors.IMPORTANT%\u003cMaterial\u003e\n%TextPrefix%Blockschaden: %Colors.IMPORTANT%\u003cBlockDamage\u003e\n%TextPrefix%Zentrum:\n%TextPrefix%  Welt: %Colors.IMPORTANT%\u003cMiddle.World\u003e\n%TextPrefix%  X: %Colors.IMPORTANT%\u003cMiddle.X\u003e\n%TextPrefix%  Y: %Colors.IMPORTANT%\u003cMiddle.Y\u003e\n%TextPrefix%  Z: %Colors.IMPORTANT%\u003cMiddle.Z\u003e",
+        "Planet.Command.Info.WorldIsNotSkyBlockWorld": "%WarnPrefix%Du bist nicht in der Planetenwelt!",
+        "Planet.Command.Expand.Chat": "%TextPrefix%Du kannst für %Colors.IMPORTANT%\u003cPrice\u003e %Colors.TEXT%deine Insel erweitern.",
+        "Planet.Command.Expand.Chat.HoverText": "%Colors.SECONDARY%Erweitern!",
+        "Planet.Command.Expand.Force": "%TextPrefix%Diese Erweiterung kostete %Colors.IMPORTANT%\u003cPrice\u003e %Colors.TEXT%Coins.\n%TextPrefix%Die nächste Erweiterung kostet %Colors.IMPORTANT%\u003cNextPrice\u003e %Colors.TEXT%Coins.",
+        "Planet.Command.Expand.Force.Delay": "%WarnPrefix%Du musst eine Sekunde warten bevor du diesen Befehl noch mal ausführen kannst!",
+        "Planet.Command.Shape.Cube.IsNotSpherePlanet": "%WarnPrefix%Du brauchst einen Runden Planeten, um diesen Command zu nutzen!",
+        "Planet.Command.Style.Arg3.Exception": "%RunningInAError%\"\u003cException\u003e\"",
+        "": ""
+      }
+    }
+  }
+}
