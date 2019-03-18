@@ -20,9 +20,9 @@ import java.io.File
  *
  * imported from Planets at the 24.02.2019
  *
- * Last edit 24.02.2019
+ * Last edit 18.03.2019
  */
-internal class ConfigService(var directory: File) {
+class ConfigService(var directory: File) {
 
     companion object {
         val instance: ConfigService
@@ -116,7 +116,7 @@ internal class ConfigService(var directory: File) {
 //                    val planet = when (val asString = entry.get("type")?.asJsonPrimitive?.asString) {
 //                        null, "SpherePlanet" -> SpherePlanet(owner, center, size, maxSize, blockDamage, blockID)
 //                        "CubePlanet" -> CubePlanet(owner, center, size, maxSize, blockDamage, blockID)
-//                        else -> throw IllegalStateException("Can's find a Type of $asString")
+//                        else -> throw IllegalStateException("Can's find configs Type of $asString")
 //                    }
 //                    planet
 //                } catch (ex: Exception) {

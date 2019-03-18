@@ -1,12 +1,12 @@
 package de.astride.planetsystem.api.player
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.log.Logger
 import de.astride.planetsystem.api.planet.LoadedPlanet
+import de.astride.planetsystem.api.proxies.loadedPlanets
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -27,7 +27,7 @@ interface PlanetPlayer : OfflinePlanetPlayer {
 
 fun PlanetPlayer.canBuild(block: Block) = canBuild(block.location)
 fun PlanetPlayer.canBuild(location: Location): Boolean {
-    val planet = Holder.instance.loadedPlanets.find(location) ?: return false
+    val planet = loadedPlanets.find(location) ?: return false
     return planet.owner == owner || owner in planet.members
 }
 

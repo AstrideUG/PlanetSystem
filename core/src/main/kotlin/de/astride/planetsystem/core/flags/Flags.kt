@@ -1,6 +1,6 @@
 package de.astride.planetsystem.core.flags
 
-import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.proxies.gameWorld
 
 /**
  * @author Lars Artmann | LartyHD
@@ -28,7 +28,7 @@ sealed class Flags {
         override var value: Boolean = false
             set(value) {
                 field = value
-                Holder.instance.gridHandler.world.setGameRuleValue("doFireTick", value.toString())
+                gameWorld.setGameRuleValue("doFireTick", value.toString())
             }
 
         init {

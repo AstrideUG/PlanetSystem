@@ -1,6 +1,5 @@
 package de.astride.planetsystem.core.commands.modules.expand.modules
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
@@ -22,11 +21,11 @@ class StyleCommand : PlanetCommandModule {
         val player = planetPlayer.player
         if (args.isEmpty()) player.openInventory(ExpandCommand.INVENTORY_STYLE)
         else if (args.size == 2) {
-            val loadedPlanet = Holder.instance.findOrMessage(Owner(player.uniqueId), player) ?: return
+            val loadedPlanet = findPlanetOrMessage(Owner(player.uniqueId), player) ?: return
 
             if ("ID".toLowerCase() == args.firstOrNull()?.toLowerCase()) {
 
-                //TODO add a message if the Material was not found
+                //TODO add configs message if the Material was not found
                 val material: Material = args[1].toMaterial() ?: return
                 //TODO improve
                 val permission = permissions["Planet.Command.Style.ID.$material"]
@@ -43,7 +42,7 @@ class StyleCommand : PlanetCommandModule {
 
             } else if ("SubID".toLowerCase() == args.firstOrNull()?.toLowerCase()) {
 
-                //TODO add a message if the Material was not found
+                //TODO add configs message if the Material was not found
                 val material = loadedPlanet.atmosphere.blockID.toMaterial() ?: return
                 val subID = args[1].toInt()
                 //TODO improve

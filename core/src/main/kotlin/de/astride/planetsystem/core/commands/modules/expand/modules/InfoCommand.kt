@@ -1,9 +1,9 @@
 package de.astride.planetsystem.core.commands.modules.expand.modules
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInGameWorld
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.replace
 import de.astride.planetsystem.core.functions.replacePlayer
@@ -15,7 +15,7 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendIfNotNull
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.02.2019 06:49.
- * Current Version: 1.0 (28.02.2019 - 28.02.2019)
+ * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
 class InfoCommand : PlanetCommandModule {
 
@@ -27,7 +27,7 @@ class InfoCommand : PlanetCommandModule {
         else {
 
             //TODO: ADD 1 arg check
-            val loadedPlanet = Holder.instance.loadedPlanets.find(player.location)
+            val loadedPlanet = loadedPlanets.find(player.location)
             if (loadedPlanet == null)
                 player.sendConfigurableMessage("Planet.Command.Info.CanNotFindLoadedPlanetAtThatLocation")
             else messages["Planet.Command.Info"]

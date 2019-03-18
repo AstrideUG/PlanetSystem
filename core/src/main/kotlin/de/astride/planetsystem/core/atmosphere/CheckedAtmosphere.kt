@@ -2,7 +2,7 @@ package de.astride.planetsystem.core.atmosphere
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.atmosphere.MutableAtmosphere
-import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.proxies.planets
 
 /**
  * @author Lars Artmann | LartyHD
@@ -38,10 +38,6 @@ class CheckedAtmosphere(
         set(value) {
             field = SizeChecker.checkSize(value, maxSize)
         }
-
-    companion object {
-        internal val planets get() = ConfigService.instance.config.planets
-    }
 
     override fun copy(size: Byte, maxSize: Byte, blockID: Int, blockDamage: Int): CheckedAtmosphere =
         CheckedAtmosphere(size, maxSize, blockDamage, blockID)
