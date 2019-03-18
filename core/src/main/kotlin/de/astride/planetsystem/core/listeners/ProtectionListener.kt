@@ -13,7 +13,8 @@ import org.bukkit.entity.EntityType
 import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
 import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.player.PlayerBucketEvent
+import org.bukkit.event.player.PlayerBucketEmptyEvent
+import org.bukkit.event.player.PlayerBucketFillEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.plugin.java.JavaPlugin
@@ -22,7 +23,7 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 08.03.2019 02:28.
- * Current Version: 1.0 (08.03.2019 - 08.03.2019)
+ * Current Version: 1.0 (08.03.2019 - 18.03.2019)
  */
 class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
@@ -34,7 +35,10 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
-    fun on(event: PlayerBucketEvent) = event.block(event.blockClicked.location, event.player.uniqueId)
+    fun on(event: PlayerBucketEmptyEvent) = event.block(event.blockClicked.location, event.player.uniqueId)
+
+    @EventHandler
+    fun on(event: PlayerBucketFillEvent) = event.block(event.blockClicked.location, event.player.uniqueId)
 
     @EventHandler
     fun on(event: PlayerInteractEntityEvent) = event.block(event.rightClicked.location, event.player.uniqueId)
