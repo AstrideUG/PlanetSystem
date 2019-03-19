@@ -1,6 +1,5 @@
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInGameWorld
 import de.astride.planetsystem.api.inline.Owner
@@ -8,6 +7,9 @@ import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.databaseHandler
+import de.astride.planetsystem.api.proxies.loadedPlanets
+import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.player.BaseOfflinePlanetPlayer
@@ -29,8 +31,12 @@ import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-class PlayerListener(javaPlugin: JavaPlugin, val holder: Holder = Holder.instance) : Listener(javaPlugin) {
-
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD.
+ * Current Version: 1.0 (15.02.2019 - 18.03.2019)
+ */
+class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun on(event: PlayerChangedWorldEvent) {
@@ -41,27 +47,27 @@ class PlayerListener(javaPlugin: JavaPlugin, val holder: Holder = Holder.instanc
 //    @EventHandler
 //    fun on(event: PlayerMoveEvent) {
 //        if (event.player.isNotInGameWorld()) return
-//        val planet = holder.loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
+//        val planet = loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
 //        if (!planet.inner.isInside(event.to.toVector())) event.player.teleportHome(planet)
 //    }
 
     @EventHandler
     fun onPlayerLoginEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
-        val databasePlanet = holder.databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
+        val databasePlanet = databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
         BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load { it.teleportHome() }
     }
 
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         val owner = Owner(event.player.uniqueId)
-        holder.loadedPlanets.find(owner)?.unload()
-        holder.players.find(owner)?.unload()
+        loadedPlanets.find(owner)?.unload()
+        players.find(owner)?.unload()
     }
 
     @EventHandler
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        val planet = holder.loadedPlanets.find(Owner(event.player.uniqueId)) ?: return
+        val planet = loadedPlanets.find(Owner(event.player.uniqueId)) ?: return
         event.respawnLocation = planet.spawnLocation.toBukkitLocation(planet)
     }
 

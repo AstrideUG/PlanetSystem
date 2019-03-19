@@ -1,10 +1,10 @@
 package de.astride.planetsystem.core.player
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.OfflinePlanetPlayer
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.players
 import lombok.Data
 import org.bukkit.Bukkit
 
@@ -22,7 +22,7 @@ open class BaseOfflinePlanetPlayer(
         planet.load { loadedPlanet ->
             val planetPlayer = BasePlanetPlayer(Bukkit.getPlayer(owner.uuid), loadedPlanet)
 
-            Holder.instance.players += planetPlayer
+            players += planetPlayer
             request(planetPlayer)
         }
 

@@ -20,7 +20,7 @@ import java.io.File
  *
  * imported from Planets at the 24.02.2019
  *
- * Last edit 12.03.2019
+ * Last edit 18.03.2019
  */
 class ConfigService(var directory: File) {
 
@@ -49,6 +49,9 @@ class ConfigService(var directory: File) {
         //        val permissions by lazy { GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: return@lazy null) }
         /* SubClass */
         val planets by lazy { Planets(jsonObject[Planets::class.java.simpleName]?.asJsonObject) }
+
+        val gridMaxSize: Int by lazy { jsonObject["GridMaxSize"]?.asInt ?: 2048 }
+        val gameWorld: String by lazy { jsonObject["GameWorld"]?.asString ?: "PlanetWorld" }
 
         inner class Planets internal constructor(jsonObject: JsonObject?) {
 
@@ -111,6 +114,5 @@ class ConfigService(var directory: File) {
         }
 
     }
-
 
 }

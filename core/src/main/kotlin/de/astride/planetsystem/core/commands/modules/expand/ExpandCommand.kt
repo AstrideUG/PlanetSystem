@@ -8,7 +8,7 @@ import de.astride.planetsystem.core.commands.modules.expand.modules.InfoCommand
 import de.astride.planetsystem.core.commands.modules.expand.modules.ShapeCommand
 import de.astride.planetsystem.core.commands.modules.expand.modules.StyleCommand
 import de.astride.planetsystem.core.log.MessageKeys
-import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
@@ -20,7 +20,7 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.02.2019 06:46.
- * Current Version: 1.0 (28.02.2019 - 28.02.2019)
+ * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
 class ExpandCommand : PlanetCommandModule {
 
@@ -136,4 +136,4 @@ class ExpandCommand : PlanetCommandModule {
 
 }
 
-fun CommandSender.sendUsage() = Bukkit.dispatchCommand(this, ConfigService.instance.config.planetCommand)
+fun CommandSender.sendUsage() = Bukkit.dispatchCommand(this, config.planetCommand)

@@ -1,10 +1,11 @@
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.holder.isNotInGameWorld
+import de.astride.planetsystem.api.holder.saveAll
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.canBuild
+import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.log.MessageKeys
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
@@ -23,6 +24,12 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.server.PluginDisableEvent
 import org.bukkit.plugin.java.JavaPlugin
 
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD.
+ * Current Version: 1.0 (15.02.2019 - 18.03.2019)
+ */
 @Suppress("unused")
 class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
@@ -52,8 +59,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun on(event: PluginDisableEvent) {
         if (event.plugin.name != "FastAsyncWorldEdit") return
-        Holder.instance.loadedPlanets.forEach { it.save() }
-        Holder.instance.players.forEach { it.save() }
+        saveAll()
     }
 
 }
@@ -61,7 +67,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
     if (player.isNotInGameWorld()) return
 
-    val planetPlayer = Holder.instance.players.find(Owner(player.uniqueId)) ?: return
+    val planetPlayer = players.find(Owner(player.uniqueId)) ?: return
     if (planetPlayer.canBuild(block)) return
 
     cancellable.cancel()
