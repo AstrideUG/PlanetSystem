@@ -11,7 +11,6 @@ import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
 import org.bukkit.Bukkit
-import org.bukkit.World
 import java.io.File
 
 
@@ -100,7 +99,8 @@ class ConfigService(var directory: File) {
         inner class FireTick internal constructor(jsonObject: JsonObject?) {
 
             val value = jsonObject?.get("value")?.asBoolean ?: false
-            val world: World? = Bukkit.getWorld(jsonObject?.get("world")?.asString)
+//            val world: World? =
+//                Bukkit.getWorld(jsonObject?.get("world")?.asString ?: Holder.instance.gridHandler.world.name)
 
         }
 

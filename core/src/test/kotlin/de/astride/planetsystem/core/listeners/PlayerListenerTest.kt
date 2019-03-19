@@ -1,15 +1,5 @@
 package de.astride.planetsystem.core.listeners
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import com.nhaarman.mockitokotlin2.whenever
-import de.astride.planetsystem.core.flags.Flags
-import org.bukkit.entity.Entity
-import org.bukkit.entity.EntityType
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.junit.Test
-
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 07.03.2019 02:49.
@@ -43,51 +33,51 @@ class PlayerListenerTest {
 //    }
 
 
-    @Test
-    fun `called if pvp is on`() {
-
-        /* Given */
-        Flags.PvP.value = true
-
-        val playerListener = mock<PlayerListener>()
-        val event = mock<EntityDamageByEntityEvent>()
-
-        whenever(playerListener.onEntityDamageByEntityEvent(event)).thenCallRealMethod()
-
-        /* When */
-        playerListener.onEntityDamageByEntityEvent(event)
-
-        /* Then */
-        verify(playerListener).onEntityDamageByEntityEvent(event)
-        verifyZeroInteractions(event)
-
-    }
-
-    @Test
-    fun `called if pvp is off`() {
-
-        /* Given */
-        Flags.PvP.value = false
-
-        val playerListener = mock<PlayerListener>()
-        val event = mock<EntityDamageByEntityEvent>()
-        val target = mock<Entity>()
-
-        whenever(event.damager).thenReturn(mock())
-        whenever(event.entity).thenReturn(target)
-        whenever(event.entityType).thenReturn(EntityType.FISHING_HOOK) //EntityType can be anything but PLAYER
-
-        whenever(playerListener.onEntityDamageByEntityEvent(event)).thenCallRealMethod()
-
-        /* When */
-        playerListener.onEntityDamageByEntityEvent(event)
-
-        /* Then */
-        verify(playerListener).onEntityDamageByEntityEvent(event)
-        verify(event).entityType
-        verify(event).damager
-
-    }
+//    @Test
+//    fun `called if pvp is on`() {
+//
+//        /* Given */
+//        Flags.PvP.value = true
+//
+//        val playerListener = mock<PlayerListener>()
+//        val event = mock<EntityDamageByEntityEvent>()
+//
+//        whenever(playerListener.onEntityDamageByEntityEvent(event)).thenCallRealMethod()
+//
+//        /* When */
+//        playerListener.onEntityDamageByEntityEvent(event)
+//
+//        /* Then */
+//        verify(playerListener).onEntityDamageByEntityEvent(event)
+//        verifyZeroInteractions(event)
+//
+//    }
+//
+//    @Test
+//    fun `called if pvp is off`() {
+//
+//        /* Given */
+//        Flags.PvP.value = false
+//
+//        val playerListener = mock<PlayerListener>()
+//        val event = mock<EntityDamageByEntityEvent>()
+//        val target = mock<Entity>()
+//
+//        whenever(event.damager).thenReturn(mock())
+//        whenever(event.entity).thenReturn(target)
+//        whenever(event.entityType).thenReturn(EntityType.FISHING_HOOK) //EntityType can be anything but PLAYER
+//
+//        whenever(playerListener.onEntityDamageByEntityEvent(event)).thenCallRealMethod()
+//
+//        /* When */
+//        playerListener.onEntityDamageByEntityEvent(event)
+//
+//        /* Then */
+//        verify(playerListener).onEntityDamageByEntityEvent(event)
+//        verify(event).entityType
+//        verify(event).damager
+//
+//    }
 
 
 }
