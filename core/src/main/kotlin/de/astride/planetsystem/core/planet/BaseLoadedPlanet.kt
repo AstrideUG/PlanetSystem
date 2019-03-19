@@ -103,7 +103,7 @@ class BaseLoadedPlanet(
 
         gridHandler.removeEntry(gridHandler.getId(middle))
 
-        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
+        EditSessionBuilder(gameWorld.toWEWorld()).limitUnlimited().build().apply {
             val cuboidRegion = CuboidRegion(
                 this.world,
                 outer.min.toWEVector(this@BaseLoadedPlanet),
