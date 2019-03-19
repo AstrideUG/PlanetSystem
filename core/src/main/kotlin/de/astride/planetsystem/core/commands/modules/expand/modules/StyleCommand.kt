@@ -19,7 +19,7 @@ class StyleCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val player = planetPlayer.player
-        if (args.isEmpty()) player.openInventory(ExpandCommand.INVENTORY_STYLE)
+        if (args.isEmpty()) player.openInventory(ExpandCommand.Inventories.INVENTORY_STYLE)
         else if (args.size == 2) {
             val loadedPlanet = findPlanetOrMessage(Owner(player.uniqueId), player) ?: return
 

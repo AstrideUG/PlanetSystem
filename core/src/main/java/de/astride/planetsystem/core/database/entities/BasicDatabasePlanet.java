@@ -1,5 +1,6 @@
 package de.astride.planetsystem.core.database.entities;
 
+import de.astride.planetsystem.api.atmosphere.Atmosphere;
 import de.astride.planetsystem.api.database.DatabasePlanet;
 import de.astride.planetsystem.api.inline.Owner;
 import de.astride.planetsystem.api.location.PlanetLocation;
@@ -17,7 +18,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Data
@@ -30,18 +30,27 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
     @Indexed
     @Property("owner")
     private UUID ownerUniqueId;
-    private Set<UUID> members;
-    private byte size;
+    private Set<Owner> members;
+    private Atmosphere atmosphere;
     private PlanetLocation planetLocation;
     private Map<String, Object> metaData;
 
-    public BasicDatabasePlanet(final UUID uuid, final String name, final UUID ownerUniqueId, final Set<UUID> members, final byte size, final PlanetLocation planetLocation) {
+    public BasicDatabasePlanet(
+            UUID uuid,
+            String name,
+            UUID ownerUniqueId,
+            Set<Owner> members,
+            Atmosphere atmosphere,
+            PlanetLocation planetLocation,
+            Map<String, Object> metaData
+    ) {
         super(uuid);
         this.name = name;
         this.ownerUniqueId = ownerUniqueId;
         this.members = members;
-        this.size = size;
+        this.atmosphere = atmosphere;
         this.planetLocation = planetLocation;
+        this.metaData = metaData;
     }
 
     public static BasicDatabasePlanet by(final Planet planet) {
@@ -49,15 +58,23 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
                 planet.getUniqueID(),
                 planet.getName(),
                 planet.getOwner(),
-                planet.getMembers().stream().map(Owner::getUuid).collect(Collectors.toSet()),
-                planet.getAtmosphere().getSize(),
-                planet.getSpawnLocation()
+                planet.getMembers(),
+                planet.getAtmosphere(),
+                planet.getSpawnLocation(),
+                planet.getMetaData()
         );
     }
 
     @Override
     @NotNull
-    public Set<UUID> getMembers() {
+    public Set<Owner> getMembers() {
         return this.members != null ? this.members : new HashSet<>();
     }
+
+    @NotNull
+    @Override
+    public Atmosphere getAtmosphere() {
+        return null;
+    }
+
 }

@@ -2,7 +2,7 @@ name: PlanetSystem
 authors:
   - Lars Artmann | LartyHD
   - DevSnox
-version: "1.1-SNAPSHOT"
+version: "@version@"
 main: de.astride.planetsystem.core.PlanetSystem
 depend:
   - DynamicNetworkClient

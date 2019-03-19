@@ -37,7 +37,7 @@ class BaseLoadedPlanet(
     uniqueID: UniqueID,
     name: String,
     owner: Owner,
-    members: MutableList<Owner>,
+    members: MutableSet<Owner>,
     spawnLocation: PlanetLocation,
     atmosphere: Atmosphere,
     metaData: Map<String, Any>,
@@ -103,9 +103,13 @@ class BaseLoadedPlanet(
 
         gridHandler.removeEntry(gridHandler.getId(middle))
 
-        EditSessionBuilder(gameWorld.toWEWorld()).fastmode(true).build().apply {
-            val cuboidRegion = CuboidRegion(this.world, outer.min.toWEVector(), outer.max.toWEVector())
-            setBlocks(cuboidRegion, @Suppress("DEPRECATION") (BaseBlock(Material.AIR.id)))
+        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
+            val cuboidRegion = CuboidRegion(
+                this.world,
+                outer.min.toWEVector(this@BaseLoadedPlanet),
+                outer.max.toWEVector(this@BaseLoadedPlanet)
+            )
+            setBlocks(cuboidRegion, @Suppress("DEPRECATION") BaseBlock(Material.AIR.id))
             flushQueue()
         }
 

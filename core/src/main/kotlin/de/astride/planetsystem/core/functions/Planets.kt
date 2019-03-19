@@ -5,7 +5,6 @@ import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
@@ -31,12 +30,12 @@ import org.bukkit.command.CommandSender
  * Current Version: 1.0 (03.03.2019 - 03.03.2019)
  */
 fun DatabasePlanet.toPlanet(): Planet = BasePlanet(
-    UniqueID(uuid),
+    uuid,
     name,
-    Owner(ownerUniqueId),
-    members.map(::Owner).toMutableList(),
+    ownerUniqueId,
+    members.toMutableSet(),
     planetLocation,
-    CheckedAtmosphere(size),
+    atmosphere,
     metaData
 )
 
