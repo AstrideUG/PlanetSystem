@@ -30,11 +30,11 @@ class PlanetSystem : DarkPlugin() {
         ) //Important for ConfigService.instance
         messages =
             ConfigService.instance.config.spigotGsonMessages.availableMessages //Important for CommandSender.sendConfigurableMessage(name: String)
+        Holder.instance = HolderImpl() //For Holder.Impl.holder
 
     }
 
     override fun onEnable() = onEnable {
-        Holder.instance = HolderImpl() //For Holder.Impl.holder
         Flags.FireTick.world = Holder.instance.gridHandler.world
 
         //For Mongodb logs (stops this stuff)!

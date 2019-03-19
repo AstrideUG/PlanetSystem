@@ -1,7 +1,7 @@
 package de.astride.planetsystem.core.world
 
 import de.astride.planetsystem.api.handler.GridHandler
-import de.astride.planetsystem.core.functions.deleteGameWorld
+import de.astride.planetsystem.core.functions.deleteWorld
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.WorldCreator
@@ -15,7 +15,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
     init {
 
-        deleteGameWorld()
+        deleteWorld(name)
         world = generateVoidWorld(name)
 
     }
