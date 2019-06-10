@@ -5,6 +5,8 @@ import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
 import de.astride.planetsystem.core.commands.modules.expand.sendUsage
+import de.astride.planetsystem.core.functions.findPlanetOrMessage
+import de.astride.planetsystem.core.functions.place
 import de.astride.planetsystem.core.functions.replace
 import de.astride.planetsystem.core.functions.toMaterial
 import org.bukkit.Material

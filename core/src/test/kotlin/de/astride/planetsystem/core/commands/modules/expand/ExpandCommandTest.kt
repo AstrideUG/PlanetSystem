@@ -1,9 +1,17 @@
 package de.astride.planetsystem.core.commands.modules.expand
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.location.BaseRegion
 import de.astride.planetsystem.core.log.MessageKeys
+import org.bukkit.Bukkit
+import org.bukkit.Location
+import org.bukkit.Server
+import org.bukkit.event.inventory.InventoryType
+import org.junit.Test
 
 /**
  * @author Lars Artmann | LartyHD

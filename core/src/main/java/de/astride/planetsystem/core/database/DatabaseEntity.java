@@ -30,4 +30,7 @@ public abstract class DatabaseEntity {
         this.uuid = uuid;
     }
 
+    public UUID getUuid() {
+        return this.uuid;
+    }
 }

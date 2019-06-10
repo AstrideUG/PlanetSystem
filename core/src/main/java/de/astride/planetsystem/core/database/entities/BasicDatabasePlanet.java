@@ -76,8 +76,32 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
 
     @NotNull
     @Override
-    public Atmosphere getAtmosphere() {
-        return null;
+    public UUID getUuid() {
+        return super.getUuid();
     }
 
+    @NotNull
+    public String getName() {
+        return this.name;
+    }
+
+    @NotNull
+    public UUID getOwnerUniqueId() {
+        return this.ownerUniqueId;
+    }
+
+    @NotNull
+    public Atmosphere getAtmosphere() {
+        return this.atmosphere;
+    }
+
+    @NotNull
+    public PlanetLocation getPlanetLocation() {
+        return this.planetLocation;
+    }
+
+    @NotNull
+    public Map<String, Object> getMetaData() {
+        return this.metaData;
+    }
 }

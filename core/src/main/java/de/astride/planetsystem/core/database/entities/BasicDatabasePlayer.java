@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.IndexOptions;
 import xyz.morphia.annotations.Indexed;
@@ -32,5 +33,16 @@ public class BasicDatabasePlayer extends DatabaseEntity implements DatabasePlaye
                 planet.getOwner(),
                 planet.getUniqueID()
         );
+    }
+
+    @NotNull
+    @Override
+    public UUID getUuid() {
+        return super.getUuid();
+    }
+
+    @NotNull
+    public UUID getPlanetUniqueId() {
+        return this.planetUniqueId;
     }
 }
