@@ -6,13 +6,16 @@ import de.astride.planetsystem.api.database.DatabasePlayer
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
-import de.astride.planetsystem.core.atmosphere.CheckedAtmosphere
+import de.astride.planetsystem.core.PlanetSystem
+import de.astride.planetsystem.core.atmosphere.DataAtmosphere
+import de.astride.planetsystem.core.atmosphere.checkedSize
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import xyz.morphia.Morphia
+import xyz.morphia.mapping.DefaultCreator
 
 
-class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
+open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
     override val allPlanets: Set<BasicDatabasePlanet> get() = planetDAO.find().toSet()
 
@@ -22,16 +25,17 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
     init {
 
         val mongoClient = MongoClient("127.0.0.1", 27017) //TODO: Initialization of MongoClient
-
-
         val morphia = Morphia()
 
 //        morphia.mapper.options.objectFactory = object : DefaultCreator() {
 //            override fun getClassLoaderForClass(): ClassLoader = PlanetSystem::class.java.classLoader
 //        }
 
+        morphia.mapper.options.objectFactory = object : DefaultCreator() {
+            override fun getClassLoaderForClass(): ClassLoader = PlanetSystem::class.java.classLoader
+        }
         morphia.map(DatabasePlanet::class.java, DatabasePlayer::class.java)
-//        morphia.mapper.addMappedClass(PlanetLocation::class.java).
+        morphia.mapper.addMappedClass(DataAtmosphere::class.java)
 
 //        morphia.mapper.converters.addConverter(object : TypeConverter() {
 //            override fun decode(
@@ -75,7 +79,7 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
             "Kepler-730 c" /*TODO: Random Name*/,
             owner.uuid,
             mutableSetOf(),
-            CheckedAtmosphere(),
+            DataAtmosphere().checkedSize(),
             PlanetLocation(planet),
             mutableMapOf()
         )

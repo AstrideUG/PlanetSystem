@@ -20,13 +20,13 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
     usage = "Home" +
             "|Info" +
             "|List <Loaded/Database>" +
-            "|Top" +
+            "|Top [Size]" +
             "|ShowInner" +
+            "|Add <Player>" +
+            "|Remove <Player>" +
             "|Restart" +
-            "|Add <Spieler>" +
-            "|Remove <Spieler>" +
             "|SetHome" +
-            "|Visit <Spieler>" +
+            "|Visit <Player>" +
             "|Expand Info" +
             "|Expand Expand" +
             "|Expand Expand Chat" +
