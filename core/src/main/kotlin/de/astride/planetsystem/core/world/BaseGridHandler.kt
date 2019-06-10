@@ -5,6 +5,7 @@ import org.bukkit.*
 import java.io.File
 import java.util.*
 import de.astride.planetsystem.core.functions.deleteGameWorld
+import de.astride.planetsystem.core.functions.deleteWorld
 
 //TODO refactor
 class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
@@ -14,7 +15,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
     init {
 
-        deleteGameWorld()
+        deleteWorld(name)
         world = generateVoidWorld(name)
 
     }

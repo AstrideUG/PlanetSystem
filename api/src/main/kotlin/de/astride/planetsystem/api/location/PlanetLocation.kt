@@ -4,21 +4,16 @@ import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import lombok.NoArgsConstructor
 import org.bukkit.Location
 import org.bukkit.util.Vector
 
-@NoArgsConstructor
-
-data class PlanetLocation constructor(
+data class PlanetLocation @JvmOverloads constructor(
 //    @Transient
-    var planetID: UniqueID?,
+    var planetID: UniqueID? = null,
     var vector: Vector = Vector(),
     var yaw: Float = 0f,
     var pitch: Float = 0f
 ) {
-
-    constructor() : this(null)
 
     constructor(planetID: UniqueID, location: Location) : this(
         planetID,

@@ -4,7 +4,6 @@ import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
 import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.core.commands.PlanetCommand
-import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.functions.deleteGameWorld
 import de.astride.planetsystem.core.holder.HolderImpl
 import de.astride.planetsystem.core.listeners.PlanetCommandListener
@@ -35,7 +34,7 @@ class PlanetSystem : DarkPlugin() {
 
     override fun onEnable() = onEnable {
         Holder.instance = HolderImpl() //For Holder.Impl.holder
-        Flags.FireTick.world = Holder.instance.gridHandler.world
+//        Flags.FireTick.world = Holder.instance.gridHandler.world
 
         //For Mongodb logs (stops this stuff)!
         (LoggerFactory.getILoggerFactory() as LoggerContext).getLogger("org.mongodb.driver").level = Level.ERROR

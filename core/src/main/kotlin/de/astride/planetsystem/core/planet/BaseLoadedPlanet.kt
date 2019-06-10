@@ -82,6 +82,11 @@ class BaseLoadedPlanet(
 
     init {
 
+        println(atmosphere)
+        println(atmosphere.size)
+        println((atmosphere.size - 1).toBukkitVector())
+        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax())
+        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion())
         val region = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
 
         inner = region
