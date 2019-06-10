@@ -24,7 +24,7 @@ class TopCommand : PlanetCommandModule {
         if (args.size > 1) planetPlayer.logger.warn(MessageKeys.COMMANDS_TOP_FAILED_ARGS_SIZE_BIGGER_1)
         else {
 
-            val size = args.ifEmpty { arrayOf(10) }[0].toString().toIntOrNull() ?: 10
+            val size = args.getOrNull(0)?.toIntOrNull()?.plus(1) ?: 10
 
             planetPlayer.logger.info(
                 MessageKeys.COMMANDS_TOP_SUCCESSES_SIZE_INFO.toString().replace("<size>", size.toString(), true)
