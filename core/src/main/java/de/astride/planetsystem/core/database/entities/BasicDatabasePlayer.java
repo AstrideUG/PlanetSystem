@@ -6,6 +6,7 @@ import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.IndexOptions;
 import xyz.morphia.annotations.Indexed;
@@ -21,7 +22,7 @@ public class BasicDatabasePlayer extends DatabaseEntity implements DatabasePlaye
     @Indexed(options = @IndexOptions(unique = true))
     private UUID planetUniqueId;
 
-    public BasicDatabasePlayer(final UUID uuid, final UUID planetUniqueId) {
+    public BasicDatabasePlayer(@NonNull final UUID uuid, @NonNull final UUID planetUniqueId) {
         super(uuid);
         this.planetUniqueId = planetUniqueId;
     }

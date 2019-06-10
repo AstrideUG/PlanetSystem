@@ -105,7 +105,7 @@ class ExpandCommand : PlanetCommandModule {
             if (size >= maxSize) planetPlayer.player.sendConfigurableMessage("ExpandToBiggerSizeThanMaxSize")//TODO: CONVERT
             else planetPlayer.player.removeIfHasEnough(price) {
                 loadedPlanet.delete()
-                loadedPlanet.atmosphere = toMutable().apply { size++ }
+                loadedPlanet.atmosphere = edit(size = (size + 1).toByte())
                 loadedPlanet.place()
             }
         }
