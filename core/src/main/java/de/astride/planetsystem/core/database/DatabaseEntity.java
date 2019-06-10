@@ -15,8 +15,9 @@ import java.util.UUID;
  * Web: http://devsnox.me
  * Mail: me.devsnox@gmail.com
  * Discord: DevSnox#4884 | Skype: live:chaos3729
+ * <p>
+ * Last edit 14.03.2019 from Lars Artmann | LartyHD
  */
-
 @NoArgsConstructor
 @Data
 public abstract class DatabaseEntity {
@@ -28,4 +29,5 @@ public abstract class DatabaseEntity {
     public DatabaseEntity(final UUID uuid) {
         this.uuid = uuid;
     }
+
 }

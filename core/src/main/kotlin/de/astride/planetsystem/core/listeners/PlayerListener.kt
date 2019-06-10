@@ -61,9 +61,6 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         val owner = Owner(event.player.uniqueId)
-        println(owner)
-        println(loadedPlanets)
-        println(players)
         loadedPlanets.find(owner)?.unload()
         players.find(owner)?.unload()
     }
@@ -76,12 +73,12 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler(priority = EventPriority.LOW)
     fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
-        if (!Flags.PvP.value) return
+        if (Flags.PvP.value) return
 
         val damager = event.damager
         val type = damager.type
         when {
-            event.entity.type != PLAYER -> return
+            event.entityType != PLAYER -> return
             event.entity.isNotInGameWorld() -> return
             type == PLAYER ||
                     type == PRIMED_TNT && (damager as TNTPrimed).source.type == PLAYER ||

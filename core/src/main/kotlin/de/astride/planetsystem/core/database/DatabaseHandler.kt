@@ -6,6 +6,7 @@ import de.astride.planetsystem.api.database.DatabasePlayer
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
+import de.astride.planetsystem.core.atmosphere.CheckedAtmosphere
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import xyz.morphia.Morphia
@@ -74,8 +75,9 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
             "Kepler-730 c" /*TODO: Random Name*/,
             owner.uuid,
             mutableSetOf(),
-            8.toByte(),
-            PlanetLocation(planet)
+            CheckedAtmosphere(),
+            PlanetLocation(planet),
+            mutableMapOf()
         )
         savePlanet(databasePlanet)
 

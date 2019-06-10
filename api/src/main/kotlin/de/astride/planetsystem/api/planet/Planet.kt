@@ -13,7 +13,7 @@ interface Planet {
 
     val name: String
 
-    val members: MutableList<Owner>
+    val members: MutableSet<Owner>
 
     var spawnLocation: PlanetLocation
 

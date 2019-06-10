@@ -1,6 +1,7 @@
 package de.astride.planetsystem.core.commands.modules.expand
 
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.player.isOnHisPlanet
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.modules.ExpandCommand
 import de.astride.planetsystem.core.commands.modules.expand.modules.InfoCommand
@@ -40,7 +41,8 @@ class ExpandCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         when {
-            args.isEmpty() -> planetPlayer.player.openInventory(INVENTORY_MAIN)
+            !planetPlayer.isOnHisPlanet() -> planetPlayer.logger.warn(MessageKeys.COMMANDS_EXPAND_FAILED_NOT_ON_OWN_PLANET)
+            args.isEmpty() -> planetPlayer.player.openInventory(Inventories.INVENTORY_MAIN)
             args[0].isModule() ->
                 commandModules[args[0].toLowerCase()]?.execute(planetPlayer, args.drop(1).toTypedArray())
             else -> planetPlayer.logger.warn(MessageKeys.COMMANDS_MAIN_HELP)
@@ -63,7 +65,7 @@ class ExpandCommand : PlanetCommandModule {
 
     private fun String.isModule() = commandModules.containsKey(toLowerCase())
 
-    companion object {
+    object Inventories {
         val INVENTORY_MAIN =
             InventoryBuilder(InventoryType.BREWING, messages["Planet.Command.NoArgs.Inventory.Name"].toString())
                 .setDesign()

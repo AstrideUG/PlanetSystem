@@ -1,15 +1,17 @@
 package de.astride.planetsystem.core.functions
 
+import de.astride.planetsystem.api.holder.Holder
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.util.Vector
+import java.io.File
 import java.util.*
 
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.02.2019 08:24.
- * Current Version: 1.0 (28.02.2019 - 04.03.2019)
+ * Current Version: 1.0 (28.02.2019 - 07.03.2019)
  */
 //TODO ADD it to Darkness
 
@@ -95,3 +97,24 @@ fun String?.replace(
  */
 fun String?.replacePlayer(prefix: String, uuid: UUID) =
     replaceKeys(prefix, "UUID" to uuid, "Name" to Bukkit.getOfflinePlayer(uuid)?.name)
+
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 07.03.2019 04:16.
+ * Current Version: 1.0 (07.03.2019 - 07.03.2019)
+ */
+fun deleteGameWorld() = deleteWorld(Holder.instance.gridHandler.world.name)
+
+/**
+ * @author Lars Artmann | LartyHD
+ * Created by Lars Artmann | LartyHD on 07.03.2019 04:18.
+ * Current Version: 1.0 (07.03.2019 - 07.03.2019)
+ */
+fun deleteWorld(name: String) {
+    val file = File(Bukkit.getWorldContainer(), name)
+    if (file.exists() && file.isDirectory) {
+        Bukkit.unloadWorld(name, false)
+        file.deleteRecursively()
+    }
+}

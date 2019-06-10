@@ -12,12 +12,10 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.entity.EntityType.*
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
@@ -35,54 +33,16 @@ import org.bukkit.plugin.java.JavaPlugin
 @Suppress("unused")
 class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     fun on(event: EntitySpawnEvent) {
-//        if (!event.entityType.isAlive) return
-        when (event.entityType) {
-            CREEPER,
-            SKELETON,
-            SPIDER,
-            GIANT,
-            ZOMBIE,
-            SLIME,
-            GHAST,
-            PIG_ZOMBIE,
-            ENDERMAN,
-            CAVE_SPIDER,
-            SILVERFISH,
-            BLAZE,
-            MAGMA_CUBE,
-            ENDER_DRAGON,
-            WITHER,
-            WITCH,
-            ENDERMITE,
-            GUARDIAN -> if (!Flags.Mobs.value) event.cancel()
-            WOLF,
-            PIG,
-            SHEEP,
-            COW,
-            CHICKEN,
-            SQUID,
-            BAT,
-            MUSHROOM_COW,
-//            SNOWMAN,
-            OCELOT,
-//            IRON_GOLEM,
-            HORSE,
-            RABBIT,
-            VILLAGER -> if (!Flags.Animals.value) event.cancel()
-            else -> {
-                /*IGNORE*/
-            }
-        }
-
-
+        if (Flags.Mobs.types.any { it == event.entityType } && !Flags.Mobs.value) event.cancel()
+        if (Flags.Animals.types.any { it == event.entityType } && !Flags.Animals.value) event.cancel()
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     fun onBlockPlaceEvent(event: BlockPlaceEvent) = blockBuild(event, event.block, event.player)
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     fun onBlockBreakEvent(event: BlockBreakEvent) = blockBuild(event, event.block, event.player)
 
     @EventHandler
@@ -90,7 +50,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         if (event.player.isNotInGameWorld()) return
         if (event.action != Action.PHYSICAL) return
         val material = event.clickedBlock?.type ?: return
-        if (material == Material.SOIL) return
+        if (material != Material.SOIL) return
 
         event.cancel()
         event.setUseInteractedBlock(Event.Result.DENY)
