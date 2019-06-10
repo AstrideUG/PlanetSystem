@@ -1,17 +1,17 @@
 package de.astride.planetsystem.core.world
 
 import de.astride.planetsystem.api.handler.GridHandler
+import org.bukkit.*
+import java.io.File
+import java.util.*
+import de.astride.planetsystem.core.functions.deleteGameWorld
 import de.astride.planetsystem.core.functions.deleteWorld
-import org.bukkit.Location
-import org.bukkit.World
-import org.bukkit.WorldCreator
-import org.bukkit.WorldType
 
 //TODO refactor
 class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
     override val world: World
-    private val used = /*TreeSet<Int>()*/ mutableSetOf<Int>()
+    private val used = TreeSet<Int>()
 
     init {
 
@@ -20,7 +20,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
     }
 
-    override fun getId(location: Location): Int = location.clone().blockX / (maxSize / 2)
+    override fun getId(location: Location): Int = location.clone().blockX / maxSize
 
     override fun removeEntry(i: Int) {
         used.remove(i)
@@ -34,8 +34,8 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
     private fun findFreeAndAdd(): Int = findFree().apply { used.add(this) }
 
     private fun findFree(): Int {
-        val integer = used.lastOrNull() ?: 0
-        for (i in 0 until integer) if (i !in used) return i
+        val integer = used.lastOrNull() ?: return 0
+        for (i in 1 until integer) if (i !in used) return i
         return integer.inc()
     }
 
