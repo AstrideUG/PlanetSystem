@@ -24,7 +24,10 @@ data class PlanetLocation @JvmOverloads constructor(
 
     constructor(planet: LoadedPlanet, location: Location) : this(
         planet.uniqueID,
-        location.clone().subtract(planet.middle).add(Vector(0.5, 0.0, 0.5))/* Location - middle-point */
+        /* Location - middle-point */
+        location.clone().subtract(planet.middle).apply {
+            add(Vector(if (x < 0) -0.5 else 0.5, 0.0, if (y < 0) -0.5 else 0.5))
+        }
     )
 
 }
