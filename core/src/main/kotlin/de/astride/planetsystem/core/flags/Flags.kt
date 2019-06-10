@@ -1,8 +1,7 @@
 package de.astride.planetsystem.core.flags
 
-import de.astride.planetsystem.api.proxies.gameWorld
 import com.google.gson.JsonArray
-import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.proxies.gameWorld
 import de.astride.planetsystem.core.service.ConfigService
 import org.bukkit.World
 import org.bukkit.entity.EntityType

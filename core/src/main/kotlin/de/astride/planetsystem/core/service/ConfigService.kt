@@ -4,13 +4,18 @@
 
 package de.astride.planetsystem.core.service
 
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import de.astride.planetsystem.core.functions.toMaterial
 import net.darkdevelopers.darkbedrock.darkness.general.configs.ConfigData
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonConfig
 import net.darkdevelopers.darkbedrock.darkness.general.configs.gson.GsonService
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
+import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.messages.SpigotGsonMessages
 import org.bukkit.Bukkit
+import org.bukkit.event.inventory.InventoryType
 import java.io.File
 
 
@@ -36,7 +41,7 @@ class ConfigService(var directory: File) {
     inner class Config internal constructor() {
 
         /* Main */
-        private val configData by lazy { ConfigData(directory, "planets.json") }
+        private val configData by lazy { ConfigData(directory, "${Config::class.simpleName?.toLowerCase()}.json") }
         private val config by lazy { @Suppress("DEPRECATION") GsonConfig(configData).load() }
         private val jsonObject get() = config.jsonObject
         /* Values */
@@ -49,6 +54,54 @@ class ConfigService(var directory: File) {
         //        val permissions by lazy { GsonStringMapWithSubs(jsonObject["permissions"]?.asJsonObject ?: return@lazy null) }
         /* SubClass */
         val planets by lazy { Planets(jsonObject[Planets::class.java.simpleName]?.asJsonObject) }
+        val commands by lazy { Commands(jsonObject[Commands::class.java.simpleName]?.asJsonObject) }
+
+        inner class Commands internal constructor(jsonObject: JsonObject?) {
+
+            /* SubClass */
+            val restart by lazy { Restart(jsonObject?.get(Restart::class.java.simpleName)?.asJsonObject) }
+
+            //TODO: Add to Darkness-Spigot
+            inner class Restart internal constructor(jsonObject: JsonObject?) {
+
+                private val size: Int? = jsonObject?.get("size")?.asInt
+                private val type: InventoryType =
+                    InventoryType.valueOf(jsonObject?.get("type")?.asString?.toUpperCase() ?: "CHEST")
+                private val name = jsonObject?.get("name")?.asString ?: type.defaultTitle
+
+                private val contents = jsonObject?.get("contents")?.asJsonArray?.map { element: JsonElement? ->
+
+                    if (element !is JsonObject) return@map null
+
+                    val material = element.get("material")?.asString?.toMaterial() ?: return@map null
+                    val amount = element.get("amount")?.asInt ?: 1
+                    val damage = element.get("damage")?.asShort ?: 0
+
+                    val name = element.get("name")?.asString
+                    val lore = element.get("lore")?.asJsonArray?.mapNotNull { it.asString } ?: emptyList()
+
+                    val owner = element.get("owner")?.asJsonObject
+                    val ownerName = owner?.get("name")?.asString
+                    val ownerURL = owner?.get("url")?.asString
+
+                    val builder = ItemBuilder(material, amount, damage).setLore(lore) //TODO: add more
+                    if (name != null) builder.setName(name)
+                    if (ownerName != null)
+                        if (ownerURL != null) builder.setOwner(ownerURL, ownerName)
+                        else builder.setOwner(ownerName)
+
+                    return@map builder.build()
+
+                }?.toTypedArray() ?: emptyArray()
+
+                private val inventoryBuilder =
+                    if (size == null) InventoryBuilder(type, name) else InventoryBuilder(size, name)
+                val inventory = inventoryBuilder.build().apply { contents = this@Restart.contents }
+
+            }
+
+        }
+
 
         val gridMaxSize: Int by lazy { jsonObject["GridMaxSize"]?.asInt ?: 2048 }
         val gameWorld: String by lazy { jsonObject["GameWorld"]?.asString ?: "PlanetWorld" }
@@ -60,8 +113,7 @@ class ConfigService(var directory: File) {
             val maxSize = jsonObject?.get("MaxSize")?.asByte ?: 126
             val pow = jsonObject?.get("Pow")?.asDouble ?: 3.0
             val doNotThrowIllegalStateExceptionBySizeCheck =
-                jsonObject?.get("DoNotThrowIllegalStateExceptionBySizeCheck")?.asBoolean
-                    ?: false
+                jsonObject?.get("DoNotThrowIllegalStateExceptionBySizeCheck")?.asBoolean ?: false
             /* SubClass */
             val defaultBlockPattern by lazy { DefaultBlockPattern(jsonObject?.get(DefaultBlockPattern::class.java.simpleName)?.asJsonObject) }
 

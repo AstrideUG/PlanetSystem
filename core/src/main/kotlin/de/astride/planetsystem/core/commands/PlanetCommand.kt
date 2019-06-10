@@ -24,6 +24,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|ShowInner" +
             "|Add <Player>" +
             "|Remove <Player>" +
+            "|Restart" +
             "|SetHome" +
             "|Visit <Player>" +
             "|Expand Info" +
@@ -48,6 +49,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             HomeCommand(),
             InfoCommand(),
             ListCommand(),
+            RestartCommand(),
             TopCommand(),
             AddCommand(),
             RemoveCommand(),
