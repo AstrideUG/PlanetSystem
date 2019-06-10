@@ -57,10 +57,6 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
     }
 
-    override fun savePlanet(databasePlanet: DatabasePlanet) {
-        this.planetDAO.save(databasePlanet as BasicDatabasePlanet)
-    }
-
     override fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer {
         if (playerDAO.exists("uuid", owner.uuid)) return playerDAO.findOne("uuid", owner.uuid)
 
@@ -90,6 +86,14 @@ class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
     override fun savePlayer(databasePlayer: DatabasePlayer) {
         this.playerDAO.save(databasePlayer as BasicDatabasePlayer)
+    }
+
+    override fun savePlanet(databasePlanet: DatabasePlanet) {
+        this.planetDAO.save(databasePlanet as BasicDatabasePlanet)
+    }
+
+    override fun deletePlanet(databasePlanet: DatabasePlanet) {
+        this.planetDAO.delete(databasePlanet as BasicDatabasePlanet)
     }
 
 }

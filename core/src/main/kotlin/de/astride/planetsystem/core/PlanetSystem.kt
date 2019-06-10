@@ -7,11 +7,8 @@ import de.astride.planetsystem.api.holder.saveAll
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.functions.deleteGameWorld
 import de.astride.planetsystem.core.holder.HolderImpl
-import de.astride.planetsystem.core.listeners.PlanetCommandListener
-import de.astride.planetsystem.core.listeners.PlanetListener
-import de.astride.planetsystem.core.listeners.PlayerListener
+import de.astride.planetsystem.core.listeners.*
 import de.astride.planetsystem.core.proxies.configs
-import de.astride.planetsystem.core.listeners.ProtectionListener
 import de.astride.planetsystem.core.service.ConfigService
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
@@ -73,6 +70,7 @@ class PlanetSystem : DarkPlugin() {
         PlanetListener(this)
         PlayerListener(this)
         PlanetCommandListener(this)
+        RestartCommandListener(this)
         ProtectionListener(this)
     }
 
