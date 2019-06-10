@@ -4,7 +4,7 @@
 
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin
  *
  * imported from Planets at the 24.02.2019
  *
- * Last edit 24.02.2019
+ * Last edit 18.03.2019
  */
 class PlanetCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
@@ -67,7 +67,7 @@ class PlanetCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
 }
 
-private fun Player.command(args: String) = this.chat("/${ConfigService.instance.config.planetCommand} Expand $args")
+private fun Player.command(args: String) = chat("/${config.planetCommand} Expand $args")
 
 
 

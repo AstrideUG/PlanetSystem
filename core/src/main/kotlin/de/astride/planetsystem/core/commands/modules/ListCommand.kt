@@ -1,9 +1,10 @@
 package de.astride.planetsystem.core.commands.modules
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.databaseHandler
+import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 import de.astride.planetsystem.core.functions.replace
@@ -18,7 +19,7 @@ import org.bukkit.command.CommandSender
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.02.2019 07:58.
- * Current Version: 1.0 (28.02.2019 - 04.03.2019)
+ * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
 class ListCommand : PlanetCommandModule {
 
@@ -30,11 +31,11 @@ class ListCommand : PlanetCommandModule {
             when {
                 "loaded".equals(args[0], true) -> {
                     "${prefix}List of all loaded planets:".sendTo(planetPlayer.player)
-                    Holder.instance.loadedPlanets.forEach { it.send(prefix, planetPlayer.player) }
+                    loadedPlanets.forEach { it.send(prefix, planetPlayer.player) }
                 }
                 "database".equals(args[0], true) -> {
                     "${prefix}List of all database planets:".sendTo(planetPlayer.player)
-                    Holder.instance.databaseHandler.allPlanets.forEach {
+                    databaseHandler.allPlanets.forEach {
                         send(prefix, it.toPlanet(), planetPlayer.player)
                     }
                 }
@@ -89,7 +90,7 @@ class ListCommand : PlanetCommandModule {
         .replace("<UUID>", planet.uniqueID.uuid)
         .replace("<Name>", planet.name)
         .replace("SpawnLocation", planet.spawnLocation)
-        .replaceKeys("Members", planet.members)
+        .replaceKeys("Members", planet.members.toList())
         .replace(atmosphere = planet.atmosphere)
         ?.lines()
         ?.joinToString("\n") { "$prefix$it" }

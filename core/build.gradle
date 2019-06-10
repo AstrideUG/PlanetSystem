@@ -6,19 +6,21 @@ dependencies {
 
     jarLibs project(":PlanetSystem-Api")
 
-//    jarLibs "org.mongodb:mongo-java-driver:3.9.1"
-
-    jarLibs "org.apache.logging.log4j:log4j-api:2.9.0"
-    jarLibs "ch.qos.logback:logback-classic:1.2.3"
+    jarLibs "org.apache.logging.log4j:log4j-api:${versions_log4j}"
+    jarLibs "ch.qos.logback:logback-classic:${versions_logback}"
 
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
-    compileOnly("org.projectlombok:lombok:1.18.6")
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:6.0") {
+    compileOnly("org.projectlombok:lombok:${versions_lombok}")
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:${versions_worldedit}") {
         exclude(group: "org.sk89q.bukkit")
         exclude(group: "org.bukkit")
     }
 
     // https://mvnrepository.com/artifact/net.milkbowl.vault/VaultAPI
-    compileOnly group: 'net.milkbowl.vault', name: 'VaultAPI', version: '1.6'
+    compileOnly("net.milkbowl.vault:VaultAPI:${versions_vault}") {
+        exclude(group: "org.bukkit")
+    }
+
+    testCompile("org.spigotmc:spigot-api:${versions_spigot}")
 
 }

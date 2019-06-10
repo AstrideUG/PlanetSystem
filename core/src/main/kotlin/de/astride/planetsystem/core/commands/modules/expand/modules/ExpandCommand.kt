@@ -1,6 +1,5 @@
 package de.astride.planetsystem.core.commands.modules.expand.modules
 
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.player.isOnHisPlanet
@@ -44,7 +43,7 @@ class ExpandCommand : PlanetCommandModule {
                 ?: messages["Planet.Command.NoArgs.Inventory.Entry.Expand"]
                 ?: "Error"
 
-            val planet = Holder.instance.findOrMessage(Owner(player.uniqueId), player) ?: return
+            val planet = findPlanetOrMessage(Owner(player.uniqueId), player) ?: return
             val price = planet.atmosphere.price
 
             val color = if (economy.has(player, price)) Colors.PRIMARY else ChatColor.RED
@@ -68,7 +67,7 @@ class ExpandCommand : PlanetCommandModule {
 
             val owner = Owner(player.uniqueId)
 
-            if ("Chat" == args.firstOrNull() /*TODO: ADD PERMS*/) {
+            if (args.firstOrNull().equals("Chat", true) /*TODO: ADD PERMS*/) {
                 player.spigot().sendMessage(
                     TextComponent(messages["Planet.Command.Expand.Chat"]?.replacePrice(planetPlayer.planet))
                         .builder()
@@ -81,7 +80,7 @@ class ExpandCommand : PlanetCommandModule {
                         )
                         .build()
                 )
-            } else if ("Force" == args.firstOrNull() /*TODO: ADD PERMS*/) when {
+            } else if (args.firstOrNull().equals("Force", true) /*TODO: ADD PERMS*/) when {
                 owner in delay -> player.sendConfigurableMessage("Planet.Command.Expand.Force.Delay")
                 planetPlayer.isOnHisPlanet() -> {
                     delay += owner

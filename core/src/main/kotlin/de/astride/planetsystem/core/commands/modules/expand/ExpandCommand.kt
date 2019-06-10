@@ -1,13 +1,14 @@
 package de.astride.planetsystem.core.commands.modules.expand
 
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.player.isOnHisPlanet
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.modules.ExpandCommand
 import de.astride.planetsystem.core.commands.modules.expand.modules.InfoCommand
 import de.astride.planetsystem.core.commands.modules.expand.modules.ShapeCommand
 import de.astride.planetsystem.core.commands.modules.expand.modules.StyleCommand
 import de.astride.planetsystem.core.log.MessageKeys
-import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.builder.ItemBuilder
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
@@ -19,7 +20,7 @@ import java.util.*
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 28.02.2019 06:46.
- * Current Version: 1.0 (28.02.2019 - 28.02.2019)
+ * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
 class ExpandCommand : PlanetCommandModule {
 
@@ -40,7 +41,8 @@ class ExpandCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         when {
-            args.isEmpty() -> planetPlayer.player.openInventory(INVENTORY_MAIN)
+            !planetPlayer.isOnHisPlanet() -> planetPlayer.logger.warn(MessageKeys.COMMANDS_EXPAND_FAILED_NOT_ON_OWN_PLANET)
+            args.isEmpty() -> planetPlayer.player.openInventory(Inventories.INVENTORY_MAIN)
             args[0].isModule() ->
                 commandModules[args[0].toLowerCase()]?.execute(planetPlayer, args.drop(1).toTypedArray())
             else -> planetPlayer.logger.warn(MessageKeys.COMMANDS_MAIN_HELP)
@@ -63,7 +65,7 @@ class ExpandCommand : PlanetCommandModule {
 
     private fun String.isModule() = commandModules.containsKey(toLowerCase())
 
-    companion object {
+    object Inventories {
         val INVENTORY_MAIN =
             InventoryBuilder(InventoryType.BREWING, messages["Planet.Command.NoArgs.Inventory.Name"].toString())
                 .setDesign()
@@ -134,4 +136,4 @@ class ExpandCommand : PlanetCommandModule {
 
 }
 
-fun CommandSender.sendUsage() = Bukkit.dispatchCommand(this, ConfigService.instance.config.planetCommand)
+fun CommandSender.sendUsage() = Bukkit.dispatchCommand(this, config.planetCommand)
