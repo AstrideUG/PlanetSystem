@@ -7,6 +7,7 @@ dependencies {
     jarLibs project(":PlanetSystem-Api")
 
     jarLibs "org.apache.logging.log4j:log4j-api:${versions_log4j}"
+    annotationProcessor "org.apache.logging.log4j:log4j-api:${versions_log4j}"
     jarLibs "ch.qos.logback:logback-classic:${versions_logback}"
 
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")

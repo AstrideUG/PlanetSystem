@@ -1,7 +1,6 @@
 package de.astride.planetsystem.core.database;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import xyz.morphia.annotations.Id;
 import xyz.morphia.annotations.IndexOptions;
 import xyz.morphia.annotations.Indexed;
@@ -18,13 +17,15 @@ import java.util.UUID;
  * <p>
  * Last edit 14.03.2019 from Lars Artmann | LartyHD
  */
-@NoArgsConstructor
 @Data
 public abstract class DatabaseEntity {
 
     @Id
     @Indexed(options = @IndexOptions(unique = true))
     private UUID uuid;
+
+    public DatabaseEntity() {
+    }
 
     public DatabaseEntity(final UUID uuid) {
         this.uuid = uuid;

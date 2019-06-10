@@ -8,7 +8,6 @@ import de.astride.planetsystem.api.planet.Planet;
 import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import xyz.morphia.annotations.Embedded;
@@ -21,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-@NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity(value = "planets", noClassnameStored = true)
@@ -37,6 +35,10 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
     private Atmosphere atmosphere;
     private PlanetLocation planetLocation;
     private Map<String, Object> metaData;
+
+    public BasicDatabasePlanet() {
+        super();
+    }
 
     public BasicDatabasePlanet(
             @NonNull final UUID uuid,
