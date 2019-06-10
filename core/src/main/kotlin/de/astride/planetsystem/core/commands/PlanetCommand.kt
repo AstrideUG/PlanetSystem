@@ -12,30 +12,25 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD.
- * Current Version: 1.0 (15.02.2019 - 18.03.2019)
+ * Current Version: 1.0 (15.02.2019 - 10.06.2019)
  */
 class PlanetCommand(javaPlugin: JavaPlugin) : Command(
     javaPlugin,
     config.planetCommand,
-    usage = "Home" +
-            "|Info" +
-            "|List <Loaded/Database>" +
-            "|Top [Size]" +
+    usage = "Info" +
+            "|Home" +
+            "|SetHome" +
+            "|Restart" +
             "|ShowInner" +
+            "|List Loaded/Database" +
+            "|Top [<Size>]" +
+            "|Visit <Player>" +
             "|Add <Player>" +
             "|Remove <Player>" +
-            "|Restart" +
-            "|SetHome" +
-            "|Visit <Player>" +
             "|Expand Info" +
-            "|Expand Expand" +
-            "|Expand Expand Chat" +
-            "|Expand Expand Force" +
-            "|Expand Shape" +
-            "|Expand Shape Cube" +
-            "|Expand Style" +
-            "|Expand Style ID <ID>" +
-            "|Expand Style SubID <ID>",
+            "|Expand Expand [Chat/Force]" +
+            "|Expand Shape [Cube]" +
+            "|Expand Style [ID/SubID <ID>]",
     minLength = 1,
     maxLength = 4,
     aliases = *config.planetCommandAliases
