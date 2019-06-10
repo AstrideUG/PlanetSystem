@@ -9,7 +9,9 @@ import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
+import xyz.morphia.annotations.Embedded;
 import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.Indexed;
 import xyz.morphia.annotations.Property;
@@ -31,18 +33,19 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
     @Property("owner")
     private UUID ownerUniqueId;
     private Set<Owner> members;
+    @Embedded
     private Atmosphere atmosphere;
     private PlanetLocation planetLocation;
     private Map<String, Object> metaData;
 
     public BasicDatabasePlanet(
-            UUID uuid,
-            String name,
-            UUID ownerUniqueId,
-            Set<Owner> members,
-            Atmosphere atmosphere,
-            PlanetLocation planetLocation,
-            Map<String, Object> metaData
+            @NonNull final UUID uuid,
+            @NonNull final String name,
+            @NonNull final UUID ownerUniqueId,
+            @NonNull final Set<Owner> members,
+            @NonNull final Atmosphere atmosphere,
+            @NonNull final PlanetLocation planetLocation,
+            @NonNull final Map<String, Object> metaData
     ) {
         super(uuid);
         this.name = name;

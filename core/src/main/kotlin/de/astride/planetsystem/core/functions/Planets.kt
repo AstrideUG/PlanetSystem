@@ -9,7 +9,6 @@ import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.proxies.loadedPlanets
-import de.astride.planetsystem.core.atmosphere.CheckedAtmosphere
 import de.astride.planetsystem.core.planet.BasePlanet
 import de.astride.planetsystem.core.proxies.config
 import de.astride.planetsystem.core.utils.FaweUtils

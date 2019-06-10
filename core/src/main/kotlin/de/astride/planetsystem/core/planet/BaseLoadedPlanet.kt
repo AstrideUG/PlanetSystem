@@ -7,6 +7,7 @@ import com.sk89q.worldedit.regions.CuboidRegion
 import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
+import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
@@ -16,10 +17,6 @@ import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.location.toBukkitVector
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
-import de.astride.planetsystem.api.proxies.databaseHandler
-import de.astride.planetsystem.api.proxies.gameWorld
-import de.astride.planetsystem.api.proxies.gridHandler
-import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
 import lombok.Data
@@ -64,13 +61,15 @@ class BaseLoadedPlanet(
     override val schematic: Schematic
         get() = Schematic(
             CuboidRegion(
-                gameWorld.toWEWorld(),
+                holder.gridHandler.world.toWEWorld(),
                 inner.min.toBukkitLocation(this).toWEVector(),
                 inner.max.toBukkitLocation(this).toWEVector()
             )
         ).apply {
             clipboard!!.origin = middle.toWEVector()
         }
+
+    private val holder get() = Holder.instance
 
     override var atmosphere: Atmosphere
         get() = super.atmosphere
@@ -83,8 +82,15 @@ class BaseLoadedPlanet(
 
     init {
 
-        inner = (atmosphere.size - 1).toBaseRegion()
-        outer = (gridHandler.maxSize - 1).toBaseRegion()
+        println(atmosphere)
+        println(atmosphere.size)
+        println((atmosphere.size - 1).toBukkitVector())
+        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax())
+        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion())
+        val region = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
+
+        inner = region
+        outer = region
 
     }
 
@@ -98,12 +104,12 @@ class BaseLoadedPlanet(
             middle.world.getNearbyEntities(middle, distance, distance, distance)
 
         entities.filter { it is Player }.forEach {
-            it.teleport(loadedPlanets.find(Owner(it.uniqueId))?.middle ?: return@forEach)
+            it.teleport(holder.loadedPlanets.find(Owner(it.uniqueId))?.middle ?: return@forEach)
         }
 
-        gridHandler.removeEntry(gridHandler.getId(middle))
+        holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
 
-        EditSessionBuilder(gameWorld.toWEWorld()).limitUnlimited().build().apply {
+        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
             val cuboidRegion = CuboidRegion(
                 this.world,
                 outer.min.toWEVector(this@BaseLoadedPlanet),
@@ -113,17 +119,15 @@ class BaseLoadedPlanet(
             flushQueue()
         }
 
-        loadedPlanets -= this
+        holder.loadedPlanets -= this
     }
 
     override fun save() {
         val databasePlanet = BasicDatabasePlanet.by(this)
-        databaseHandler.savePlanet(databasePlanet)
+        holder.databaseHandler.savePlanet(databasePlanet)
         DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
     }
 
-
-    private fun Int.toBaseRegion() = toBukkitVector().generateMinAndMax().toBaseRegion()
 
     @JvmName("toBaseRegion0")
     private fun Pair<PlanetLocation, PlanetLocation>.toBaseRegion() = BaseRegion(first, second)
