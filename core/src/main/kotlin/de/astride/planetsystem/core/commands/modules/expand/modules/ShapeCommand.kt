@@ -14,7 +14,7 @@ class ShapeCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         when {
-            args.isEmpty() -> planetPlayer.player.openInventory(ExpandCommand.INVENTORY_SHAPE)
+            args.isEmpty() -> planetPlayer.player.openInventory(ExpandCommand.Inventories.INVENTORY_SHAPE)
             args.size == 1 && "Cube" == args.firstOrNull() /*TODO: ADD PERMS*/ -> {
                 //                if (planet !is SpherePlanet) {
                 //                    planetPlayer.sendConfigurableMessage("Planet.Command.Shape.Cube.IsNotSpherePlanet")

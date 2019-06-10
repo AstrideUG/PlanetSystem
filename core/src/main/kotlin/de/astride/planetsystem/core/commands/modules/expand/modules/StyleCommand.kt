@@ -6,7 +6,10 @@ import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
 import de.astride.planetsystem.core.commands.modules.expand.sendUsage
-import de.astride.planetsystem.core.functions.*
+import de.astride.planetsystem.core.functions.findOrMessage
+import de.astride.planetsystem.core.functions.place
+import de.astride.planetsystem.core.functions.replace
+import de.astride.planetsystem.core.functions.toMaterial
 import org.bukkit.Material
 
 /**
@@ -20,7 +23,7 @@ class StyleCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val player = planetPlayer.player
-        if (args.isEmpty()) player.openInventory(ExpandCommand.INVENTORY_STYLE)
+        if (args.isEmpty()) player.openInventory(ExpandCommand.Inventories.INVENTORY_STYLE)
         else if (args.size == 2) {
             val loadedPlanet = Holder.instance.findOrMessage(Owner(player.uniqueId), player) ?: return
 
@@ -34,9 +37,8 @@ class StyleCommand : PlanetCommandModule {
                     ?: "Planet.Command.Style.ID.$material"
 
                 if (player.hasPermission(permission)) {
-                    loadedPlanet.atmosphere = loadedPlanet.atmosphere.toMutable().apply {
-                        blockID = @Suppress("DEPRECATION") material.id
-                    }
+                    @Suppress("DEPRECATION")
+                    loadedPlanet.atmosphere = loadedPlanet.atmosphere.edit(blockID = material.id)
                     loadedPlanet.place()
                 }
 
@@ -56,7 +58,7 @@ class StyleCommand : PlanetCommandModule {
                     ?: "Planet.Command.Style.SubID.$material.$subID"
 
                 if (player.hasPermission(permission)) {
-                    loadedPlanet.atmosphere = loadedPlanet.atmosphere.toMutable().apply { blockDamage = subID }
+                    loadedPlanet.atmosphere = loadedPlanet.atmosphere.edit(blockDamage = subID)
                     loadedPlanet.place()
                 }
 

@@ -89,7 +89,7 @@ class ListCommand : PlanetCommandModule {
         .replace("<UUID>", planet.uniqueID.uuid)
         .replace("<Name>", planet.name)
         .replace("SpawnLocation", planet.spawnLocation)
-        .replaceKeys("Members", planet.members)
+        .replaceKeys("Members", planet.members.toList())
         .replace(atmosphere = planet.atmosphere)
         ?.lines()
         ?.joinToString("\n") { "$prefix$it" }

@@ -68,7 +68,7 @@ class ExpandCommand : PlanetCommandModule {
 
             val owner = Owner(player.uniqueId)
 
-            if ("Chat" == args.firstOrNull() /*TODO: ADD PERMS*/) {
+            if (args.firstOrNull().equals("Chat", true) /*TODO: ADD PERMS*/) {
                 player.spigot().sendMessage(
                     TextComponent(messages["Planet.Command.Expand.Chat"]?.replacePrice(planetPlayer.planet))
                         .builder()
@@ -81,7 +81,7 @@ class ExpandCommand : PlanetCommandModule {
                         )
                         .build()
                 )
-            } else if ("Force" == args.firstOrNull() /*TODO: ADD PERMS*/) when {
+            } else if (args.firstOrNull().equals("Force", true) /*TODO: ADD PERMS*/) when {
                 owner in delay -> player.sendConfigurableMessage("Planet.Command.Expand.Force.Delay")
                 planetPlayer.isOnHisPlanet() -> {
                     delay += owner
@@ -105,7 +105,7 @@ class ExpandCommand : PlanetCommandModule {
             if (size >= maxSize) planetPlayer.player.sendConfigurableMessage("ExpandToBiggerSizeThanMaxSize")//TODO: CONVERT
             else planetPlayer.player.removeIfHasEnough(price) {
                 loadedPlanet.delete()
-                loadedPlanet.atmosphere = toMutable().apply { size++ }
+                loadedPlanet.atmosphere = edit(size = (size + 1).toByte())
                 loadedPlanet.place()
             }
         }
