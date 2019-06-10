@@ -11,6 +11,7 @@ import de.astride.planetsystem.core.atmosphere.DataAtmosphere
 import de.astride.planetsystem.core.atmosphere.checkedSize
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
+import de.astride.planetsystem.core.service.ConfigService
 import xyz.morphia.Morphia
 import xyz.morphia.mapping.DefaultCreator
 
@@ -24,7 +25,8 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
 
     init {
 
-        val mongoClient = MongoClient("127.0.0.1", 27017) //TODO: Initialization of MongoClient
+        val config = ConfigService.instance.config
+        val mongoClient = MongoClient(config.databaseHost, config.databasePort)
         val morphia = Morphia()
 
 //        morphia.mapper.options.objectFactory = object : DefaultCreator() {

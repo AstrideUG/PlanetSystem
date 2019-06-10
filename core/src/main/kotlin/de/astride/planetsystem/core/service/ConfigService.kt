@@ -42,6 +42,8 @@ class ConfigService(var directory: File) {
         /* Values */
         val flagsFileName by lazy { jsonObject["FlagsFileName"]?.asString ?: "flags.json" }
         val planetCommand by lazy { jsonObject["PlanetCommand"]?.asString ?: "Planet" }
+        val databaseHost by lazy { jsonObject["database-host"]?.asString ?: "127.0.0.1" }
+        val databasePort by lazy { jsonObject["database-port"]?.asInt ?: 27017 }
         val planetCommandAliases by lazy {
             jsonObject["PlanetCommandAliases"]?.asJsonArray?.map { it.asString }?.toTypedArray() ?: arrayOf("p")
         }
