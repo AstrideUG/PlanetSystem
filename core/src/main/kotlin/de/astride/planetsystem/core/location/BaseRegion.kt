@@ -2,10 +2,8 @@ package de.astride.planetsystem.core.location
 
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
-import lombok.Data
 import org.bukkit.util.Vector
 
-@Data
 class BaseRegion(min: PlanetLocation, max: PlanetLocation) : Region {
 
     override val min: PlanetLocation
@@ -29,5 +27,23 @@ class BaseRegion(min: PlanetLocation, max: PlanetLocation) : Region {
         this.max = PlanetLocation(max.planetID, Vector(maxX, maxY, maxZ))
 
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BaseRegion) return false
+
+        if (min != other.min) return false
+        if (max != other.max) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = min.hashCode()
+        result = 31 * result + max.hashCode()
+        return result
+    }
+
+    override fun toString(): String = "BaseRegion(min=$min, max=$max)"
 
 }
