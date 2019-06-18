@@ -38,5 +38,5 @@ object SizeChecker {
 
 fun Atmosphere.checkedSize(): Atmosphere = edit(
     size = SizeChecker.checkSize(size, maxSize),
-    maxSize = SizeChecker.checkSize(size, maxSize)
+    maxSize = SizeChecker.checkSize(maxSize, maxSize)
 )
