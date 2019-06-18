@@ -83,14 +83,9 @@ class BaseLoadedPlanet(
     init {
 
         println(atmosphere)
-        println(atmosphere.size)
-        println((atmosphere.size - 1).toBukkitVector())
-        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax())
-        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion())
-        val region = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
 
-        inner = region
-        outer = region
+        inner = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
+        outer = (atmosphere.maxSize - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
 
     }
 
@@ -103,11 +98,15 @@ class BaseLoadedPlanet(
         val entities: Iterable<Entity> =
             middle.world.getNearbyEntities(middle, distance, distance, distance)
 
-        entities.filter { it is Player }.forEach {
+        entities.asSequence().filter { it is Player }.forEach {
             it.teleport(holder.loadedPlanets.find(Owner(it.uniqueId))?.middle ?: return@forEach)
         }
 
         holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
+
+        println("----------")
+        println(inner)
+        println(outer)
 
         EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
             val cuboidRegion = CuboidRegion(
