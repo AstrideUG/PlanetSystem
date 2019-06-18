@@ -22,7 +22,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|SetHome" +
             "|Restart" +
             "|ShowInner" +
-            "|List Loaded/Database" +
+            "|List Loaded/Database [only-players]" +
             "|Top [<Size>]" +
             "|Visit <Player>" +
             "|Add <Player>" +

@@ -13,8 +13,7 @@ import de.astride.planetsystem.core.functions.replacePlayer
 import de.astride.planetsystem.core.functions.toPlanet
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendIfNotNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
-import org.bukkit.ChatColor
-import org.bukkit.command.CommandSender
+import org.bukkit.ChatColor.*
 
 /**
  * @author Lars Artmann | LartyHD
@@ -24,66 +23,84 @@ import org.bukkit.command.CommandSender
 class ListCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
+        val sender = planetPlayer.player
         if (args.isNotEmpty()) {
             val prefix =
-                "${ChatColor.AQUA}${ChatColor.BOLD}Planets ${ChatColor.WHITE}┃${ChatColor.RESET} ${ChatColor.GREEN}"
+                "$AQUA${BOLD}Planets ${WHITE}┃$RESET $GREEN"
 
+            var onlyPlayers = false
+
+            if (args.size == 2)
+                if (args[1].equals("only-players", true)) onlyPlayers = true else {
+                    //TODO send usage
+                    return
+                }
+
+            val onlyPlayersMessage = "$WHITE<Owner.UUID> $GRAY($WHITE<Owner.Name>$GRAY) is the owner of $WHITE<UUID>"
             when {
                 "loaded".equals(args[0], true) -> {
-                    "${prefix}List of all loaded planets:".sendTo(planetPlayer.player)
-                    loadedPlanets.forEach { it.send(prefix, planetPlayer.player) }
-                }
-                "database".equals(args[0], true) -> {
-                    "${prefix}List of all database planets:".sendTo(planetPlayer.player)
-                    databaseHandler.allPlanets.forEach {
-                        send(prefix, it.toPlanet(), planetPlayer.player)
+                    "${prefix}List of all loaded planets:".sendTo(sender)
+                    loadedPlanets.forEach {
+                        val message =
+                            if (onlyPlayers) onlyPlayersMessage.placeholder(prefix, it) else it.giveMessage(prefix)
+                        message.sendIfNotNull(sender)
                     }
                 }
-                else -> planetPlayer.player.sendUsage()
+                "database".equals(args[0], true) -> {
+                    "${prefix}List of all database planets:".sendTo(sender)
+                    databaseHandler.allPlanets.forEach {
+                        val planet = it.toPlanet()
+                        val message = if (onlyPlayers)
+                            onlyPlayersMessage.placeholder(prefix, planet)
+                        else planet.giveMessage(prefix)
+                        message.sendIfNotNull(sender)
+                    }
+                }
+                else -> sender.sendUsage()
             }
-        } else planetPlayer.player.sendUsage()
+        } else sender.sendUsage()
     }
 
-    private fun LoadedPlanet.send(prefix: String, sender: CommandSender) = arrayOf(
-        "Informationen über den Planeten von <Owner.Name>",
-        "Owner: ${ChatColor.WHITE}<Owner.UUID>",
-        "Planet:",
-        "  ID: ${ChatColor.WHITE}<UUID>",
-        "  Name: ${ChatColor.WHITE}<Name>",
-        "Region Inner Min:",
-        "  <Inner.Min.Lined>",
-        "Region Inner Max:",
-        "  <Inner.Max.Lined>",
-        "Region Outer Min:",
-        "  <Outer.Min.Lined>",
-        "Region Outer Max:",
-        "  <Outer.Max.Lined>",
-        "SpawnLocation:",
-        "  <SpawnLocation.Lined>",
-        "Members: ${ChatColor.WHITE}<Members.Lined>",
-        "Atmosphere:",
-        "  <Atmosphere.Lined>"
-    ).joinToString("\n")
-        .replace("Middle", middle)
-        .replace("Inner.Min", inner.min)
-        .replace("Inner.Max", inner.max)
-        .replace("Outer.Min", outer.min)
-        .replace("Outer.Max", outer.max)
-        .placeholder(prefix, this)
-        .sendIfNotNull(sender)
+    private fun LoadedPlanet.giveMessage(prefix: String): String? =
+        arrayOf(
+            "Informationen über den Planeten von <Owner.Name>",
+            "Owner: $WHITE<Owner.UUID>",
+            "Planet:",
+            "  ID: $WHITE<UUID>",
+            "  Name: $WHITE<Name>",
+            "Region Inner Min:",
+            "  <Inner.Min.Lined>",
+            "Region Inner Max:",
+            "  <Inner.Max.Lined>",
+            "Region Outer Min:",
+            "  <Outer.Min.Lined>",
+            "Region Outer Max:",
+            "  <Outer.Max.Lined>",
+            "SpawnLocation:",
+            "  <SpawnLocation.Lined>",
+            "Members: $WHITE<Members.Lined>",
+            "Atmosphere:",
+            "  <Atmosphere.Lined>"
+        ).joinToString("\n")
+            .replace("Middle", middle)
+            .replace("Inner.Min", inner.min)
+            .replace("Inner.Max", inner.max)
+            .replace("Outer.Min", outer.min)
+            .replace("Outer.Max", outer.max)
+            .placeholder(prefix, this)
 
-    private fun send(prefix: String, planet: Planet, sender: CommandSender) = arrayOf(
-        "Informationen über den Planeten von ${ChatColor.WHITE}<Owner.Name>",
-        "Owner: ${ChatColor.WHITE}<Owner.UUID>",
+    private fun Planet.giveMessage(prefix: String): String? = arrayOf(
+        "Informationen über den Planeten von $WHITE<Owner.Name>",
+        "Owner: $WHITE<Owner.UUID>",
         "Planet:",
-        "  ID: ${ChatColor.WHITE}<UUID>",
-        "  Name: ${ChatColor.WHITE}<Name>",
+        "  ID: $WHITE<UUID>",
+        "  Name: $WHITE<Name>",
         "SpawnLocation:",
         "  <SpawnLocation.Lined>",
-        "Members: ${ChatColor.WHITE}<Members.Lined>",
+        "Members: $WHITE<Members.Lined>",
         "Atmosphere:",
         "  <Atmosphere.Lined>"
-    ).joinToString("\n").placeholder(prefix, planet).sendIfNotNull(sender)
+    ).joinToString("\n").placeholder(prefix, this)
 
     private fun String?.placeholder(prefix: String, planet: Planet) = this
         .replacePlayer("Owner", planet.owner.uuid)
