@@ -21,14 +21,19 @@ class RestartCommand : PlanetCommandModule {
             planetPlayer.logger.warn(MessageKeys.COMMANDS_RESTART_FAILED_NOT_OWN_PLANET)
             return
         }
+        val player = planetPlayer.player
         when {
             args.isEmpty() -> {
-                planetPlayer.player.openInventory(ConfigService.instance.config.commands.restart.inventory)
+                player.openInventory(ConfigService.instance.config.commands.restart.inventory)
                 planetPlayer.logger.success(MessageKeys.COMMANDS_RESTART_SUCCESS)
             }
             args.size == 1 && "confirmed".equals(args[0], true) -> {
 
-                planetPlayer.player.kickPlayer(
+                val inventory = player.inventory
+                inventory.armorContents = null
+                inventory.clear()
+
+                player.kickPlayer(
                     messages["Planet.Command.Planet.Restart.confirmed.kick"] ?: "Planet deleted"
                 )
                 databaseHandler.deletePlanet(BasicDatabasePlanet.by(planetPlayer.planet))
