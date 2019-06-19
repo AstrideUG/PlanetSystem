@@ -22,6 +22,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|SetHome" +
             "|Restart" +
             "|ShowInner" +
+            "|FillInner" +
             "|List Loaded/Database [only-players]" +
             "|Top [<Size>]" +
             "|Visit <Player>" +
@@ -50,6 +51,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             RemoveCommand(),
             SetHomeCommand(),
             ShowInnerCommand(),
+            FillInnerCommand(),
             VisitCommand()
         ).forEach { command ->
             command.usage.forEach { commandModules[it.toLowerCase()] = command }

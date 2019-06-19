@@ -68,6 +68,13 @@ private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
     if (player.isNotInGameWorld()) return
 
     val planetPlayer = players.find(Owner(player.uniqueId)) ?: return
+
+    println("--------------------")
+    println(block.location.world.name)
+    println(block.location.toVector())
+    println(planetPlayer)
+    println(planetPlayer.canBuild(block))
+
     if (planetPlayer.canBuild(block)) return
 
     cancellable.cancel()

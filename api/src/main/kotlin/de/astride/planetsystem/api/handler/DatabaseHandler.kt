@@ -13,6 +13,9 @@ interface DatabaseHandler {
     fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer
     fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet
 
+    fun findPlayer(owner: Owner): DatabasePlayer?
+    fun findPlanet(owner: Owner): DatabasePlanet?
+
     fun savePlayer(databasePlayer: DatabasePlayer)
     fun savePlanet(databasePlanet: DatabasePlanet)
 

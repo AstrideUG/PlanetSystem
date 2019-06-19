@@ -29,11 +29,6 @@ import java.io.File
  */
 class ConfigService(var directory: File) {
 
-    companion object {
-        val instance: ConfigService
-            get() = Bukkit.getServicesManager()?.getRegistration(ConfigService::class.java)?.provider.toNonNull("ConfigService")
-    }
-
     /* SubClass */
     val config by lazy { Config() }
     val flags by lazy { Flags() }
@@ -165,6 +160,11 @@ class ConfigService(var directory: File) {
 
         }
 
+    }
+
+    companion object {
+        val instance: ConfigService
+            get() = Bukkit.getServicesManager()?.getRegistration(ConfigService::class.java)?.provider.toNonNull("ConfigService")
     }
 
 }

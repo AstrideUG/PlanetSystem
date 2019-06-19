@@ -42,7 +42,6 @@ class BasePlayerKeyLogger(player: Player) : BasePlayerLogger(player), PlayerKeyL
         return result
     }
 
-    override fun toString(): String =
-        "BasePlayerKeyLogger(directory=$directory, configData=$configData, config=$config, messages=$messages)"
+    override fun toString(): String = "BasePlayerKeyLogger(player=$player)"
 
 }

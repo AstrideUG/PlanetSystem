@@ -1,7 +1,6 @@
 package de.astride.planetsystem.api.functions
 
 import com.boydti.fawe.FaweAPI
-import com.sk89q.worldedit.Vector
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
@@ -9,16 +8,18 @@ import org.bukkit.Location
 import org.bukkit.World
 
 /*
+ * Created on 15.02.2019 03:19.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 15.02.2019 03:19.
- * Current Version: 1.0 (15.02.2019 - 15.02.2019)
  */
 
+typealias BukkitVector = org.bukkit.util.Vector
+typealias WEWorld = com.sk89q.worldedit.world.World
+typealias WEVector = com.sk89q.worldedit.Vector
 
-fun org.bukkit.util.Vector.toWEVector(): Vector = Vector(x, y, z)
-fun Location.toWEVector(): Vector = Vector(x, y, z)
-fun PlanetLocation.toWEVector(): Vector? = toBukkitLocation()?.toWEVector()
-fun PlanetLocation.toWEVector(planet: LoadedPlanet): Vector = toBukkitLocation(planet).toWEVector()
+fun BukkitVector.toWEVector(): WEVector = WEVector(x, y, z)
 
-fun World.toWEWorld() = FaweAPI.getWorld(name)
-fun Location.toWEWorld() = world.toWEWorld()
+fun Location.toWEVector(): WEVector = WEVector(x, y, z)
+fun PlanetLocation.toWEVector(planet: LoadedPlanet): WEVector = toBukkitLocation(planet).toWEVector()
+
+fun World.toWEWorld(): WEWorld = FaweAPI.getWorld(name)
+fun Location.toWEWorld(): WEWorld = world.toWEWorld()

@@ -6,7 +6,7 @@ import de.astride.planetsystem.api.proxies.databaseHandler
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.log.MessageKeys
-import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
 
 /**
@@ -24,7 +24,7 @@ class RestartCommand : PlanetCommandModule {
         val player = planetPlayer.player
         when {
             args.isEmpty() -> {
-                player.openInventory(ConfigService.instance.config.commands.restart.inventory)
+                player.openInventory(config.commands.restart.inventory)
                 planetPlayer.logger.success(MessageKeys.COMMANDS_RESTART_SUCCESS)
             }
             args.size == 1 && "confirmed".equals(args[0], true) -> {

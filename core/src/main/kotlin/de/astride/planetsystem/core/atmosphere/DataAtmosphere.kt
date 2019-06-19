@@ -1,7 +1,7 @@
 package de.astride.planetsystem.core.atmosphere
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere
-import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.proxies.planets
 import xyz.morphia.annotations.Embedded
 
 /**
@@ -22,10 +22,6 @@ data class DataAtmosphere(
 
     override fun edit(size: Byte, maxSize: Byte, blockID: Int, blockDamage: Int): Atmosphere =
         DataAtmosphere(size, maxSize, blockID, blockDamage)
-
-    companion object {
-        private val planets get() = ConfigService.instance.config.planets
-    }
 
 }
 

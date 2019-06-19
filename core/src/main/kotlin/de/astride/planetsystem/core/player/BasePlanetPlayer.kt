@@ -1,6 +1,5 @@
 package de.astride.planetsystem.core.player
 
-import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.log.KeyLogger
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -12,12 +11,10 @@ import org.bukkit.entity.Player
 
 class BasePlanetPlayer(
     override val player: Player,
-    loadedPlanet: LoadedPlanet
-) : BaseOfflinePlanetPlayer(Owner(player.uniqueId), loadedPlanet), PlanetPlayer {
+    override val planet: LoadedPlanet
+) : PlanetPlayer {
 
     override val logger: KeyLogger = BasePlayerKeyLogger(player)
-    override val planet: LoadedPlanet get() = super.planet as LoadedPlanet
-    override val owner: Owner get() = super<PlanetPlayer>.owner
 
     override fun unload() {
         save()
@@ -30,12 +27,12 @@ class BasePlanetPlayer(
 //        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uuid, planet.schematic)
     }
 
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is BasePlanetPlayer) return false
 
         if (player != other.player) return false
+        if (planet != other.planet) return false
         if (logger != other.logger) return false
 
         return true
@@ -43,10 +40,11 @@ class BasePlanetPlayer(
 
     override fun hashCode(): Int {
         var result = player.hashCode()
+        result = 31 * result + planet.hashCode()
         result = 31 * result + logger.hashCode()
         return result
     }
 
-    override fun toString(): String = "BasePlanetPlayer(player=$player, logger=$logger)"
+    override fun toString(): String = "BasePlanetPlayer(player=$player, planet=$planet)"
 
 }

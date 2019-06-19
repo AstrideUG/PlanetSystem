@@ -15,10 +15,7 @@ import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.Indexed;
 import xyz.morphia.annotations.Property;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -104,6 +101,7 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
 
     @NotNull
     public Map<String, Object> getMetaData() {
-        return this.metaData;
+        if (this.metaData == null) return Collections.emptyMap();
+        else return this.metaData;
     }
 }

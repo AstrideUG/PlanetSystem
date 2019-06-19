@@ -12,7 +12,7 @@ import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.functions.toPlanet
-import de.astride.planetsystem.core.player.BaseOfflinePlanetPlayer
+import de.astride.planetsystem.core.functions.toPlanetPlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -48,14 +48,14 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 //    fun on(event: PlayerMoveEvent) {
 //        if (event.player.isNotInGameWorld()) return
 //        val planet = loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
-//        if (!planet.inner.isInside(event.to.toVector())) event.player.teleportHome(planet)
+//        if (!planet.inner.isInside(event.to.toVector())) event.player.teleportPlanetSpawn(planet)
 //    }
 
     @EventHandler
     fun onPlayerLoginEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
         val databasePlanet = databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
-        BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load { it.teleportHome() }
+        databasePlanet.toPlanet().toPlanetPlayer { it.teleportPlanetSpawn() }
     }
 
     @EventHandler
@@ -90,5 +90,5 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
 }
 
-fun Player.teleportHome(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
-fun PlanetPlayer.teleportHome() = player.teleportHome(planet)
+fun Player.teleportPlanetSpawn(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
+fun PlanetPlayer.teleportPlanetSpawn() = player.teleportPlanetSpawn(planet)

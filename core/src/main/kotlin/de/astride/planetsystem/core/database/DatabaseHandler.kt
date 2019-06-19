@@ -56,15 +56,14 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
         val dataStore = morphia.createDatastore(mongoClient, "cosmic")
 //        dataStore.ensureIndexes()
 
-        this.planetDAO = PlanetDAO(BasicDatabasePlanet::class.java, dataStore)
-        this.playerDAO = PlayerDAO(BasicDatabasePlayer::class.java, dataStore)
+        planetDAO = PlanetDAO(BasicDatabasePlanet::class.java, dataStore)
+        playerDAO = PlayerDAO(BasicDatabasePlayer::class.java, dataStore)
 
     }
 
     override fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer {
-        if (playerDAO.exists("uuid", owner.uuid)) return playerDAO.findOne("uuid", owner.uuid)
 
-        val databasePlayer = BasicDatabasePlayer(owner.uuid, planet.uuid)
+        val databasePlayer = findPlayer(owner) ?: BasicDatabasePlayer(owner.uuid, planet.uuid)
         savePlayer(databasePlayer)
 
         return databasePlayer
@@ -72,9 +71,7 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
 
     override fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet {
 
-        if (planetDAO.exists("owner", owner.uuid)) return planetDAO.findOne("owner", owner.uuid)
-
-        val databasePlanet = BasicDatabasePlanet(
+        val databasePlanet = findPlanet(owner) ?: BasicDatabasePlanet(
             planet.uuid,
             "Kepler-730 c" /*TODO: Random Name*/,
             owner.uuid,
@@ -88,16 +85,24 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
         return databasePlanet
     }
 
+    override fun findPlayer(owner: Owner): DatabasePlayer? = if (playerDAO.exists("uuid", owner.uuid))
+        playerDAO.findOne("uuid", owner.uuid)
+    else null
+
+    override fun findPlanet(owner: Owner): DatabasePlanet? = if (planetDAO.exists("owner", owner.uuid))
+        planetDAO.findOne("owner", owner.uuid)
+    else null
+
     override fun savePlayer(databasePlayer: DatabasePlayer) {
-        this.playerDAO.save(databasePlayer as BasicDatabasePlayer)
+        playerDAO.save(databasePlayer as BasicDatabasePlayer)
     }
 
     override fun savePlanet(databasePlanet: DatabasePlanet) {
-        this.planetDAO.save(databasePlanet as BasicDatabasePlanet)
+        planetDAO.save(databasePlanet as BasicDatabasePlanet)
     }
 
     override fun deletePlanet(databasePlanet: DatabasePlanet) {
-        this.planetDAO.delete(databasePlanet as BasicDatabasePlanet)
+        planetDAO.delete(databasePlanet as BasicDatabasePlanet)
     }
 
 }

@@ -10,4 +10,3 @@ interface Region {
 }
 
 fun Region.isInside(vector: Vector): Boolean = vector.isInAABB(min.vector, max.vector)
-fun Region.isInside(location: PlanetLocation): Boolean = isInside(location.vector)
