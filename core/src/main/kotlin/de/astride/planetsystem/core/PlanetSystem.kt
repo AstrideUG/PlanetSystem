@@ -69,8 +69,8 @@ class PlanetSystem : DarkPlugin() {
     private fun registerListeners() {
         PlanetListener(this)
         PlayerListener(this)
-        PlanetCommandListener(this)
-        RestartCommandListener(this)
+        PlanetExpandCommandListener(this)
+        PlanetDeleteCommandListener(this)
         ProtectionListener(this)
     }
 

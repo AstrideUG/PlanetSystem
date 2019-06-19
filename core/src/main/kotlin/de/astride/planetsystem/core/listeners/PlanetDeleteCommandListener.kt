@@ -11,9 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 14.03.2019 14:46.
- * Current Version: 1.0 (14.03.2019 - 14.03.2019)
+ * Current Version: 1.0 (14.03.2019 - 19.06.2019)
  */
-class RestartCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+class PlanetDeleteCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     /**
      * @author Lars Artmann | LartyHD
@@ -26,7 +26,6 @@ class RestartCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         val item = event.currentItem ?: return
 
         val inventory = config.commands.restart.inventory
-
         if (inventory != event.inventory) return
 
         event.cancel()

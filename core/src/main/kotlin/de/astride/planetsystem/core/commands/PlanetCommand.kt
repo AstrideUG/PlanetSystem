@@ -20,7 +20,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
     usage = "Info" +
             "|Home" +
             "|SetHome" +
-            "|Restart" +
+            "|Delete [<Player>]" +
             "|ShowInner" +
             "|FillInner" +
             "|List Loaded/Database [only-players]" +
@@ -45,7 +45,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             HomeCommand(),
             InfoCommand(),
             ListCommand(),
-            RestartCommand(),
+            DeleteCommand(),
             TopCommand(),
             AddCommand(),
             RemoveCommand(),
