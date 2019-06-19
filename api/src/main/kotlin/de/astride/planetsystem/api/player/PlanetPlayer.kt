@@ -24,9 +24,7 @@ interface PlanetPlayer {
 
 fun PlanetPlayer.canBuild(block: Block) = canBuild(block.location)
 fun PlanetPlayer.canBuild(location: Location): Boolean {
-    println("Block $location")
     val planet = loadedPlanets.find(location) ?: return false
-    println("planet $planet")
     val owner = this.planet.owner
     return planet.owner == owner || owner in planet.members
 }
