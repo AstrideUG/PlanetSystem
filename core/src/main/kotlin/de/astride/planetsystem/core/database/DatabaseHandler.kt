@@ -3,6 +3,7 @@ package de.astride.planetsystem.core.database
 import com.mongodb.MongoClient
 import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.database.DatabasePlayer
+import de.astride.planetsystem.api.functions.BukkitVector
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
@@ -77,7 +78,7 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
             owner.uuid,
             mutableSetOf(),
             DataAtmosphere().checkedSize(),
-            PlanetLocation(planet),
+            PlanetLocation(planet, vector = BukkitVector(0.5, 0.0, 0.5)),
             mutableMapOf()
         )
         savePlanet(databasePlanet)

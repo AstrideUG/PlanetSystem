@@ -49,5 +49,5 @@ fun Set<PlanetPlayer>.find(owner: Owner) = find { it.planet.owner == owner }
 fun Set<LoadedPlanet>.find(owner: Owner) = find { it.owner == owner }
 fun Set<LoadedPlanet>.find(id: UniqueID) = find { it.uniqueID == id }
 fun Set<LoadedPlanet>.find(location: Location) = if (location.world.isNotGameWorld()) null else find {
-    it.inner.isInside(location.toVector().relativeTo(it.middle.toVector()))
+    it.inner.isInside(location.relativeTo(it.middle).toVector())
 }

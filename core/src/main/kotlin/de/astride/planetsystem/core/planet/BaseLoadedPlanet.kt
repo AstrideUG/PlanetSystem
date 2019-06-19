@@ -5,6 +5,7 @@ import com.boydti.fawe.util.EditSessionBuilder
 import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.regions.CuboidRegion
 import de.astride.planetsystem.api.atmosphere.Atmosphere
+import de.astride.planetsystem.api.functions.toBukkitVector
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
 import de.astride.planetsystem.api.holder.Holder
@@ -14,7 +15,6 @@ import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.toBukkitLocation
-import de.astride.planetsystem.api.location.toBukkitVector
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
@@ -99,10 +99,6 @@ class BaseLoadedPlanet(
         }
 
         holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
-
-        println("----------")
-        println(inner)
-        println(outer)
 
         EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
             val cuboidRegion = CuboidRegion(

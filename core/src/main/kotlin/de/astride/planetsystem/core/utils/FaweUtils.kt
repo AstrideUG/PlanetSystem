@@ -43,9 +43,14 @@ object FaweUtils {
     }
 
     fun setCuboid(world: World, vector1: Vector, vector2: Vector, pattern: Pattern) {
+        println("setCuboid")
         println(vector1)
         println(vector2)
-        val editSession = EditSessionBuilder(world.name).limitUnlimited().build()
+        val editSession = EditSessionBuilder(world.name)
+            .fastmode(true)
+            .limitUnlimited()
+            .allowedRegionsEverywhere()
+            .build()
         editSession.makeCuboidFaces(CuboidRegion(vector1, vector2), pattern)
         editSession.flushQueue()
     }

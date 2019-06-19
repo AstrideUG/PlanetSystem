@@ -29,7 +29,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
     override fun findEmptyLocation(): Location {
         val x = findFreeAndAdd() * maxSize
-        return Location(world, x + 0.5, 126.0, 0.5)
+        return Location(world, x.toDouble(), 126.0, 0.0)
     }
 
     private fun findFreeAndAdd(): Int = findFree().apply { used.add(this) }

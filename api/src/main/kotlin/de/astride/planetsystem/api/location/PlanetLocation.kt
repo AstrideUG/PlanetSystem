@@ -1,5 +1,6 @@
 package de.astride.planetsystem.api.location
 
+import de.astride.planetsystem.api.functions.BukkitVector
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.planet.LoadedPlanet
@@ -12,7 +13,7 @@ import org.bukkit.util.Vector
 data class PlanetLocation @JvmOverloads constructor(
 //    @Transient
     var planetID: UniqueID? = null,
-    var vector: Vector = Vector(),
+    var vector: BukkitVector = BukkitVector(),
     var yaw: Float = 0f,
     var pitch: Float = 0f
 ) {
@@ -34,7 +35,6 @@ data class PlanetLocation @JvmOverloads constructor(
 
 fun PlanetPlayer.relativeTo(): Vector = player.location.relativeTo(planet.middle).toVector()
 fun Location.relativeTo(middle: Location): Location = clone().subtract(middle)
-fun Vector.relativeTo(middle: Vector): Vector = clone().subtract(middle)
 
 fun PlanetLocation.toBukkitLocation(input: Vector): Location =
     vector.clone().add(input).toLocation(gridHandler.world).also {
@@ -48,5 +48,3 @@ fun PlanetLocation.toBukkitLocation(): Location? {
     val planet = loadedPlanets.find(planetID ?: return null) ?: return null
     return toBukkitLocation(planet)
 }
-
-fun Number.toBukkitVector() = toDouble().run { Vector(this, this, this) }
