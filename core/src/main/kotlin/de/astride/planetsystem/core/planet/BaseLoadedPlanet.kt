@@ -78,8 +78,6 @@ class BaseLoadedPlanet(
 
     init {
 
-        println(atmosphere)
-
         inner = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
         outer = (atmosphere.maxSize - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
 
