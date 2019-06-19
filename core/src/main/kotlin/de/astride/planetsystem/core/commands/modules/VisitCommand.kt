@@ -14,11 +14,11 @@ import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.listeners.teleportPlanetSpawn
 import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_VISIT_FAILED_NO_ARGS
-import de.astride.planetsystem.core.planet.BaseLoadedPlanet
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import kotlin.reflect.KFunction
+import kotlin.reflect.full.declaredFunctions
 import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.functions
+import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.jvmErasure
 
 //TODO split in in a api
@@ -37,27 +37,29 @@ class VisitCommand : PlanetCommandModule {
 
     private fun PlanetPlayer.execute(owner: Owner) {
 
-        javaClass.kotlin.functions.forEach { function ->
-
+        VisitCommand::class.declaredFunctions.forEach { function ->
+            function.findAnnotation<Permission>() ?: return@forEach
             if (!player.hasPermission(function.perm)) return@forEach
 
             var parameters: Array<Any?>? = null
-            when (function.parameters.singleOrNull()?.type?.jvmErasure) {
+            when (function.parameters.lastOrNull()?.type?.jvmErasure) {
                 LoadedPlanet::class -> {
                     val loadedPlanet = loadedPlanets.find(owner)
                     if (loadedPlanet != null)
                         parameters = arrayOf(loadedPlanet)
                     else logger.warn("planet.not.loaded")
                 }
-                BaseLoadedPlanet::class -> {
+                DatabasePlanet::class -> {
                     val databasePlanet = databaseHandler.findPlanet(owner)
                     if (databasePlanet != null)
                         parameters = arrayOf(databasePlanet)
                     else logger.warn("planet.not.exists")
                 }
             }
+
             if (parameters != null) {
-                function.call(this, *parameters)
+                function.isAccessible = true
+                function.call(this@VisitCommand, this, *parameters)
                 return
             }
 
@@ -67,14 +69,14 @@ class VisitCommand : PlanetCommandModule {
     }
 
     @Permission("loaded")
-    private fun PlanetPlayer.visit(loadedPlanet: LoadedPlanet): Unit = visit(loadedPlanet)
+    private fun PlanetPlayer.teleport(loadedPlanet: LoadedPlanet): Unit = teleport(loadedPlanet)
 
     @Permission("unloaded")
-    private fun PlanetPlayer.visit(databasePlanet: DatabasePlanet): Unit = visit(databasePlanet.toPlanet())
+    private fun PlanetPlayer.teleport(databasePlanet: DatabasePlanet): Unit = teleport(databasePlanet.toPlanet())
 
-    private fun PlanetPlayer.visit(planet: Planet) {
+    private fun PlanetPlayer.teleport(planet: Planet) {
         planet.load { player.teleportPlanetSpawn(it) }
-        logger.info("planet.visit.success")
+        logger.info("planet.visit.teleport.success")
     }
 
 }
