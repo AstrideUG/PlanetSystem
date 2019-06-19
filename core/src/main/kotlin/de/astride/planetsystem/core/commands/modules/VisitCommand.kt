@@ -37,7 +37,7 @@ class VisitCommand : PlanetCommandModule {
 
     private fun PlanetPlayer.execute(owner: Owner) {
 
-        VisitCommand::class.declaredFunctions.forEach { function ->
+        VisitCommand::class.declaredFunctions.toSet().reversed().forEach { function ->
             function.findAnnotation<Permission>() ?: return@forEach
             if (!player.hasPermission(function.perm)) return@forEach
 
