@@ -55,7 +55,7 @@ fun LoadedPlanet.place(
     location: Location = middle,
     size: Double = atmosphere.size.toDouble(),
     pattern: Pattern = SingleBlockPattern(BaseBlock(atmosphere.blockID, atmosphere.blockDamage))
-): Unit = FaweUtils.setHSphere(location, size, pattern)
+): Unit = FaweUtils.setCuboid(location, size, pattern)
 
 
 /**
@@ -66,7 +66,7 @@ fun LoadedPlanet.place(
 fun LoadedPlanet.delete(
     location: Location = middle,
     size: Double = atmosphere.size.toDouble()
-): Unit = FaweUtils.setHSphere(location, size, SingleBlockPattern(BaseBlock(0)))
+): Unit = FaweUtils.setCuboid(location, size, SingleBlockPattern(BaseBlock(0)))
 
 
 /**
