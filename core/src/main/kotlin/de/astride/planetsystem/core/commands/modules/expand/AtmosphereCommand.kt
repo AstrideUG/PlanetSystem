@@ -22,7 +22,7 @@ import java.util.*
  * Created by Lars Artmann | LartyHD on 28.02.2019 06:46.
  * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
-class ExpandCommand : PlanetCommandModule {
+class AtmosphereCommand : PlanetCommandModule {
 
     private val commandModules: MutableMap<String, PlanetCommandModule> = HashMap()
 //    override val usage: Array<String>

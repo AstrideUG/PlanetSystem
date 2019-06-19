@@ -30,7 +30,7 @@ class ExpandCommandTest {
 //    fun `"player is not allowed to execute any expand commands when not on his planet (allow)"`() {
 //
 //        /* Given */
-//        val command = mock<ExpandCommand>()
+//        val command = mock<AtmosphereCommand>()
 //
 //        val planetPlayer: PlanetPlayer = mock()
 //        whenever(planetPlayer.planet).thenReturn(mock())
@@ -54,7 +54,7 @@ class ExpandCommandTest {
 //    fun `"player is not allowed to execute any expand commands when not on his planet (disallow)"`() {
 //
 //        /* Given */
-//        val command = mock<ExpandCommand>()
+//        val command = mock<AtmosphereCommand>()
 //
 //        val planetPlayer: PlanetPlayer = mock()
 //        whenever(planetPlayer.logger).thenReturn(mock())

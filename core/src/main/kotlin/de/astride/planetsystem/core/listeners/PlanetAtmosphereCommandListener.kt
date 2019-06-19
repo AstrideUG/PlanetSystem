@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin
  *
  * Last edit 18.03.2019
  */
-class PlanetExpandCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+class PlanetAtmosphereCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @Suppress("unused")
     @EventHandler
@@ -67,7 +67,7 @@ class PlanetExpandCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin)
 
 }
 
-private fun Player.command(args: String) = chat("/${config.planetCommand} Expand $args")
+private fun Player.command(args: String) = chat("/${config.planetCommand} Atmosphere $args")
 
 
 

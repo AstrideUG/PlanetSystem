@@ -2,7 +2,7 @@ package de.astride.planetsystem.core.commands.modules.expand.modules
 
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
-import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
+import de.astride.planetsystem.core.commands.modules.expand.AtmosphereCommand
 import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 
 /**
@@ -14,7 +14,7 @@ class ShapeCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         when {
-            args.isEmpty() -> planetPlayer.player.openInventory(ExpandCommand.Inventories.INVENTORY_SHAPE)
+            args.isEmpty() -> planetPlayer.player.openInventory(AtmosphereCommand.Inventories.INVENTORY_SHAPE)
             args.size == 1 && "Cube" == args.firstOrNull() /*TODO: ADD PERMS*/ -> {
                 //                if (planet !is SpherePlanet) {
                 //                    planetPlayer.sendConfigurableMessage("Planet.Command.Shape.Cube.IsNotSpherePlanet")

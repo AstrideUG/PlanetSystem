@@ -2,7 +2,7 @@ package de.astride.planetsystem.core.commands
 
 import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.commands.modules.*
-import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
+import de.astride.planetsystem.core.commands.modules.expand.AtmosphereCommand
 import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.spigot.commands.Command
 import net.darkdevelopers.darkbedrock.darkness.spigot.utils.isPlayer
@@ -28,10 +28,10 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|Visit <Player>" +
             "|Add <Player>" +
             "|Remove <Player>" +
-            "|Expand Info" +
-            "|Expand Expand [Chat/Force]" +
-            "|Expand Shape [Cube]" +
-            "|Expand Style [ID/SubID <ID>]",
+            "|Atmosphere Info" +
+            "|Atmosphere Expand [Chat/Force]" +
+            "|Atmosphere Shape [Cube]" +
+            "|Atmosphere Style [ID/SubID <ID>]",
     minLength = 1,
     maxLength = 4,
     aliases = *config.planetCommandAliases
@@ -41,7 +41,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
 
     init {
         arrayOf(
-            ExpandCommand(),
+            AtmosphereCommand(),
             HomeCommand(),
             InfoCommand(),
             ListCommand(),

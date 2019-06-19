@@ -3,7 +3,7 @@ package de.astride.planetsystem.core.commands.modules.expand.modules
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
-import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
+import de.astride.planetsystem.core.commands.modules.expand.AtmosphereCommand
 import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 import de.astride.planetsystem.core.functions.findPlanetOrMessage
 import de.astride.planetsystem.core.functions.place
@@ -22,7 +22,7 @@ class StyleCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val player = planetPlayer.player
-        if (args.isEmpty()) player.openInventory(ExpandCommand.Inventories.INVENTORY_STYLE)
+        if (args.isEmpty()) player.openInventory(AtmosphereCommand.Inventories.INVENTORY_STYLE)
         else if (args.size == 2) {
             val loadedPlanet = findPlanetOrMessage(Owner(player.uniqueId), player) ?: return
 
