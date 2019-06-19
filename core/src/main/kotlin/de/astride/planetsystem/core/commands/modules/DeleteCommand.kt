@@ -1,17 +1,20 @@
 package de.astride.planetsystem.core.commands.modules
 
+import de.astride.planetsystem.api.holder.find
+import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.log.Logger
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.player.isOnHisPlanet
 import de.astride.planetsystem.api.proxies.databaseHandler
+import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
-import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.log.MessageKeys
 import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
-import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toOfflinePlayer
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayer
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * Created on 14.03.2019 14:11.
@@ -21,42 +24,56 @@ class DeleteCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val logger = planetPlayer.logger
-        if (!planetPlayer.isOnHisPlanet() && args.size != 2) {
-            logger.warn(MessageKeys.COMMANDS_RESTART_FAILED_NOT_OWN_PLANET)
+        if (!planetPlayer.isOnHisPlanet() && (args.isEmpty() || args[0].equals(confirmedKey, true))) {
+            logger.warn(MessageKeys.COMMANDS_DELETE_FAILED_NOT_OWN_PLANET)
             return
         }
         when {
             args.isEmpty() -> planetPlayer.player.openInventory(config.commands.restart.inventory)
-            "confirmed".equals(args.last(), true) -> {
+            confirmedKey.equals(args.last(), true) -> {
 
-                planetPlayer.player.clear(logger, args)
-                databaseHandler.deletePlanet(BasicDatabasePlanet.by(planetPlayer.planet))
+                val target = planetPlayer.player.getTarget(logger, args) ?: return
+                println(target)
+                target.toPlayer()?.clear()
+
+                val owner = Owner(target)
+                println(loadedPlanets.find(owner))
+                loadedPlanets.find(owner)?.unload()
+
+                databaseHandler.findPlanet(owner)?.let {
+                    println(it)
+                    databaseHandler.deletePlanet(it)
+                }
+
                 //Don't delete the schematic
 
+                logger.info(MessageKeys.COMMANDS_DELETE_SUCCESSES)
             }
+            args.size == 1 -> logger.info(MessageKeys.COMMANDS_DELETE_OTHER_ADD_CONFIRMED)
             else -> {
                 /* TODO Send usage */
             }
         }
     }
 
-    private fun Player.clear(logger: Logger, args: Array<String>) {
-
-        val target = if (args.size == 2) {
+    private fun Player.getTarget(logger: Logger, args: Array<String>): UUID? {
+        return if (args.size == 2) {
             if (!hasPermission("${permissions(args)}.other")) {
                 logger.warn("no.perms")
-                return
+                return null
             }
-            args[1].toPlayerUUID()?.toOfflinePlayer()?.player ?: return
-        } else this
+            args[0].toPlayerUUID() ?: return null
+        } else this.uniqueId
+    }
 
-        target.kickPlayer(
-            messages["Planet.Command.Planet.Restart.confirmed.kick"] ?: "Planet deleted"
-        )
-
-        val inventory = target.inventory
+    private fun Player.clear() {
+        kickPlayer(messages["Planet.Command.Planet.Restart.confirmed.kick"] ?: "Planet deleted")
         inventory.armorContents = null
         inventory.clear()
+    }
+
+    companion object {
+        private const val confirmedKey: String = "confirmed"
     }
 
 }

@@ -33,7 +33,7 @@ class PlanetDeleteCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin)
         if (inventory.getItem(13) != item) return
 
         event.whoClicked.closeInventory()
-        Bukkit.dispatchCommand(event.whoClicked, "${config.planetCommand} restart confirmed")
+        Bukkit.dispatchCommand(event.whoClicked, "${config.planetCommand} delete confirmed")
 
     }
 
