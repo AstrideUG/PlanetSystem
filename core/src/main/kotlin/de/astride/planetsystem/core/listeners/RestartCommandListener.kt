@@ -1,6 +1,7 @@
 package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.core.proxies.config
+import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -27,6 +28,9 @@ class RestartCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         val inventory = config.commands.restart.inventory
 
         if (inventory != event.inventory) return
+
+        event.cancel()
+
         if (inventory.getItem(13) != item) return
 
         event.whoClicked.closeInventory()
