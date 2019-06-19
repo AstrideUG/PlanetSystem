@@ -2,11 +2,9 @@ package de.astride.planetsystem.core.log
 
 import de.astride.planetsystem.api.log.Logger
 import de.astride.planetsystem.api.log.PlayerLogger
-import lombok.Data
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
-@Data
 open class BasePlayerLogger(override val player: Player) : PlayerLogger {
 
     override fun log(level: Logger.Level, vararg message: Any) {
@@ -19,5 +17,19 @@ open class BasePlayerLogger(override val player: Player) : PlayerLogger {
             Logger.Level.SUCCESSFULLY -> player.sendMessage("${ChatColor.GREEN}$msg.")
         }
     }
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BasePlayerLogger) return false
+
+        if (player != other.player) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int = player.hashCode()
+
+    override fun toString(): String = "BasePlayerLogger(player=$player)"
 
 }

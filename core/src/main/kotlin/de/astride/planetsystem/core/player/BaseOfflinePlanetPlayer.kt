@@ -5,10 +5,8 @@ import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.OfflinePlanetPlayer
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.proxies.players
-import lombok.Data
 import org.bukkit.Bukkit
 
-@Data
 open class BaseOfflinePlanetPlayer(
     override val owner: Owner,
     override val planet: Planet
@@ -27,5 +25,23 @@ open class BaseOfflinePlanetPlayer(
         }
 
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BaseOfflinePlanetPlayer) return false
+
+        if (owner != other.owner) return false
+        if (planet != other.planet) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = owner.hashCode()
+        result = 31 * result + planet.hashCode()
+        return result
+    }
+
+    override fun toString(): String = "BaseOfflinePlanetPlayer(owner=$owner, planet=$planet)"
 
 }

@@ -8,12 +8,8 @@ import de.astride.planetsystem.api.proxies.databaseHandler
 import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
 import de.astride.planetsystem.core.log.BasePlayerKeyLogger
-import lombok.Data
-import lombok.EqualsAndHashCode
 import org.bukkit.entity.Player
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 class BasePlanetPlayer(
     override val player: Player,
     loadedPlanet: LoadedPlanet
@@ -33,5 +29,24 @@ class BasePlanetPlayer(
         databaseHandler.savePlayer(databasePlayer)
 //        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uuid, planet.schematic)
     }
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BasePlanetPlayer) return false
+
+        if (player != other.player) return false
+        if (logger != other.logger) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = player.hashCode()
+        result = 31 * result + logger.hashCode()
+        return result
+    }
+
+    override fun toString(): String = "BasePlanetPlayer(player=$player, logger=$logger)"
 
 }

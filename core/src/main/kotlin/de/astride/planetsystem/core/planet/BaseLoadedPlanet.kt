@@ -19,8 +19,6 @@ import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
-import lombok.Data
-import lombok.EqualsAndHashCode
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
 import org.bukkit.Location
 import org.bukkit.Material
@@ -28,8 +26,6 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 class BaseLoadedPlanet(
     uniqueID: UniqueID,
     name: String,
@@ -134,6 +130,26 @@ class BaseLoadedPlanet(
     private fun Pair<Vector, Vector>.toBaseRegion() = toPlanetLocation().toBaseRegion()
     private fun Pair<Vector, Vector>.toPlanetLocation() = first.toPlanetLocation() to second.toPlanetLocation()
     private fun Vector.toPlanetLocation() = PlanetLocation(uniqueID, this, middle.yaw, middle.pitch)
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BaseLoadedPlanet) return false
+
+        if (inner != other.inner) return false
+        if (outer != other.outer) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = inner.hashCode()
+        result = 31 * result + outer.hashCode()
+        return result
+    }
+
+    override fun toString(): String = "BaseLoadedPlanet(inner=$inner, outer=$outer)"
+
 }
 
 private fun Vector.generateMinAndMax() = clone().multiply(-1) to clone()
