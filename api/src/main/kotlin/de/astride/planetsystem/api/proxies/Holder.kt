@@ -13,7 +13,11 @@ import de.astride.planetsystem.api.holder.Holder
  * Created by Lars Artmann | LartyHD on 18.03.2019 02:14.
  * Current Version: 1.0 (18.03.2019 - 18.03.2019)
  */
-val holder get() = Holder.instance
+var holder
+    get() = Holder.instance
+    set(value) {
+        Holder.instance = value
+    }
 
 /**
  * @author Lars Artmann | LartyHD

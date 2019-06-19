@@ -2,8 +2,8 @@ package de.astride.planetsystem.core
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.saveAll
+import de.astride.planetsystem.api.proxies.holder
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.functions.deleteGameWorld
 import de.astride.planetsystem.core.holder.HolderImpl
@@ -32,7 +32,7 @@ class PlanetSystem : DarkPlugin() {
     }
 
     override fun onEnable() = onEnable {
-        Holder.instance = HolderImpl() //For Holder.Impl.holder
+        holder = HolderImpl() //For Holder.Impl.holder
 //        Flags.FireTick.world = Holder.instance.gridHandler.world
 
         //For Mongodb logs (stops this stuff)!

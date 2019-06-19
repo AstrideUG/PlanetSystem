@@ -8,7 +8,6 @@ import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.functions.toBukkitVector
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
-import de.astride.planetsystem.api.holder.Holder
 import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
@@ -17,6 +16,10 @@ import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.api.proxies.databaseHandler
+import de.astride.planetsystem.api.proxies.gridHandler
+import de.astride.planetsystem.api.proxies.loadedPlanets
+import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
@@ -57,15 +60,13 @@ class BaseLoadedPlanet(
     override val schematic: Schematic
         get() = Schematic(
             CuboidRegion(
-                holder.gridHandler.world.toWEWorld(),
+                gridHandler.world.toWEWorld(),
                 inner.min.toBukkitLocation(this).toWEVector(),
                 inner.max.toBukkitLocation(this).toWEVector()
             )
         ).apply {
             clipboard!!.origin = middle.toWEVector()
         }
-
-    private val holder get() = Holder.instance
 
     override var atmosphere: Atmosphere
         get() = super.atmosphere
@@ -93,12 +94,12 @@ class BaseLoadedPlanet(
             middle.world.getNearbyEntities(middle, distance, distance, distance)
 
         entities.asSequence().filter { it is Player }.forEach {
-            it.teleport(holder.loadedPlanets.find(Owner(it.uniqueId))?.middle ?: return@forEach)
+            it.teleport(players.find(Owner(it.uniqueId))?.planet?.middle ?: return@forEach)
         }
 
-        holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
+        gridHandler.removeEntry(gridHandler.getId(middle))
 
-        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
+        EditSessionBuilder(gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
             val cuboidRegion = CuboidRegion(
                 this.world,
                 outer.min.toWEVector(this@BaseLoadedPlanet),
@@ -108,12 +109,12 @@ class BaseLoadedPlanet(
             flushQueue()
         }
 
-        holder.loadedPlanets -= this
+        loadedPlanets -= this
     }
 
     override fun save() {
         val databasePlanet = BasicDatabasePlanet.by(this)
-        holder.databaseHandler.savePlanet(databasePlanet)
+        databaseHandler.savePlanet(databasePlanet)
         DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
     }
 
