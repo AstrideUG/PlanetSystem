@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin
  *
  * Last edit 18.03.2019
  */
-class PlanetCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
+class PlanetExpandCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @Suppress("unused")
     @EventHandler
