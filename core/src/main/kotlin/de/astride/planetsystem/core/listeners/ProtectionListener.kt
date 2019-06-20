@@ -42,7 +42,7 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         val from = event.block.location ?: return
         val to = event.toBlock.location ?: return
         if (from.innerPlanet != null) to.innerPlanet ?: event.cancel()
-        if (from.outerPlanet != null) event.cancel()
+        else if (from.outerPlanet != null) event.cancel()
     }
 
     @EventHandler
