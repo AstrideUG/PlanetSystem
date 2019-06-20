@@ -17,12 +17,14 @@ import org.bukkit.Location
 import org.bukkit.Material.*
 import org.bukkit.block.Block
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.BlockFromToEvent
 import org.bukkit.event.block.BlockPistonExtendEvent
 import org.bukkit.event.block.BlockPistonRetractEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.ProjectileLaunchEvent
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
@@ -78,6 +80,12 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             @Suppress("DEPRECATION")
             player.sendBlockChange(location, block.type, block.data)
         }
+    }
+
+    @EventHandler
+    fun on(event: ProjectileLaunchEvent) {
+        val shooter = event.entity.shooter as? Player ?: return
+        event.block(event.entity.location, shooter.uniqueId)
     }
 
     @EventHandler
