@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 package de.astride.planetsystem.core.service
@@ -59,39 +59,43 @@ class ConfigService(var directory: File) {
             //TODO: Add to Darkness-Spigot
             inner class Restart internal constructor(jsonObject: JsonObject?) {
 
-                private val size: Int? = jsonObject?.get("size")?.asInt
-                private val type: InventoryType =
+                private val size: Int? by lazy { jsonObject?.get("size")?.asInt }
+                private val type: InventoryType by lazy {
                     InventoryType.valueOf(jsonObject?.get("type")?.asString?.toUpperCase() ?: "CHEST")
-                private val name = jsonObject?.get("name")?.asString ?: type.defaultTitle
+                }
+                private val name by lazy { jsonObject?.get("name")?.asString ?: type.defaultTitle }
 
-                private val contents = jsonObject?.get("contents")?.asJsonArray?.map { element: JsonElement? ->
+                private val contents by lazy {
+                    jsonObject?.get("contents")?.asJsonArray?.map { element: JsonElement? ->
 
-                    if (element !is JsonObject) return@map null
+                        if (element !is JsonObject) return@map null
 
-                    val material = element.get("material")?.asString?.toMaterial() ?: return@map null
-                    val amount = element.get("amount")?.asInt ?: 1
-                    val damage = element.get("damage")?.asShort ?: 0
+                        val material = element.get("material")?.asString?.toMaterial() ?: return@map null
+                        val amount = element.get("amount")?.asInt ?: 1
+                        val damage = element.get("damage")?.asShort ?: 0
 
-                    val name = element.get("name")?.asString
-                    val lore = element.get("lore")?.asJsonArray?.mapNotNull { it.asString } ?: emptyList()
+                        val name = element.get("name")?.asString
+                        val lore = element.get("lore")?.asJsonArray?.mapNotNull { it.asString } ?: emptyList()
 
-                    val owner = element.get("owner")?.asJsonObject
-                    val ownerName = owner?.get("name")?.asString
-                    val ownerURL = owner?.get("url")?.asString
+                        val owner = element.get("owner")?.asJsonObject
+                        val ownerName = owner?.get("name")?.asString
+                        val ownerURL = owner?.get("url")?.asString
 
-                    val builder = ItemBuilder(material, amount, damage).setLore(lore) //TODO: add more
-                    if (name != null) builder.setName(name)
-                    if (ownerName != null)
-                        if (ownerURL != null) builder.setOwner(ownerURL, ownerName)
-                        else builder.setOwner(ownerName)
+                        val builder = ItemBuilder(material, amount, damage).setLore(lore) //TODO: add more
+                        if (name != null) builder.setName(name)
+                        if (ownerName != null)
+                            if (ownerURL != null) builder.setOwner(ownerURL, ownerName)
+                            else builder.setOwner(ownerName)
 
-                    return@map builder.build()
+                        return@map builder.build()
 
-                }?.toTypedArray() ?: emptyArray()
+                    }?.toTypedArray() ?: emptyArray()
+                }
 
-                private val inventoryBuilder =
-                    if (size == null) InventoryBuilder(type, name) else InventoryBuilder(size, name)
-                val inventory = inventoryBuilder.build().apply { contents = this@Restart.contents }
+                private val inventoryBuilder by lazy {
+                    if (size == null) InventoryBuilder(type, name) else InventoryBuilder(size ?: 0, name)
+                }
+                val inventory by lazy { inventoryBuilder.build().apply { contents = this@Restart.contents } }
 
             }
 
