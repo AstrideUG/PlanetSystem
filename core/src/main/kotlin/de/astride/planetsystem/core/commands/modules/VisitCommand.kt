@@ -14,6 +14,7 @@ import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
+import de.astride.planetsystem.core.functions.load
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.listeners.teleportPlanetSpawn
 import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_VISIT_FAILED_NO_ARGS

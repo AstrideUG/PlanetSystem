@@ -90,8 +90,6 @@ class BaseLoadedPlanet(
         outer = (atmosphere.maxSize - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
     }
 
-    override fun load(result: (LoadedPlanet) -> Unit): Unit = result(this)
-
     override fun unload() {
         save()
 

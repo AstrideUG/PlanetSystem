@@ -17,9 +17,6 @@ interface LoadedPlanet : Planet {
     val middle: BukkitLocation
     val schematic: Schematic
 
-    //TODO: override suspend fun load(): LoadedPlanet = this
-    override fun load(result: (LoadedPlanet) -> Unit)
-
     /*TODO suspend*/ fun unload()
 
     /*TODO suspend*/ fun save()
