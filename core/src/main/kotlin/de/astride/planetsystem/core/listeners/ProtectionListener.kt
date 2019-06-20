@@ -4,6 +4,7 @@
 
 package de.astride.planetsystem.core.listeners
 
+import de.astride.planetsystem.api.database.allMembers
 import de.astride.planetsystem.api.functions.innerPlanet
 import de.astride.planetsystem.api.functions.outerPlanet
 import de.astride.planetsystem.api.inline.Owner
@@ -22,6 +23,7 @@ import org.bukkit.event.block.BlockFromToEvent
 import org.bukkit.event.block.BlockPistonExtendEvent
 import org.bukkit.event.block.BlockPistonRetractEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
@@ -45,9 +47,19 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
+    fun on(event: HangingBreakByEntityEvent) {
+        val planet = event.entity.location.outerPlanet ?: return
+        if (Owner(event.remover.uniqueId) in planet.allMembers) return
+        event.cancel()
+    }
+
+    @EventHandler
     fun on(event: EntityDamageByEntityEvent) {
-        if (event.damager?.type != EntityType.PLAYER) return
+        val damager = event.damager
+        if (damager?.type != EntityType.PLAYER) return
         if (Flags.Mobs.types.any { it == event.entityType }) return
+        val planet = event.entity.location.outerPlanet ?: return
+        if (Owner(damager.uniqueId) in planet.allMembers) return
         event.cancel()
     }
 
@@ -143,8 +155,10 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             DAYLIGHT_DETECTOR_INVERTED
         )
 
-        if (block.type !in blockedBlocks && event.item?.type !in blockedItems) return
-        event.block(block.location, event.player.uniqueId)
+        if (block.type in blockedBlocks)
+            event.block(block.location, event.player.uniqueId)
+        else if (event.item?.type in blockedItems)
+            event.block(block.getRelative(event.blockFace).location, event.player.uniqueId)
     }
 
     private fun Cancellable.block(location: Location, uuid: UUID) {
