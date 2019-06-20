@@ -8,7 +8,6 @@ import de.astride.planetsystem.api.database.DatabasePlayer;
 import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import xyz.morphia.annotations.Entity;
@@ -17,7 +16,6 @@ import xyz.morphia.annotations.Indexed;
 
 import java.util.UUID;
 
-@NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity(value = "players", noClassnameStored = true)
@@ -25,6 +23,10 @@ public class BasicDatabasePlayer extends DatabaseEntity implements DatabasePlaye
 
     @Indexed(options = @IndexOptions(unique = true))
     private UUID planetUniqueId;
+
+    public BasicDatabasePlayer() {
+        super();
+    }
 
     public BasicDatabasePlayer(@NonNull final UUID uuid, @NonNull final UUID planetUniqueId) {
         super(uuid);
