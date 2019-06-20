@@ -4,7 +4,7 @@
 
 package de.astride.planetsystem.api.player
 
-import de.astride.planetsystem.api.functions.planet
+import de.astride.planetsystem.api.functions.innerPlanet
 import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.location.relativeTo
 import de.astride.planetsystem.api.log.Logger
@@ -25,7 +25,7 @@ interface PlanetPlayer {
 
 fun PlanetPlayer.canBuild(location: Location): Boolean {
     val owner = planet.owner
-    val planet = location.planet ?: return false
+    val planet = location.innerPlanet ?: return false
     return planet.owner == owner || owner in planet.members
 }
 

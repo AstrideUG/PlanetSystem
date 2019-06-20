@@ -6,8 +6,10 @@ package de.astride.planetsystem.api.functions
 
 import de.astride.planetsystem.api.holder.loadedPlanets
 import de.astride.planetsystem.api.holder.players
+import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.isInside
 import de.astride.planetsystem.api.location.relativeTo
+import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.proxies.gameWorld
 import org.bukkit.Location
 import org.bukkit.World
@@ -26,8 +28,10 @@ fun saveAll() {
 fun Entity.isNotInGameWorld() = world.isNotGameWorld()
 fun World.isNotGameWorld() = this != gameWorld
 
-val Location.planet
-    get() = loadedPlanets.find {
-        val middle = it.middle
-        if (world == middle.world) it.outer.isInside(relativeTo(middle).toVector()) else false
-    }
+val Location.innerPlanet get() = planet { it.inner }
+val Location.outerPlanet get() = planet { it.outer }
+
+private fun Location.planet(region: (LoadedPlanet) -> Region) = loadedPlanets.find {
+    val middle = it.middle
+    if (world == middle.world) region(it).isInside(relativeTo(middle).toVector()) else false
+}

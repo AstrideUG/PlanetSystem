@@ -42,7 +42,7 @@ class VisitCommand : PlanetCommandModule {
     private fun PlanetPlayer.execute(owner: Owner) {
 
         if (owner == Owner(player.uniqueId)) {
-            logger.warn("planet.visit.failed.can.not.visit.your.planet")
+            logger.warn("innerPlanet.visit.failed.can.not.visit.your.innerPlanet")
             return
         }
 
@@ -56,13 +56,13 @@ class VisitCommand : PlanetCommandModule {
                     val loadedPlanet = owner.planet
                     if (loadedPlanet != null)
                         parameters = arrayOf(loadedPlanet)
-                    else logger.warn("planet.not.loaded")
+                    else logger.warn("innerPlanet.not.loaded")
                 }
                 DatabasePlanet::class -> {
                     val databasePlanet = databaseHandler.findPlanet(owner)
                     if (databasePlanet != null)
                         parameters = arrayOf(databasePlanet)
-                    else logger.warn("planet.not.exists")
+                    else logger.warn("innerPlanet.not.exists")
                 }
             }
 
@@ -92,7 +92,7 @@ class VisitCommand : PlanetCommandModule {
         }
 
         planet.load { player.teleportPlanetSpawn(it) }
-        logger.info("planet.visit.teleport.success")
+        logger.info("innerPlanet.visit.teleport.success")
     }
 
 }

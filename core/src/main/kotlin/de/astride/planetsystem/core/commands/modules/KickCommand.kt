@@ -4,7 +4,7 @@
 
 package de.astride.planetsystem.core.commands.modules
 
-import de.astride.planetsystem.api.functions.planet
+import de.astride.planetsystem.api.functions.outerPlanet
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -24,7 +24,7 @@ class KickCommand : PlanetCommandModule {
         if (args.size == 1) {
             val target = args[0].toPlayer()
             if (target != null) {
-                if (target.location.planet != planetPlayer.planet) {
+                if (target.location.outerPlanet != planetPlayer.planet) {
                     logger.warn(COMMANDS_KICK_TARGET_NOT_ON_YOUR_PLANET)
                     return
                 }

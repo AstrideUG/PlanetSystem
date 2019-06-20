@@ -50,8 +50,8 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 //    @EventHandler
 //    fun on(event: PlayerMoveEvent) {
 //        if (event.player.isNotInGameWorld()) return
-//        val planet = loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
-//        if (!planet.inner.isInside(event.to.toVector())) event.player.teleportPlanetSpawn(planet)
+//        val innerPlanet = loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
+//        if (!innerPlanet.inner.isInside(event.to.toVector())) event.player.teleportPlanetSpawn(innerPlanet)
 //    }
 
     @EventHandler

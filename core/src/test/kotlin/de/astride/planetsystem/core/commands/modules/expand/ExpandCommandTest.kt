@@ -31,13 +31,13 @@ class ExpandCommandTest {
     }
 
 //    @Test
-//    fun `"player is not allowed to execute any expand commands when not on his planet (allow)"`() {
+//    fun `"player is not allowed to execute any expand commands when not on his innerPlanet (allow)"`() {
 //
 //        /* Given */
 //        val command = mock<AtmosphereCommand>()
 //
 //        val planetPlayer: PlanetPlayer = mock()
-//        whenever(planetPlayer.planet).thenReturn(mock())
+//        whenever(planetPlayer.innerPlanet).thenReturn(mock())
 //        whenever(planetPlayer.player).thenReturn(mock())
 //        whenever(planetPlayer.player.location).thenReturn(mock())
 ////        whenever(planetPlayer.isOnHisPlanet()).thenReturn(true)
@@ -55,19 +55,19 @@ class ExpandCommandTest {
 //    }
 
 //    @Test
-//    fun `"player is not allowed to execute any expand commands when not on his planet (disallow)"`() {
+//    fun `"player is not allowed to execute any expand commands when not on his innerPlanet (disallow)"`() {
 //
 //        /* Given */
 //        val command = mock<AtmosphereCommand>()
 //
 //        val planetPlayer: PlanetPlayer = mock()
 //        whenever(planetPlayer.logger).thenReturn(mock())
-//        whenever(planetPlayer.planet).thenReturn(mock())
+//        whenever(planetPlayer.innerPlanet).thenReturn(mock())
 //        val spawnLocation = PlanetLocation(null)
-//        whenever(planetPlayer.planet.inner).thenReturn(BaseRegion(spawnLocation, spawnLocation))
+//        whenever(planetPlayer.innerPlanet.inner).thenReturn(BaseRegion(spawnLocation, spawnLocation))
 //        whenever(planetPlayer.player).thenReturn(mock())
 //        val location = Location(mock(), 10.0, 10.0, 10.0)
-//        whenever(planetPlayer.planet.middle).thenReturn(location)
+//        whenever(planetPlayer.innerPlanet.middle).thenReturn(location)
 //        whenever(planetPlayer.player.location).thenReturn(location)
 //        whenever(command.execute(planetPlayer, emptyArray())).thenCallRealMethod()
 //

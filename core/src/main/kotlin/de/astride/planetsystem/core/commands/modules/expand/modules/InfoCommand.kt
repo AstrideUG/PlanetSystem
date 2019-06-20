@@ -4,7 +4,7 @@
 
 package de.astride.planetsystem.core.commands.modules.expand.modules
 
-import de.astride.planetsystem.api.functions.planet
+import de.astride.planetsystem.api.functions.outerPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.replace
@@ -28,7 +28,7 @@ class InfoCommand : PlanetCommandModule {
         }
 
         val player = planetPlayer.player
-        val loadedPlanet = player.location.planet
+        val loadedPlanet = player.location.outerPlanet
         if (loadedPlanet == null)
             player.sendConfigurableMessage("Planet.Command.Info.CanNotFindLoadedPlanetAtThatLocation")
         else messages["Planet.Command.Info"]

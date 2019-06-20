@@ -27,7 +27,7 @@ class BasePlanetPlayer(
 
     override fun save() {
         databaseHandler.savePlayer(planet.toDatabasePlayer())
-//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uniqueID, planet.schematic)
+//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(innerPlanet.uniqueID.uniqueID, innerPlanet.schematic)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -48,6 +48,6 @@ class BasePlanetPlayer(
         return result
     }
 
-    override fun toString(): String = "BasePlanetPlayer(player=$player, planet=$planet)"
+    override fun toString(): String = "BasePlanetPlayer(player=$player, innerPlanet=$planet)"
 
 }

@@ -4,7 +4,7 @@
 
 package de.astride.planetsystem.core.commands.modules
 
-import de.astride.planetsystem.api.functions.planet
+import de.astride.planetsystem.api.functions.outerPlanet
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.world
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -19,7 +19,7 @@ import org.bukkit.Material
 class ShowInnerCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
-        val planet = planetPlayer.player.location.planet
+        val planet = planetPlayer.player.location.outerPlanet
         if (planet == null) {
             planetPlayer.logger.info("YouAreNotOnAPlanet")
             return

@@ -8,7 +8,7 @@ package de.astride.planetsystem.core.commands.modules
 
 import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.patterns.SingleBlockPattern
-import de.astride.planetsystem.api.functions.planet
+import de.astride.planetsystem.api.functions.outerPlanet
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.planet.world
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -23,7 +23,7 @@ import de.astride.planetsystem.core.utils.FaweUtils
 class FillInnerCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
-        val planet = planetPlayer.player.location.planet
+        val planet = planetPlayer.player.location.outerPlanet
         if (planet == null) {
             planetPlayer.logger.info("YouAreNotOnAPlanet")
             return
