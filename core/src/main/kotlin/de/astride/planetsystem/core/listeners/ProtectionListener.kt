@@ -99,11 +99,15 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun on(event: PlayerInteractEvent) {
 
-        val blockedTypes = arrayOf(
+        val block = event.clickedBlock ?: return
+
+        val blockedItems = arrayOf(
             MONSTER_EGG,
             ITEM_FRAME,
             ARMOR_STAND,
-            PAINTING,
+            PAINTING
+        )
+        val blockedBlocks = arrayOf(
             CHEST,
             TRAPPED_CHEST,
             ANVIL,
@@ -139,8 +143,8 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             DAYLIGHT_DETECTOR,
             DAYLIGHT_DETECTOR_INVERTED
         )
-        val block = event.clickedBlock ?: return
-        if (block.type !in blockedTypes) return
+
+        if (block.type !in blockedBlocks && event.item?.type !in blockedItems) return
         event.block(block.location, event.player.uniqueId)
     }
 
