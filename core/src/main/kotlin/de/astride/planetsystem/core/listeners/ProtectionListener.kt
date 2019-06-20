@@ -4,6 +4,7 @@
 
 package de.astride.planetsystem.core.listeners
 
+import de.astride.planetsystem.api.functions.innerPlanet
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.player.canEdit
@@ -15,18 +16,15 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
+import org.bukkit.event.block.BlockFromToEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.player.PlayerBucketEmptyEvent
-import org.bukkit.event.player.PlayerBucketFillEvent
-import org.bukkit.event.player.PlayerInteractEntityEvent
-import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 /**
+ * Created on 08.03.2019 02:28.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 08.03.2019 02:28.
- * Current Version: 1.0 (08.03.2019 - 18.03.2019)
  */
 class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
@@ -45,6 +43,9 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun on(event: PlayerInteractEntityEvent) = event.block(event.rightClicked.location, event.player.uniqueId)
+
+    @EventHandler
+    fun on(event: PlayerArmorStandManipulateEvent) = event.block(event.rightClicked.location, event.player.uniqueId)
 
     @EventHandler
     fun on(event: PlayerInteractEvent) {
