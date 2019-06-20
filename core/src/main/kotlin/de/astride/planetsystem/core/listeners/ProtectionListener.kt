@@ -5,6 +5,7 @@
 package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.api.functions.innerPlanet
+import de.astride.planetsystem.api.functions.outerPlanet
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.player.canEdit
@@ -28,17 +29,16 @@ import java.util.*
  */
 class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
-
     /**
-     *
-     * Blocks lava and water flows out of inner region
-     *
+     * Blocks lava and water flows out of inner region and from outer region
      * @author Lars Artmann | LartyHD
      */
     @EventHandler
     fun on(event: BlockFromToEvent) {
-        event.block.location.innerPlanet ?: return
-        event.toBlock.location.innerPlanet ?: event.cancel()
+        val from = event.block.location ?: return
+        val to = event.toBlock.location ?: return
+        if (from.innerPlanet != null) to.innerPlanet ?: event.cancel()
+        if (from.outerPlanet != null) event.cancel()
     }
 
     @EventHandler
