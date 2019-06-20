@@ -26,6 +26,7 @@ import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.planet.world
 import de.astride.planetsystem.core.functions.delete
+import de.astride.planetsystem.core.functions.place
 import de.astride.planetsystem.core.functions.toDatabasePlanet
 import de.astride.planetsystem.core.location.BaseRegion
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
@@ -121,6 +122,7 @@ class BaseLoadedPlanet(
         delete()
         databaseHandler.savePlanet(this.toDatabasePlanet())
         DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
+        place()
     }
 
 
