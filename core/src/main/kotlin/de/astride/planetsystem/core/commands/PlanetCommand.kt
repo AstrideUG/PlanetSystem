@@ -33,6 +33,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|Visit <Player>" +
             "|Add <Player>" +
             "|Remove <Player>" +
+            "|Kick <Player>" +
             "|Atmosphere Info" +
             "|Atmosphere Expand [Chat/Force]" +
             "|Atmosphere Shape [Cube]" +
@@ -57,6 +58,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             SetHomeCommand(),
             ShowInnerCommand(),
             FillInnerCommand(),
+            KickCommand(),
             VisitCommand()
         ).forEach { command ->
             command.usage.forEach { commandModules[it.toLowerCase()] = command }

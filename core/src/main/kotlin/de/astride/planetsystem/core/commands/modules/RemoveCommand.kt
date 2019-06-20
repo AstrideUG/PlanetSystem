@@ -25,10 +25,10 @@ class RemoveCommand : PlanetCommandModule {
             if (owner in planetPlayer.planet.members) {
                 planetPlayer.planet.members -= owner
 
-                logger.success(COMMANDS_KICK_SUCCESSES_PLAYER)
-                owner.planetPlayer?.logger?.success(COMMANDS_KICK_SUCCESSES_TARGET)
-            } else logger.warn(COMMANDS_KICK_FAILED_IS_NOT_A_PLANET_MEMBER)
-        } else logger.warn(COMMANDS_KICK_FAILED_ARGS_SIZE_IS_NOT_1)
+                logger.success(COMMANDS_REMOVE_SUCCESSES_PLAYER)
+                owner.planetPlayer?.logger?.success(COMMANDS_REMOVE_SUCCESSES_TARGET)
+            } else logger.warn(COMMANDS_REMOVE_FAILED_IS_NOT_A_PLANET_MEMBER)
+        } else logger.warn(COMMANDS_REMOVE_FAILED_ARGS_SIZE_IS_NOT_1)
     }
 
 }
