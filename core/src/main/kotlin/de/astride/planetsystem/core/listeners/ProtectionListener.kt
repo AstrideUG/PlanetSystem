@@ -18,7 +18,6 @@ import org.bukkit.block.Block
 import org.bukkit.entity.EntityType
 import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.block.BlockFromToEvent
 import org.bukkit.event.block.BlockPistonExtendEvent
 import org.bukkit.event.block.BlockPistonRetractEvent
@@ -56,7 +55,7 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     fun on(event: PlayerBucketEmptyEvent) =
         event.block(event.blockClicked.getRelative(event.blockFace).location, event.player.uniqueId)
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler
     fun on(event: PlayerBucketFillEvent) {
         val player = event.player
         val block = event.blockClicked.getRelative(event.blockFace)
