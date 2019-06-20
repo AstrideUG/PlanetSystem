@@ -4,6 +4,7 @@
 
 package de.astride.planetsystem.api.player
 
+import de.astride.planetsystem.api.database.allMembers
 import de.astride.planetsystem.api.functions.innerPlanet
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.location.isInside
@@ -26,9 +27,6 @@ interface PlanetPlayer {
 
 val PlanetPlayer.owner get() = Owner(player.uniqueId)
 
-fun PlanetPlayer.canEdit(location: Location): Boolean {
-    val planet = location.innerPlanet ?: return false
-    return planet.owner == owner || owner in planet.members
-}
+fun PlanetPlayer.canEdit(location: Location): Boolean = owner in location.innerPlanet?.allMembers.orEmpty()
 
 fun PlanetPlayer.isOnHisPlanet(): Boolean = planet.outer.isInside(relativeTo())

@@ -24,3 +24,5 @@ interface DatabasePlanet {
     val locked: Boolean
 
 }
+
+val DatabasePlanet.allMembers get() = members + owner

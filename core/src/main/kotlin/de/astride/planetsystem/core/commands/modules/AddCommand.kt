@@ -4,6 +4,7 @@
 
 package de.astride.planetsystem.core.commands.modules
 
+import de.astride.planetsystem.api.database.allMembers
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -24,7 +25,7 @@ class AddCommand : PlanetCommandModule {
         if (args.size == 1) {
             val owner = Owner(args[0].toPlayerUUID())
             val planet = planetPlayer.planet
-            if (owner !in planet.members) {
+            if (owner !in planet.allMembers) {
                 if (planetPlayer.player.hasPermission("${permissions(args)}.amount.${planet.members.size + 1}")) {
                     planet.members += owner
                     logger.success(COMMANDS_INVITE_SUCCESSES_PLAYER)

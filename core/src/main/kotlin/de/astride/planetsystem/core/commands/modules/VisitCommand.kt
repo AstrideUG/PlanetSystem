@@ -7,6 +7,7 @@
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.database.DatabasePlanet
+import de.astride.planetsystem.api.database.allMembers
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.databasePlanet
 import de.astride.planetsystem.api.inline.planet
@@ -87,7 +88,7 @@ class VisitCommand : PlanetCommandModule {
     private fun PlanetPlayer.teleport(planet: Planet) {
 
         val owner = Owner(player.uniqueId)
-        if (planet.locked && owner !in planet.members) {
+        if (planet.locked && owner !in planet.allMembers) {
             logger.warn(COMMANDS_VISIT_FAILED_PLANET_IS_LOCKED)
             return
         }
