@@ -127,6 +127,12 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             type != Material.JUNGLE_FENCE_GATE &&
             type != Material.SPRUCE_FENCE_GATE &&
             type != Material.FENCE_GATE &&
+            type != Material.GOLD_PLATE &&
+            type != Material.IRON_PLATE &&
+            type != Material.REDSTONE_COMPARATOR_OFF &&
+            type != Material.REDSTONE_COMPARATOR_ON &&
+            type != Material.DIODE_BLOCK_OFF &&
+            type != Material.DIODE_BLOCK_ON &&
             type != Material.LEVER
         ) return
 
