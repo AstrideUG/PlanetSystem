@@ -101,7 +101,12 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
         val block = event.clickedBlock ?: return
         val type = block.type
-        if (type != Material.CHEST &&
+        if (
+            type != Material.MONSTER_EGG &&
+            type != Material.ITEM_FRAME &&
+            type != Material.ARMOR_STAND &&
+            type != Material.PAINTING &&
+            type != Material.CHEST &&
             type != Material.TRAPPED_CHEST &&
             type != Material.ANVIL &&
             type != Material.CAKE_BLOCK &&
