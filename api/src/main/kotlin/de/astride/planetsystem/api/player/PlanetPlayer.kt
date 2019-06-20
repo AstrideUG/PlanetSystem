@@ -23,7 +23,7 @@ interface PlanetPlayer {
 
 }
 
-fun PlanetPlayer.canBuild(location: Location): Boolean {
+fun PlanetPlayer.canEdit(location: Location): Boolean {
     val owner = planet.owner
     val planet = location.innerPlanet ?: return false
     return planet.owner == owner || owner in planet.members

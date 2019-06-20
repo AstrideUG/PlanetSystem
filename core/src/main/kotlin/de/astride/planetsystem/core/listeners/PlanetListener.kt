@@ -8,7 +8,7 @@ import de.astride.planetsystem.api.functions.isNotInGameWorld
 import de.astride.planetsystem.api.functions.saveAll
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.planetPlayer
-import de.astride.planetsystem.api.player.canBuild
+import de.astride.planetsystem.api.player.canEdit
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.log.MessageKeys
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
@@ -71,7 +71,7 @@ private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
     if (player.isNotInGameWorld()) return
 
     val planetPlayer = Owner(player.uniqueId).planetPlayer ?: return
-    if (planetPlayer.canBuild(block.location)) return
+    if (planetPlayer.canEdit(block.location)) return
 
     cancellable.cancel()
     planetPlayer.logger.warn(MessageKeys.LISTENER_PLANET_BUILD_DENY)

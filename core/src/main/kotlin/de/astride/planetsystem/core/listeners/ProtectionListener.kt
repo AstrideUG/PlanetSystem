@@ -6,7 +6,7 @@ package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.planetPlayer
-import de.astride.planetsystem.api.player.canBuild
+import de.astride.planetsystem.api.player.canEdit
 import de.astride.planetsystem.core.flags.Flags
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -86,7 +86,7 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     private fun Cancellable.block(location: Location, uuid: UUID) {
         val planetPlayer = Owner(uuid).planetPlayer ?: return
-        if (planetPlayer.canBuild(location)) return
+        if (planetPlayer.canEdit(location)) return
         cancel()
     }
 
