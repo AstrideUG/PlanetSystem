@@ -18,6 +18,7 @@ import de.astride.planetsystem.core.listeners.PlayerListener
 import de.astride.planetsystem.core.listeners.ProtectionListener
 import de.astride.planetsystem.core.listeners.commands.PlanetAtmosphereCommandListener
 import de.astride.planetsystem.core.listeners.commands.PlanetDeleteCommandListener
+import de.astride.planetsystem.core.listeners.commands.PlanetVisitCommandListener
 import de.astride.planetsystem.core.proxies.configs
 import de.astride.planetsystem.core.service.ConfigService
 import de.astride.planetsystem.core.world.BaseGridHandler
@@ -80,11 +81,14 @@ class PlanetSystem : DarkPlugin() {
     }
 
     private fun registerListeners() {
-        PlayerEnterPlanetEventImplementationListener(this)
-        PlayerLeavePlanetEventImplementationListener(this)
-        PlayerListener(this)
         PlanetAtmosphereCommandListener(this)
         PlanetDeleteCommandListener(this)
+        PlanetVisitCommandListener(this)
+
+        PlayerEnterPlanetEventImplementationListener(this)
+        PlayerLeavePlanetEventImplementationListener(this)
+
+        PlayerListener(this)
         ProtectionListener(this)
     }
 
