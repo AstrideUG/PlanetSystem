@@ -17,6 +17,7 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.block.BlockFromToEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.*
@@ -49,10 +50,21 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     @EventHandler
-    fun on(event: PlayerBucketEmptyEvent) = event.block(event.blockClicked.location, event.player.uniqueId)
+    fun on(event: PlayerBucketEmptyEvent) =
+        event.block(event.blockClicked.getRelative(event.blockFace).location, event.player.uniqueId)
 
-    @EventHandler
-    fun on(event: PlayerBucketFillEvent) = event.block(event.blockClicked.location, event.player.uniqueId)
+    @EventHandler(priority = EventPriority.HIGHEST)
+    fun on(event: PlayerBucketFillEvent) {
+        val player = event.player
+        val block = event.blockClicked.getRelative(event.blockFace)
+        val location = block.location ?: return
+        event.block(location, player.uniqueId)
+        if (event.isCancelled) {
+            player.updateInventory()
+            @Suppress("DEPRECATION")
+            player.sendBlockChange(location, block.type, block.data)
+        }
+    }
 
     @EventHandler
     fun on(event: PlayerInteractEntityEvent) = event.block(event.rightClicked.location, event.player.uniqueId)
