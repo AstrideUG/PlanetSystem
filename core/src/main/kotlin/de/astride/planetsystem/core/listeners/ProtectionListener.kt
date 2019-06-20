@@ -14,11 +14,14 @@ import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.entity.EntityType
 import org.bukkit.event.Cancellable
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.block.BlockFromToEvent
+import org.bukkit.event.block.BlockPistonExtendEvent
+import org.bukkit.event.block.BlockPistonRetractEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.*
 import org.bukkit.plugin.java.JavaPlugin
@@ -71,6 +74,27 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
     fun on(event: PlayerArmorStandManipulateEvent) = event.block(event.rightClicked.location, event.player.uniqueId)
+
+    /**
+     * Blocks piston extension in outer region
+     * @author Lars Artmann | LartyHD
+     */
+    @EventHandler
+    fun on(event: BlockPistonExtendEvent) {
+        val blocks: List<Block> =
+            (event.blocks.ifEmpty { listOf(event.block) }).map { it.getRelative(event.direction) }
+        if (blocks.any { it.location.outerPlanet == null || it.location.innerPlanet == null }) event.cancel()
+    }
+
+    /**
+     * Blocks piston extension in outer region
+     * @author Lars Artmann | LartyHD
+     */
+    @EventHandler
+    fun on(event: BlockPistonRetractEvent) {
+        val blocks: List<Block> = event.blocks.ifEmpty { listOf(event.block.getRelative(event.direction)) }
+        if (blocks.any { it.location.outerPlanet == null || it.location.innerPlanet == null }) event.cancel()
+    }
 
     @EventHandler
     fun on(event: PlayerInteractEvent) {
