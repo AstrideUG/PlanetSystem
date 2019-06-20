@@ -133,6 +133,8 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
             type != Material.REDSTONE_COMPARATOR_ON &&
             type != Material.DIODE_BLOCK_OFF &&
             type != Material.DIODE_BLOCK_ON &&
+            type != Material.DAYLIGHT_DETECTOR &&
+            type != Material.DAYLIGHT_DETECTOR_INVERTED &&
             type != Material.LEVER
         ) return
 
