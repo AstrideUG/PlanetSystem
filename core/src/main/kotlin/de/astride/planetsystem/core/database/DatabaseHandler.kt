@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.database
 
 import com.mongodb.MongoClient
@@ -28,71 +32,44 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
         val mongoClient = MongoClient("127.0.0.1", 27017) //TODO: Initialization of MongoClient
         val morphia = Morphia()
 
-//        morphia.mapper.options.objectFactory = object : DefaultCreator() {
-//            override fun getClassLoaderForClass(): ClassLoader = PlanetSystem::class.java.classLoader
-//        }
-
         morphia.mapper.options.objectFactory = object : DefaultCreator() {
             override fun getClassLoaderForClass(): ClassLoader = PlanetSystem::class.java.classLoader
         }
         morphia.map(DatabasePlanet::class.java, DatabasePlayer::class.java)
         morphia.mapper.addMappedClass(DataAtmosphere::class.java)
 
-//        morphia.mapper.converters.addConverter(object : TypeConverter() {
-//            override fun decode(
-//                targetClass: Class<*>?,
-//                fromDBObject: Any,
-//                optionalExtraInfo: MappedField?
-//            ): PlanetLocation {
-//                fromDBObject as BasicDBObject
-//
-//                val id = UniqueID(fromDBObject["planetID"] as UUID)
-//                val vector = fromDBObject["vector"] as Vector
-//                val yaw = fromDBObject["yaw"] as Float
-//                val pitch = fromDBObject["pitch"] as Float
-//                return PlanetLocation(id, vector, yaw, pitch)
-//            }
-//        })
-
         val dataStore = morphia.createDatastore(mongoClient, "cosmic")
-//        dataStore.ensureIndexes()
+        dataStore.ensureIndexes()
 
         planetDAO = PlanetDAO(BasicDatabasePlanet::class.java, dataStore)
         playerDAO = PlayerDAO(BasicDatabasePlayer::class.java, dataStore)
 
     }
 
-    override fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer {
 
-        val databasePlayer = findPlayer(owner) ?: BasicDatabasePlayer(owner.uuid, planet.uuid)
-        savePlayer(databasePlayer)
+    override fun findPlayer(owner: Owner): DatabasePlayer? = if (playerDAO.exists(playerOwnerKey, owner.uuid))
+        playerDAO.findOne(playerOwnerKey, owner.uuid)
+    else null
 
-        return databasePlayer
-    }
+    override fun findPlanet(owner: Owner): DatabasePlanet? = if (planetDAO.exists(planetOwnerKey, owner.uuid))
+        planetDAO.findOne(planetOwnerKey, owner.uuid)
+    else null
 
-    override fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet {
 
-        val databasePlanet = findPlanet(owner) ?: BasicDatabasePlanet(
+    override fun findPlayerOrCreate(owner: Owner, planet: UniqueID): DatabasePlayer =
+        (findPlayer(owner) ?: BasicDatabasePlayer(owner.uuid, planet.uuid)).also(::savePlayer)
+
+    override fun findPlanetOrCreate(owner: Owner, planet: UniqueID): DatabasePlanet =
+        (findPlanet(owner) ?: BasicDatabasePlanet(
             planet.uuid,
-            "Kepler-730 c" /*TODO: Random Name*/,
             owner.uuid,
+            "Kepler-730 c", /*TODO: Random Name*/
             mutableSetOf(),
-            DataAtmosphere().checkedSize(),
             PlanetLocation(planet, vector = BukkitVector(0.5, 0.0, 0.5)),
+            DataAtmosphere().checkedSize(),
             mutableMapOf()
-        )
-        savePlanet(databasePlanet)
+        )).also(::savePlanet)
 
-        return databasePlanet
-    }
-
-    override fun findPlayer(owner: Owner): DatabasePlayer? = if (playerDAO.exists("uuid", owner.uuid))
-        playerDAO.findOne("uuid", owner.uuid)
-    else null
-
-    override fun findPlanet(owner: Owner): DatabasePlanet? = if (planetDAO.exists("owner", owner.uuid))
-        planetDAO.findOne("owner", owner.uuid)
-    else null
 
     override fun savePlayer(databasePlayer: DatabasePlayer) {
         playerDAO.save(databasePlayer as BasicDatabasePlayer)
@@ -102,8 +79,18 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
         planetDAO.save(databasePlanet as BasicDatabasePlanet)
     }
 
+
+    override fun deletePlayer(databasePlayer: DatabasePlayer) {
+        playerDAO.delete(databasePlayer as BasicDatabasePlayer)
+    }
+
     override fun deletePlanet(databasePlanet: DatabasePlanet) {
         planetDAO.delete(databasePlanet as BasicDatabasePlanet)
+    }
+
+    companion object {
+        private val playerOwnerKey: String = DatabasePlayer::uuid.name
+        private val planetOwnerKey: String = DatabasePlanet::owner.name
     }
 
 }

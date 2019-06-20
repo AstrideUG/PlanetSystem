@@ -1,9 +1,12 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.api.holder.find
 import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.player.canBuild
-import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.flags.Flags
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -82,7 +85,7 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     }
 
     private fun Cancellable.block(location: Location, uuid: UUID) {
-        val planetPlayer = players.find(Owner(uuid)) ?: return
+        val planetPlayer = Owner(uuid).planetPlayer ?: return
         if (planetPlayer.canBuild(location)) return
         cancel()
     }

@@ -1,14 +1,17 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 @file:Suppress("DEPRECATION")
 
 package de.astride.planetsystem.core.commands.modules
 
 import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.patterns.SingleBlockPattern
+import de.astride.planetsystem.api.functions.planet
 import de.astride.planetsystem.api.functions.toWEVector
-import de.astride.planetsystem.api.holder.find
+import de.astride.planetsystem.api.planet.world
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.gameWorld
-import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.utils.FaweUtils
 
@@ -20,7 +23,7 @@ import de.astride.planetsystem.core.utils.FaweUtils
 class FillInnerCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
-        val planet = loadedPlanets.find(planetPlayer.player.location)
+        val planet = planetPlayer.player.location.planet
         if (planet == null) {
             planetPlayer.logger.info("YouAreNotOnAPlanet")
             return
@@ -29,7 +32,7 @@ class FillInnerCommand : PlanetCommandModule {
         val min = inner.min.vector
         val max = inner.max.vector
 
-        FaweUtils.setCuboid(gameWorld, min.toWEVector(), max.toWEVector(), SingleBlockPattern(BaseBlock(0)))
+        FaweUtils.setCuboid(planet.world, min.toWEVector(), max.toWEVector(), SingleBlockPattern(BaseBlock(0)))
 
     }
 

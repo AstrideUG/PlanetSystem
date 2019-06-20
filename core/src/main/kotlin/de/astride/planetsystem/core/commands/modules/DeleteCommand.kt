@@ -1,12 +1,16 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.commands.modules
 
-import de.astride.planetsystem.api.holder.find
+import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.planet
+import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.log.Logger
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.player.isOnHisPlanet
-import de.astride.planetsystem.api.proxies.databaseHandler
-import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.log.MessageKeys
 import de.astride.planetsystem.core.proxies.config
@@ -33,16 +37,14 @@ class DeleteCommand : PlanetCommandModule {
             confirmedKey.equals(args.last(), true) -> {
 
                 val target = planetPlayer.player.getTarget(logger, args) ?: return
-                println(target)
                 target.toPlayer()?.clear()
 
                 val owner = Owner(target)
-                println(loadedPlanets.find(owner))
-                loadedPlanets.find(owner)?.unload()
+                owner.planet?.unload()
+                owner.planetPlayer?.unload()
 
-                databaseHandler.findPlanet(owner)?.let {
-                    println(it)
-                    databaseHandler.deletePlanet(it)
+                databaseHandler.findPlayer(owner)?.let {
+                    databaseHandler.deletePlayer(it)
                 }
 
                 //Don't delete the schematic

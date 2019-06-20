@@ -1,7 +1,10 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.database.entities;
 
 import de.astride.planetsystem.api.database.DatabasePlayer;
-import de.astride.planetsystem.api.planet.Planet;
 import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,13 +31,6 @@ public class BasicDatabasePlayer extends DatabaseEntity implements DatabasePlaye
         this.planetUniqueId = planetUniqueId;
     }
 
-    public static BasicDatabasePlayer by(final Planet planet) {
-        return new BasicDatabasePlayer(
-                planet.getOwner(),
-                planet.getUniqueID()
-        );
-    }
-
     @NotNull
     @Override
     public UUID getUuid() {
@@ -43,6 +39,6 @@ public class BasicDatabasePlayer extends DatabaseEntity implements DatabasePlaye
 
     @NotNull
     public UUID getPlanetUniqueId() {
-        return this.planetUniqueId;
+        return planetUniqueId;
     }
 }

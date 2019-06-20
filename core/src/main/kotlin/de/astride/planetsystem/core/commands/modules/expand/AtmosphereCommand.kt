@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.commands.modules.expand
 
 import de.astride.planetsystem.api.player.PlanetPlayer
@@ -48,10 +52,6 @@ class AtmosphereCommand : PlanetCommandModule {
             else -> planetPlayer.logger.warn(MessageKeys.COMMANDS_MAIN_HELP)
         }
     }
-
-//    override fun permissions(args: Array<String>): String = super.permissions(args).run {
-//        if (args[0].isModule()) "$this.${commandModules[args[0].toLowerCase()]}" else this
-//    }
 
     /**
      * @author Lars Artmann | LartyHD

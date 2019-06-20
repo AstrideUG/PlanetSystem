@@ -1,7 +1,6 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
-
 
 @file:Suppress("DEPRECATION")
 
@@ -15,15 +14,12 @@ import org.bukkit.Location
 import org.bukkit.World
 
 /**
+ * Created on 31.08.2018 18:36.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 31.08.2018 18:36.
- *
- * imported from Planets at the 24.02.2019
- *
- * Last edit 15.12.2018
  */
 object FaweUtils {
 
+    @Suppress("unused")
     fun setHSphere(location: Location, radius: Double, pattern: Pattern) {
         val editSession = EditSessionBuilder(location.world.name).allowedRegionsEverywhere().limitUnlimited().build()
         editSession.makeSphere(Vector(location.x, location.y, location.z), pattern, radius, false)

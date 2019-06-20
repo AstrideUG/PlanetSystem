@@ -1,15 +1,18 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 @file:Suppress("unused")
 
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.database.DatabasePlanet
-import de.astride.planetsystem.api.holder.find
+import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.databaseHandler
-import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.listeners.teleportPlanetSpawn
@@ -44,7 +47,7 @@ class VisitCommand : PlanetCommandModule {
             var parameters: Array<Any?>? = null
             when (function.parameters.lastOrNull()?.type?.jvmErasure) {
                 LoadedPlanet::class -> {
-                    val loadedPlanet = loadedPlanets.find(owner)
+                    val loadedPlanet = owner.planet
                     if (loadedPlanet != null)
                         parameters = arrayOf(loadedPlanet)
                     else logger.warn("planet.not.loaded")

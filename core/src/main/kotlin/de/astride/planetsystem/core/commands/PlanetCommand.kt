@@ -1,6 +1,11 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.commands
 
-import de.astride.planetsystem.api.proxies.players
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.core.commands.modules.*
 import de.astride.planetsystem.core.commands.modules.expand.AtmosphereCommand
 import de.astride.planetsystem.core.proxies.config
@@ -60,7 +65,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
 
     override fun perform(sender: CommandSender, args: Array<String>) {
         if (args[0].isModule()) sender.isPlayer { player ->
-            val planetPlayer = players.find { it.player == player } ?: return@isPlayer //TODO Add error message
+            val planetPlayer = Owner(player.uniqueId).planetPlayer ?: return@isPlayer //TODO Add error message
             val command = commandModules[args[0].toLowerCase()] ?: return@isPlayer
             val droppedArgs = args.drop(1).toTypedArray()
             hasPermission(sender, command.permissions(droppedArgs)) {

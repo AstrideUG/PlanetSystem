@@ -1,11 +1,15 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.player
 
+import de.astride.planetsystem.api.holder.databaseHandler
+import de.astride.planetsystem.api.holder.players
 import de.astride.planetsystem.api.log.KeyLogger
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.databaseHandler
-import de.astride.planetsystem.api.proxies.players
-import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
+import de.astride.planetsystem.core.functions.toDatabasePlayer
 import de.astride.planetsystem.core.log.BasePlayerKeyLogger
 import org.bukkit.entity.Player
 
@@ -22,9 +26,8 @@ class BasePlanetPlayer(
     }
 
     override fun save() {
-        val databasePlayer = BasicDatabasePlayer.by(planet)
-        databaseHandler.savePlayer(databasePlayer)
-//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uuid, planet.schematic)
+        databaseHandler.savePlayer(planet.toDatabasePlayer())
+//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(planet.uniqueID.uniqueID, planet.schematic)
     }
 
     override fun equals(other: Any?): Boolean {

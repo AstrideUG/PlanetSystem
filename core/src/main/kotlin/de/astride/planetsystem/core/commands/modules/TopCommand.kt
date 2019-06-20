@@ -1,9 +1,13 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.commands.modules
 
+import de.astride.planetsystem.api.holder.databaseHandler
+import de.astride.planetsystem.api.holder.loadedPlanets
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.databaseHandler
-import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.replace
 import de.astride.planetsystem.core.functions.toPlanet

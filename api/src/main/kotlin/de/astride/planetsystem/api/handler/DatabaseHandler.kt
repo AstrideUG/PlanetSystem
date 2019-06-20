@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.api.handler
 
 import de.astride.planetsystem.api.database.DatabasePlanet
@@ -9,15 +13,16 @@ interface DatabaseHandler {
 
     val allPlanets: Set<DatabasePlanet>
 
-
-    fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer
-    fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet
-
     fun findPlayer(owner: Owner): DatabasePlayer?
     fun findPlanet(owner: Owner): DatabasePlanet?
+
+    fun findPlayerOrCreate(owner: Owner, planet: UniqueID): DatabasePlayer
+    fun findPlanetOrCreate(owner: Owner, planet: UniqueID): DatabasePlanet
 
     fun savePlayer(databasePlayer: DatabasePlayer)
     fun savePlanet(databasePlanet: DatabasePlanet)
 
+    fun deletePlayer(databasePlayer: DatabasePlayer)
     fun deletePlanet(databasePlanet: DatabasePlanet)
+
 }

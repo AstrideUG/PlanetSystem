@@ -1,10 +1,13 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.commands.modules
 
-import de.astride.planetsystem.api.holder.find
+import de.astride.planetsystem.api.functions.planet
 import de.astride.planetsystem.api.location.toBukkitLocation
+import de.astride.planetsystem.api.planet.world
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.gameWorld
-import de.astride.planetsystem.api.proxies.loadedPlanets
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import org.bukkit.Material
 
@@ -16,7 +19,7 @@ import org.bukkit.Material
 class ShowInnerCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
-        val planet = loadedPlanets.find(planetPlayer.player.location)
+        val planet = planetPlayer.player.location.planet
         if (planet == null) {
             planetPlayer.logger.info("YouAreNotOnAPlanet")
             return
@@ -26,7 +29,7 @@ class ShowInnerCommand : PlanetCommandModule {
         val max = inner.max.toBukkitLocation() ?: return
         min.block?.type = Material.REDSTONE_BLOCK
         max.block?.type = Material.REDSTONE_BLOCK
-        val midpoint = min.toVector().getMidpoint(max.toVector()).toLocation(gameWorld)
+        val midpoint = min.toVector().getMidpoint(max.toVector()).toLocation(planet.world)
         midpoint.block.type = Material.EMERALD_BLOCK
     }
 

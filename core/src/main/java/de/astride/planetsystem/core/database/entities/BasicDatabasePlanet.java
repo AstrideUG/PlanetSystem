@@ -1,10 +1,13 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.database.entities;
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere;
 import de.astride.planetsystem.api.database.DatabasePlanet;
 import de.astride.planetsystem.api.inline.Owner;
 import de.astride.planetsystem.api.location.PlanetLocation;
-import de.astride.planetsystem.api.planet.Planet;
 import de.astride.planetsystem.core.database.DatabaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,14 +26,14 @@ import java.util.*;
 public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlanet {
 
     @Indexed
-    private String name;
-    @Indexed
     @Property("owner")
     private UUID ownerUniqueId;
+    @Indexed
+    private String name;
     private Set<Owner> members;
+    private PlanetLocation spawnLocation;
     @Embedded
     private Atmosphere atmosphere;
-    private PlanetLocation planetLocation;
     private Map<String, Object> metaData;
 
     public BasicDatabasePlanet() {
@@ -39,69 +42,57 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
 
     public BasicDatabasePlanet(
             @NonNull final UUID uuid,
-            @NonNull final String name,
             @NonNull final UUID ownerUniqueId,
+            @NonNull final String name,
             @NonNull final Set<Owner> members,
+            @NonNull final PlanetLocation spawnLocation,
             @NonNull final Atmosphere atmosphere,
-            @NonNull final PlanetLocation planetLocation,
             @NonNull final Map<String, Object> metaData
     ) {
         super(uuid);
-        this.name = name;
         this.ownerUniqueId = ownerUniqueId;
+        this.name = name;
         this.members = members;
+        this.spawnLocation = spawnLocation;
         this.atmosphere = atmosphere;
-        this.planetLocation = planetLocation;
         this.metaData = metaData;
-    }
-
-    public static BasicDatabasePlanet by(final Planet planet) {
-        return new BasicDatabasePlanet(
-                planet.getUniqueID(),
-                planet.getName(),
-                planet.getOwner(),
-                planet.getMembers(),
-                planet.getAtmosphere(),
-                planet.getSpawnLocation(),
-                planet.getMetaData()
-        );
     }
 
     @Override
     @NotNull
     public Set<Owner> getMembers() {
-        return this.members != null ? this.members : new HashSet<>();
+        return members != null ? members : new HashSet<>();
     }
 
     @NotNull
     @Override
-    public UUID getUuid() {
+    public UUID getUniqueID() {
         return super.getUuid();
     }
 
     @NotNull
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @NotNull
-    public UUID getOwnerUniqueId() {
-        return this.ownerUniqueId;
+    public UUID getOwner() {
+        return ownerUniqueId;
     }
 
     @NotNull
     public Atmosphere getAtmosphere() {
-        return this.atmosphere;
+        return atmosphere;
     }
 
     @NotNull
-    public PlanetLocation getPlanetLocation() {
-        return this.planetLocation;
+    public PlanetLocation getSpawnLocation() {
+        return spawnLocation;
     }
 
     @NotNull
     public Map<String, Object> getMetaData() {
-        if (this.metaData == null) return Collections.emptyMap();
-        else return this.metaData;
+        if (metaData == null) return Collections.emptyMap();
+        else return metaData;
     }
 }

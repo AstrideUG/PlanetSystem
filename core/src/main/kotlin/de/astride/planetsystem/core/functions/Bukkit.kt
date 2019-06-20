@@ -1,6 +1,10 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.functions
 
-import de.astride.planetsystem.api.proxies.gridHandler
+import de.astride.planetsystem.api.holder.gridHandler
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material

@@ -1,15 +1,21 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
-import de.astride.planetsystem.api.holder.saveAll
-import de.astride.planetsystem.api.proxies.holder
+import de.astride.planetsystem.api.functions.saveAll
+import de.astride.planetsystem.api.holder.databaseHandler
+import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.core.commands.PlanetCommand
+import de.astride.planetsystem.core.database.DatabaseHandler
 import de.astride.planetsystem.core.functions.deleteGameWorld
-import de.astride.planetsystem.core.holder.HolderImpl
 import de.astride.planetsystem.core.listeners.*
 import de.astride.planetsystem.core.proxies.configs
 import de.astride.planetsystem.core.service.ConfigService
+import de.astride.planetsystem.core.world.BaseGridHandler
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.messages
 import net.darkdevelopers.darkbedrock.darkness.spigot.plugin.DarkPlugin
 import org.bukkit.Bukkit
@@ -32,7 +38,9 @@ class PlanetSystem : DarkPlugin() {
     }
 
     override fun onEnable() = onEnable {
-        holder = HolderImpl() //For Holder.Impl.holder
+        databaseHandler = DatabaseHandler()
+        gridHandler = BaseGridHandler(configs.config.gameWorld, configs.config.gridMaxSize)
+
 //        Flags.FireTick.world = Holder.instance.gridHandler.world
 
         //For Mongodb logs (stops this stuff)!

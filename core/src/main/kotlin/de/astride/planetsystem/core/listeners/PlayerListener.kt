@@ -1,15 +1,18 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.api.holder.find
-import de.astride.planetsystem.api.holder.isNotInGameWorld
+import de.astride.planetsystem.api.functions.isNotInGameWorld
+import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.inline.planet
+import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.databaseHandler
-import de.astride.planetsystem.api.proxies.loadedPlanets
-import de.astride.planetsystem.api.proxies.players
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.functions.toPlanetPlayer
@@ -54,20 +57,20 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerLoginEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
-        val databasePlanet = databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
+        val databasePlanet = databaseHandler.findPlanetOrCreate(owner, UniqueID(UUID.randomUUID()))
         databasePlanet.toPlanet().toPlanetPlayer { it.teleportPlanetSpawn() }
     }
 
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
         val owner = Owner(event.player.uniqueId)
-        loadedPlanets.find(owner)?.unload()
-        players.find(owner)?.unload()
+        owner.planet?.unload()
+        owner.planetPlayer?.unload()
     }
 
     @EventHandler
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        val planet = loadedPlanets.find(Owner(event.player.uniqueId)) ?: return
+        val planet = Owner(event.player.uniqueId).planet ?: return
         event.respawnLocation = planet.spawnLocation.toBukkitLocation(planet)
     }
 

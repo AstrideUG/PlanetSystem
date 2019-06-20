@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.api.database
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere
@@ -7,12 +11,13 @@ import de.astride.planetsystem.api.location.PlanetLocation
 
 interface DatabasePlanet {
 
-    val uuid: UniqueID
+    val uniqueID: UniqueID
+    val owner: Owner
     val name: String
-    val ownerUniqueId: Owner
-    val members: Set<Owner>
+
+    val members: MutableSet<Owner>
+    val spawnLocation: PlanetLocation
     val atmosphere: Atmosphere
-    val planetLocation: PlanetLocation
     val metaData: Map<String, Any>
 
 }

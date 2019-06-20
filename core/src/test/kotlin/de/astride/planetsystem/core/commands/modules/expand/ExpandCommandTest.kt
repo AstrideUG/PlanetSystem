@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.commands.modules.expand
 
 import com.nhaarman.mockitokotlin2.mock
@@ -59,8 +63,8 @@ class ExpandCommandTest {
 //        val planetPlayer: PlanetPlayer = mock()
 //        whenever(planetPlayer.logger).thenReturn(mock())
 //        whenever(planetPlayer.planet).thenReturn(mock())
-//        val planetLocation = PlanetLocation(null)
-//        whenever(planetPlayer.planet.inner).thenReturn(BaseRegion(planetLocation, planetLocation))
+//        val spawnLocation = PlanetLocation(null)
+//        whenever(planetPlayer.planet.inner).thenReturn(BaseRegion(spawnLocation, spawnLocation))
 //        whenever(planetPlayer.player).thenReturn(mock())
 //        val location = Location(mock(), 10.0, 10.0, 10.0)
 //        whenever(planetPlayer.planet.middle).thenReturn(location)

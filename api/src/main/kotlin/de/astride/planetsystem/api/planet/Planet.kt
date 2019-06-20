@@ -1,25 +1,17 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.api.planet
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.location.PlanetLocation
 
-interface Planet {
+interface Planet : DatabasePlanet {
 
-    val uniqueID: UniqueID
-
-    val owner: Owner
-
-    val name: String
-
-    val members: MutableSet<Owner>
-
-    var spawnLocation: PlanetLocation
-
-    var atmosphere: Atmosphere
-
-    val metaData: Map<String, Any>
+    override var spawnLocation: PlanetLocation
+    override var atmosphere: Atmosphere
 
     //TODO: suspend fun load(): LoadedPlanet
     fun load(result: (LoadedPlanet) -> Unit)
