@@ -13,7 +13,7 @@ import de.astride.planetsystem.core.flags.Flags
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.Location
-import org.bukkit.Material
+import org.bukkit.Material.*
 import org.bukkit.block.Block
 import org.bukkit.entity.EntityType
 import org.bukkit.event.Cancellable
@@ -99,52 +99,49 @@ class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun on(event: PlayerInteractEvent) {
 
+        val blockedTypes = arrayOf(
+            MONSTER_EGG,
+            ITEM_FRAME,
+            ARMOR_STAND,
+            PAINTING,
+            CHEST,
+            TRAPPED_CHEST,
+            ANVIL,
+            CAKE_BLOCK,
+            DISPENSER,
+            DROPPER,
+            HOPPER,
+            STONE_BUTTON,
+            STONE_PLATE,
+            TRAP_DOOR,
+            LEVER,
+            JUKEBOX,
+            FURNACE,
+            BURNING_FURNACE,
+            ACACIA_DOOR,
+            BIRCH_DOOR,
+            DARK_OAK_DOOR,
+            JUNGLE_DOOR,
+            SPRUCE_DOOR,
+            WOODEN_DOOR,
+            ACACIA_FENCE_GATE,
+            BIRCH_FENCE_GATE,
+            DARK_OAK_FENCE_GATE,
+            JUNGLE_FENCE_GATE,
+            SPRUCE_FENCE_GATE,
+            FENCE_GATE,
+            GOLD_PLATE,
+            IRON_PLATE,
+            REDSTONE_COMPARATOR_OFF,
+            REDSTONE_COMPARATOR_ON,
+            DIODE_BLOCK_OFF,
+            DIODE_BLOCK_ON,
+            DAYLIGHT_DETECTOR,
+            DAYLIGHT_DETECTOR_INVERTED
+        )
         val block = event.clickedBlock ?: return
-        val type = block.type
-        if (
-            type != Material.MONSTER_EGG &&
-            type != Material.ITEM_FRAME &&
-            type != Material.ARMOR_STAND &&
-            type != Material.PAINTING &&
-            type != Material.CHEST &&
-            type != Material.TRAPPED_CHEST &&
-            type != Material.ANVIL &&
-            type != Material.CAKE_BLOCK &&
-            type != Material.DISPENSER &&
-            type != Material.DROPPER &&
-            type != Material.HOPPER &&
-            type != Material.STONE_BUTTON &&
-            type != Material.STONE_PLATE &&
-            type != Material.TRAP_DOOR &&
-            type != Material.LEVER &&
-            type != Material.JUKEBOX &&
-            type != Material.FURNACE &&
-            type != Material.BURNING_FURNACE &&
-            type != Material.ACACIA_DOOR &&
-            type != Material.BIRCH_DOOR &&
-            type != Material.DARK_OAK_DOOR &&
-            type != Material.JUNGLE_DOOR &&
-            type != Material.SPRUCE_DOOR &&
-            type != Material.WOODEN_DOOR &&
-            type != Material.ACACIA_FENCE_GATE &&
-            type != Material.BIRCH_FENCE_GATE &&
-            type != Material.DARK_OAK_FENCE_GATE &&
-            type != Material.JUNGLE_FENCE_GATE &&
-            type != Material.SPRUCE_FENCE_GATE &&
-            type != Material.FENCE_GATE &&
-            type != Material.GOLD_PLATE &&
-            type != Material.IRON_PLATE &&
-            type != Material.REDSTONE_COMPARATOR_OFF &&
-            type != Material.REDSTONE_COMPARATOR_ON &&
-            type != Material.DIODE_BLOCK_OFF &&
-            type != Material.DIODE_BLOCK_ON &&
-            type != Material.DAYLIGHT_DETECTOR &&
-            type != Material.DAYLIGHT_DETECTOR_INVERTED &&
-            type != Material.LEVER
-        ) return
-
+        if (block.type !in blockedTypes) return
         event.block(block.location, event.player.uniqueId)
-
     }
 
     private fun Cancellable.block(location: Location, uuid: UUID) {
