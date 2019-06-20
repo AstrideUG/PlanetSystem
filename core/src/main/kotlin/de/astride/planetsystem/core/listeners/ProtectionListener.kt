@@ -28,6 +28,19 @@ import java.util.*
  */
 class ProtectionListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
+
+    /**
+     *
+     * Blocks lava and water flows out of inner region
+     *
+     * @author Lars Artmann | LartyHD
+     */
+    @EventHandler
+    fun on(event: BlockFromToEvent) {
+        event.block.location.innerPlanet ?: return
+        event.toBlock.location.innerPlanet ?: event.cancel()
+    }
+
     @EventHandler
     fun on(event: EntityDamageByEntityEvent) {
         if (event.damager?.type != EntityType.PLAYER) return
