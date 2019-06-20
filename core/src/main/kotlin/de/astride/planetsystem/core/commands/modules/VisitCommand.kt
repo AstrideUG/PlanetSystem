@@ -17,6 +17,7 @@ import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.listeners.teleportPlanetSpawn
 import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_VISIT_FAILED_NO_ARGS
+import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_VISIT_FAILED_PLANET_IS_LOCKED
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.declaredFunctions
@@ -39,6 +40,11 @@ class VisitCommand : PlanetCommandModule {
     else planetPlayer.logger.warn(COMMANDS_VISIT_FAILED_NO_ARGS)
 
     private fun PlanetPlayer.execute(owner: Owner) {
+
+        if (owner == Owner(player.uniqueId)) {
+            logger.warn("planet.visit.failed.can.not.visit.your.planet")
+            return
+        }
 
         VisitCommand::class.declaredFunctions.toSet().reversed().forEach { function ->
             function.findAnnotation<Permission>() ?: return@forEach
@@ -78,6 +84,13 @@ class VisitCommand : PlanetCommandModule {
     private fun PlanetPlayer.teleport(databasePlanet: DatabasePlanet): Unit = teleport(databasePlanet.toPlanet())
 
     private fun PlanetPlayer.teleport(planet: Planet) {
+
+        val owner = Owner(player.uniqueId)
+        if (planet.locked && owner !in planet.members) {
+            logger.warn(COMMANDS_VISIT_FAILED_PLANET_IS_LOCKED)
+            return
+        }
+
         planet.load { player.teleportPlanetSpawn(it) }
         logger.info("planet.visit.teleport.success")
     }

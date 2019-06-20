@@ -16,8 +16,11 @@ interface DatabasePlanet {
     val name: String
 
     val members: MutableSet<Owner>
+
     val spawnLocation: PlanetLocation
     val atmosphere: Atmosphere
+
     val metaData: Map<String, Any>
+    val locked: Boolean
 
 }

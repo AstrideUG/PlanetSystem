@@ -67,6 +67,7 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
             mutableSetOf(),
             PlanetLocation(planet, vector = BukkitVector(0.5, 0.0, 0.5)),
             DataAtmosphere().checkedSize(),
+            false,
             mutableMapOf()
         )).also(::savePlanet)
 

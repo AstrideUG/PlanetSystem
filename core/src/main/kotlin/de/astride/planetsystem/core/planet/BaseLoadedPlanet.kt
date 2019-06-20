@@ -43,6 +43,7 @@ class BaseLoadedPlanet(
     override var spawnLocation: PlanetLocation,
     atmosphere: Atmosphere,
     override val metaData: Map<String, Any>,
+    override var locked: Boolean,
     middle: BukkitLocation
 ) : LoadedPlanet {
 
@@ -54,6 +55,7 @@ class BaseLoadedPlanet(
         planet.spawnLocation,
         planet.atmosphere,
         planet.metaData,
+        planet.locked,
         middle
     )
 

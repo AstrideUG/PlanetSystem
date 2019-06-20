@@ -34,6 +34,7 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
     private PlanetLocation spawnLocation;
     @Embedded
     private Atmosphere atmosphere;
+    private boolean locked;
     private Map<String, Object> metaData;
 
     public BasicDatabasePlanet() {
@@ -47,6 +48,7 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
             @NonNull final Set<Owner> members,
             @NonNull final PlanetLocation spawnLocation,
             @NonNull final Atmosphere atmosphere,
+            @NonNull final boolean locked,
             @NonNull final Map<String, Object> metaData
     ) {
         super(uuid);
@@ -55,6 +57,7 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
         this.members = members;
         this.spawnLocation = spawnLocation;
         this.atmosphere = atmosphere;
+        this.locked = locked;
         this.metaData = metaData;
     }
 
@@ -94,5 +97,10 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
     public Map<String, Object> getMetaData() {
         if (metaData == null) return Collections.emptyMap();
         else return metaData;
+    }
+
+    @Override
+    public boolean getLocked() {
+        return locked;
     }
 }

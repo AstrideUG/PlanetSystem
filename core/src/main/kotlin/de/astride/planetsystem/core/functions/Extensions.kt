@@ -22,6 +22,7 @@ fun Planet.toDatabasePlanet(): DatabasePlanet = BasicDatabasePlanet(
     members,
     spawnLocation,
     atmosphere,
+    locked,
     metaData
 )
 

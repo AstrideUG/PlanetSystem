@@ -24,6 +24,7 @@ data class DataPlanet(
     override val members: MutableSet<Owner>,
     override var spawnLocation: PlanetLocation,
     override var atmosphere: Atmosphere,
+    override var locked: Boolean,
     override val metaData: Map<String, Any>
 ) : Planet {
 

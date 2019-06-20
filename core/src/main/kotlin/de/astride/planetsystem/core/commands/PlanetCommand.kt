@@ -25,15 +25,16 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
     usage = "Info" +
             "|Home" +
             "|SetHome" +
-            "|Delete [<Player>]" +
             "|ShowInner" +
             "|FillInner" +
+            "|Lock" +
             "|List Loaded/Database [only-players]" +
             "|Top [<Size>]" +
             "|Visit <Player>" +
             "|Add <Player>" +
             "|Remove <Player>" +
             "|Kick <Player>" +
+            "|Delete [<Player>]" +
             "|Atmosphere Info" +
             "|Atmosphere Expand [Chat/Force]" +
             "|Atmosphere Shape [Cube]" +
@@ -59,6 +60,7 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             ShowInnerCommand(),
             FillInnerCommand(),
             KickCommand(),
+            LockCommand,
             VisitCommand()
         ).forEach { command ->
             command.usage.forEach { commandModules[it.toLowerCase()] = command }

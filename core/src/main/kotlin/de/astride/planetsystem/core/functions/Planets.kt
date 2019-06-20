@@ -40,6 +40,7 @@ fun DatabasePlanet.toPlanet(): Planet = DataPlanet(
     members.toMutableSet(),
     spawnLocation,
     atmosphere,
+    locked,
     metaData
 )
 
