@@ -29,5 +29,5 @@ fun World.isNotGameWorld() = this != gameWorld
 val Location.planet
     get() = loadedPlanets.find {
         val middle = it.middle
-        if (world == middle.world) it.inner.isInside(relativeTo(middle).toVector()) else false
+        if (world == middle.world) it.outer.isInside(relativeTo(middle).toVector()) else false
     }

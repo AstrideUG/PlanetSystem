@@ -29,4 +29,4 @@ fun PlanetPlayer.canBuild(location: Location): Boolean {
     return planet.owner == owner || owner in planet.members
 }
 
-fun PlanetPlayer.isOnHisPlanet() = planet.inner.isInside(relativeTo())
+fun PlanetPlayer.isOnHisPlanet(): Boolean = planet.outer.isInside(relativeTo())
