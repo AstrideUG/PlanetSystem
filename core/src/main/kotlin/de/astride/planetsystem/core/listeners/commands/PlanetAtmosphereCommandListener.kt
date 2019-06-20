@@ -1,8 +1,8 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2018.
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
-package de.astride.planetsystem.core.listeners
+package de.astride.planetsystem.core.listeners.commands
 
 import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.general.functions.toNonNull

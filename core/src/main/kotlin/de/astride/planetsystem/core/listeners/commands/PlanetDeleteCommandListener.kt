@@ -1,4 +1,8 @@
-package de.astride.planetsystem.core.listeners
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
+package de.astride.planetsystem.core.listeners.commands
 
 import de.astride.planetsystem.core.proxies.config
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
