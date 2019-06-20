@@ -44,8 +44,7 @@ class PlayerLeavePlanetEventImplementationListener(javaPlugin: JavaPlugin) : Lis
         val planet = event.from.outerPlanet ?: return
         if (planet == event.to.outerPlanet) return
         val called = PlayerLeavePlanetEvent(player, planet).call()
-        if (!called.isCancelled || event.cause == PlayerTeleportEvent.TeleportCause.UNKNOWN) return
-        player.teleport(event.from, PlayerTeleportEvent.TeleportCause.UNKNOWN)
+        if (called.isCancelled) event.cancel()
     }
 
     @EventHandler(priority = EventPriority.HIGH)
