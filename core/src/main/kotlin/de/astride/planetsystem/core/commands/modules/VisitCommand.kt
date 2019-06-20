@@ -72,7 +72,7 @@ class VisitCommand : PlanetCommandModule {
     }
 
     @Permission("loaded")
-    private fun PlanetPlayer.teleport(loadedPlanet: LoadedPlanet): Unit = teleport(loadedPlanet)
+    private fun PlanetPlayer.teleport(loadedPlanet: LoadedPlanet): Unit = teleport(loadedPlanet as Planet)
 
     @Permission("unloaded")
     private fun PlanetPlayer.teleport(databasePlanet: DatabasePlanet): Unit = teleport(databasePlanet.toPlanet())
