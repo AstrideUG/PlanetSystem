@@ -1,10 +1,15 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.api.database
 
-import java.util.*
+import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.UniqueID
 
 interface DatabasePlayer {
 
-    val uuid: UUID
-    val planetUniqueId: UUID
+    val uniqueID: Owner
+    val planetUniqueId: UniqueID
 
 }

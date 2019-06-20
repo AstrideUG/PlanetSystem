@@ -35,8 +35,8 @@ public class BasicDatabasePlayer extends DatabaseEntity implements DatabasePlaye
 
     @NotNull
     @Override
-    public UUID getUuid() {
-        return super.getUuid();
+    public UUID getUniqueID() {
+        return super.getUniqueID();
     }
 
     @NotNull

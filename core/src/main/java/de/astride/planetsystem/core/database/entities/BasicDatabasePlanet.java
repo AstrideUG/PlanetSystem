@@ -70,7 +70,7 @@ public class BasicDatabasePlanet extends DatabaseEntity implements DatabasePlane
     @NotNull
     @Override
     public UUID getUniqueID() {
-        return super.getUuid();
+        return super.getUniqueID();
     }
 
     @NotNull

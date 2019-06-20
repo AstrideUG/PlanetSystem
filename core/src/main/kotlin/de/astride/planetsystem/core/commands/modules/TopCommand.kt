@@ -5,12 +5,10 @@
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.holder.databaseHandler
-import de.astride.planetsystem.api.holder.loadedPlanets
-import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.api.inline.databasePlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.replace
-import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.log.MessageKeys
 import net.darkdevelopers.darkbedrock.darkness.general.minecraft.fetcher.Fetcher
 import org.bukkit.ChatColor
@@ -33,13 +31,7 @@ class TopCommand : PlanetCommandModule {
                 MessageKeys.COMMANDS_TOP_SUCCESSES_SIZE_INFO.toString().replace("<size>", size.toString(), true)
             )
 
-            @Suppress("UNCHECKED_CAST")
-            (loadedPlanets.toMutableSet() as MutableSet<Planet>)
-                .apply {
-                    databaseHandler.allPlanets.map { it.toPlanet() }.forEach { planet ->
-                        if (none { it.owner == planet.owner }) this.add(planet)
-                    }
-                }
+            databaseHandler.allPlayers.mapNotNull { it.planetUniqueId.databasePlanet }
                 .sortedBy { it.atmosphere.size }
                 .take(size)
                 .asReversed()

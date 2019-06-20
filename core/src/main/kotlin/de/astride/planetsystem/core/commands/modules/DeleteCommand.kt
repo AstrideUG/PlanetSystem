@@ -6,6 +6,7 @@ package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.databasePlayer
 import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.log.Logger
@@ -43,9 +44,7 @@ class DeleteCommand : PlanetCommandModule {
                 owner.planet?.unload()
                 owner.planetPlayer?.unload()
 
-                databaseHandler.findPlayer(owner)?.let {
-                    databaseHandler.deletePlayer(it)
-                }
+                owner.databasePlayer?.let { databaseHandler.deletePlayer(it) }
 
                 //Don't delete the schematic
 

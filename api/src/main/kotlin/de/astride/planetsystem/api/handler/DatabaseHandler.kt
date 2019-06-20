@@ -11,13 +11,14 @@ import de.astride.planetsystem.api.inline.UniqueID
 
 interface DatabaseHandler {
 
+    val allPlayers: Set<DatabasePlayer>
     val allPlanets: Set<DatabasePlanet>
 
     fun findPlayer(owner: Owner): DatabasePlayer?
-    fun findPlanet(owner: Owner): DatabasePlanet?
+    fun findPlanet(planet: UniqueID): DatabasePlanet?
 
     fun findPlayerOrCreate(owner: Owner, planet: UniqueID): DatabasePlayer
-    fun findPlanetOrCreate(owner: Owner, planet: UniqueID): DatabasePlanet
+    fun findPlanetOrCreate(planet: UniqueID, owner: Owner): DatabasePlanet
 
     fun savePlayer(databasePlayer: DatabasePlayer)
     fun savePlanet(databasePlanet: DatabasePlanet)

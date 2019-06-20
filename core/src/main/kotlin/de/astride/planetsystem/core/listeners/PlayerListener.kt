@@ -57,7 +57,8 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerLoginEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
-        val databasePlanet = databaseHandler.findPlanetOrCreate(owner, UniqueID(UUID.randomUUID()))
+        val databasePlayer = databaseHandler.findPlayerOrCreate(owner, UniqueID(UUID.randomUUID()))
+        val databasePlanet = databaseHandler.findPlanetOrCreate(databasePlayer.planetUniqueId, databasePlayer.uniqueID)
         databasePlanet.toPlanet().toPlanetPlayer { it.teleportPlanetSpawn() }
     }
 

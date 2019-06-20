@@ -7,8 +7,8 @@
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.database.DatabasePlanet
-import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.inline.Owner
+import de.astride.planetsystem.api.inline.databasePlanet
 import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
@@ -59,7 +59,7 @@ class VisitCommand : PlanetCommandModule {
                     else logger.warn("innerPlanet.not.loaded")
                 }
                 DatabasePlanet::class -> {
-                    val databasePlanet = databaseHandler.findPlanet(owner)
+                    val databasePlanet = owner.databasePlanet
                     if (databasePlanet != null)
                         parameters = arrayOf(databasePlanet)
                     else logger.warn("innerPlanet.not.exists")

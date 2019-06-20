@@ -52,6 +52,7 @@ class ListCommand : PlanetCommandModule {
                 }
                 "database".equals(args[0], true) -> {
                     "${prefix}List of all database planets:".sendTo(sender)
+                    //TODO replace with databaseHandler.allPlayers
                     databaseHandler.allPlanets.forEach {
                         val planet = it.toPlanet()
                         val message = if (onlyPlayers)

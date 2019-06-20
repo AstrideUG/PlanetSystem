@@ -16,17 +16,17 @@ public abstract class DatabaseEntity {
 
     @Id
     @Indexed(options = @IndexOptions(unique = true))
-    private UUID uuid;
+    private UUID uniqueID;
 
     public DatabaseEntity() {
     }
 
-    public DatabaseEntity(final UUID uuid) {
-        this.uuid = uuid;
+    public DatabaseEntity(final UUID uniqueID) {
+        this.uniqueID = uniqueID;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public UUID getUniqueID() {
+        return uniqueID;
     }
 
 }

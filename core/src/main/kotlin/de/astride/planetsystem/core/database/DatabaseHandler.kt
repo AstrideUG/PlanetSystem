@@ -10,6 +10,8 @@ import de.astride.planetsystem.api.database.DatabasePlayer
 import de.astride.planetsystem.api.functions.BukkitVector
 import de.astride.planetsystem.api.inline.Owner
 import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.inline.databasePlanet
+import de.astride.planetsystem.api.inline.databasePlayer
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.core.PlanetSystem
 import de.astride.planetsystem.core.atmosphere.DataAtmosphere
@@ -22,6 +24,7 @@ import xyz.morphia.mapping.DefaultCreator
 
 open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
+    override val allPlayers: Set<DatabasePlayer> get() = playerDAO.find().toSet()
     override val allPlanets: Set<BasicDatabasePlanet> get() = planetDAO.find().toSet()
 
     private val planetDAO: PlanetDAO
@@ -51,16 +54,16 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
         playerDAO.findOne(playerOwnerKey, owner.uuid)
     else null
 
-    override fun findPlanet(owner: Owner): DatabasePlanet? = if (planetDAO.exists(planetOwnerKey, owner.uuid))
-        planetDAO.findOne(planetOwnerKey, owner.uuid)
+    override fun findPlanet(planet: UniqueID): DatabasePlanet? = if (planetDAO.exists(planetUniqueIDKey, planet.uuid))
+        planetDAO.findOne(planetUniqueIDKey, planet.uuid)
     else null
 
 
     override fun findPlayerOrCreate(owner: Owner, planet: UniqueID): DatabasePlayer =
-        (findPlayer(owner) ?: BasicDatabasePlayer(owner.uuid, planet.uuid)).also(::savePlayer)
+        (owner.databasePlayer ?: BasicDatabasePlayer(owner.uuid, planet.uuid)).also(::savePlayer)
 
-    override fun findPlanetOrCreate(owner: Owner, planet: UniqueID): DatabasePlanet =
-        (findPlanet(owner) ?: BasicDatabasePlanet(
+    override fun findPlanetOrCreate(planet: UniqueID, owner: Owner): DatabasePlanet =
+        (owner.databasePlanet ?: BasicDatabasePlanet(
             planet.uuid,
             owner.uuid,
             "Kepler-730 c", /*TODO: Random Name*/
@@ -90,8 +93,8 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
     }
 
     companion object {
-        private val playerOwnerKey: String = DatabasePlayer::uuid.name
-        private val planetOwnerKey: String = DatabasePlanet::owner.name
+        private val playerOwnerKey: String = DatabasePlayer::uniqueID.name
+        private val planetUniqueIDKey: String = DatabasePlanet::uniqueID.name
     }
 
 }
