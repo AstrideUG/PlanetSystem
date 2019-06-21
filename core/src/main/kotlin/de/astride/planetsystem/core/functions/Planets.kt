@@ -10,15 +10,15 @@ import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.patterns.Pattern
 import com.sk89q.worldedit.patterns.SingleBlockPattern
 import de.astride.planetsystem.api.atmosphere.Atmosphere
-import de.astride.planetsystem.api.database.DatabasePlanet
+import de.astride.planetsystem.api.database.OfflinePlanet
+import de.astride.planetsystem.api.database.OfflinePlayer
 import de.astride.planetsystem.api.holder.players
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.loadedPlanet
 import de.astride.planetsystem.api.proxies.planet
-import de.astride.planetsystem.core.planet.DataPlanet
 import de.astride.planetsystem.core.player.BasePlanetPlayer
 import de.astride.planetsystem.core.proxies.config
 import de.astride.planetsystem.core.utils.FaweUtils
@@ -32,18 +32,6 @@ import kotlin.math.pow
  * @author Lars Artmann | LartyHD
  * Created by Lars Artmann | LartyHD on 26.02.2019 00:43.
  */
-
-fun DatabasePlanet.toPlanet(): Planet = DataPlanet(
-    uniqueID,
-    name,
-    owner,
-    members,
-    banned,
-    spawnLocation,
-    atmosphere,
-    locked,
-    metaData
-)
 
 //TODO Rename
 fun LoadedPlanet.place(
@@ -66,7 +54,7 @@ fun findPlanetOrMessage(
     byTarget: Boolean = false
 ): LoadedPlanet? {
     val prefix = if (byTarget) "Target" else "Player"
-    val planet = owner.planet
+    val planet = owner.loadedPlanet
     if (planet == null) sender.sendMessage(
         messages["${prefix}HasNoLoadedPlanet"]
             ?.replacePlayer("Target", owner.uuid)
@@ -80,7 +68,7 @@ val Atmosphere.price get() = generatePrice(size.toDouble())
 
 fun generatePrice(size: Double): Double = size.pow(config.planets.pow)
 
-fun String?.replacePrice(planet: Planet) = this
+fun String?.replacePrice(planet: OfflinePlanet) = this
     .replace("<Price>", planet.atmosphere.price)
     .replace("<NextPrice>", generatePrice(planet.atmosphere.size + 1.toDouble()))
 
@@ -92,10 +80,19 @@ fun String?.replace(prefix: String, planetLocation: PlanetLocation) = replace(
     "PlanetID" to spawnLocation.planetID*/
 )
 
-fun Planet.toPlanetPlayer(request: (PlanetPlayer) -> Unit): Unit = load { loadedPlanet ->
-    val player = owner.uuid.toPlayer() ?: return@load
-    val planetPlayer = BasePlanetPlayer(player, loadedPlanet)
+fun OfflinePlayer.load(planet: OfflinePlanet? = planetUniqueId.planet, request: (PlanetPlayer) -> Unit) {
 
-    players += planetPlayer
-    request(planetPlayer)
+    if (this is PlanetPlayer) {
+        players += this
+        request(this)
+        return
+    }
+
+    planet?.load planet@{ loadedPlanet ->
+        val player = owner.uuid.toPlayer() ?: return@planet
+        val planetPlayer = BasePlanetPlayer(player, loadedPlanet, history)
+
+        players += planetPlayer
+        request(planetPlayer)
+    }
 }

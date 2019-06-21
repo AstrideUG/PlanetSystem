@@ -27,7 +27,7 @@ class PlanetBanCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
         if (owner !in planet.banned) return
 
         event.cancel()
-        owner.planetPlayer?.logger?.warn("planet.enter.failed.you.are.banned")
+        owner.planetPlayer?.logger?.warn("loadedPlanet.enter.failed.you.are.banned")
     }
 
 }

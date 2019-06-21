@@ -4,11 +4,10 @@
 
 package de.astride.planetsystem.api.proxies
 
-import de.astride.planetsystem.api.database.DatabasePlanet
-import de.astride.planetsystem.api.database.DatabasePlayer
+import de.astride.planetsystem.api.database.OfflinePlanet
+import de.astride.planetsystem.api.database.OfflinePlayer
 import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.holder.players
-import de.astride.planetsystem.api.player.owner
 import java.util.*
 
 /**
@@ -19,9 +18,9 @@ import java.util.*
 data class Owner(val uuid: UUID)
 
 val Owner.planetPlayer get() = players.find { it.owner == this }
-val Owner.planet get() = planetPlayer?.planet
+val Owner.loadedPlanet get() = planetPlayer?.planet
 val Owner.player get() = planetPlayer?.player
 
-val Owner.databasePlayer: DatabasePlayer? get() = databaseHandler.findPlayer(this)
-val Owner.databasePlanet: DatabasePlanet? get() = databasePlayer?.planetUniqueId?.let { databaseHandler.findPlanet(it) }
+val Owner.databasePlayer: OfflinePlayer? get() = databaseHandler.findPlayer(this)
+val Owner.planet: OfflinePlanet? get() = databasePlayer?.planetUniqueId?.let { databaseHandler.findPlanet(it) }
 

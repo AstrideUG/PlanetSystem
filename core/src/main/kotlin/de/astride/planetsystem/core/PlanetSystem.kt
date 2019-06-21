@@ -12,10 +12,7 @@ import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.core.commands.PlanetCommand
 import de.astride.planetsystem.core.database.DatabaseHandler
 import de.astride.planetsystem.core.functions.deleteGameWorld
-import de.astride.planetsystem.core.listeners.PlayerEnterPlanetEventImplementationListener
-import de.astride.planetsystem.core.listeners.PlayerLeavePlanetEventImplementationListener
-import de.astride.planetsystem.core.listeners.PlayerListener
-import de.astride.planetsystem.core.listeners.ProtectionListener
+import de.astride.planetsystem.core.listeners.*
 import de.astride.planetsystem.core.listeners.commands.PlanetAtmosphereCommandListener
 import de.astride.planetsystem.core.listeners.commands.PlanetBanCommandListener
 import de.astride.planetsystem.core.listeners.commands.PlanetVisitCommandListener
@@ -90,6 +87,7 @@ class PlanetSystem : DarkPlugin() {
         PlayerLeavePlanetEventImplementationListener(this)
 
         PlayerListener(this)
+        PlanetListener(this)
         ProtectionListener(this)
     }
 

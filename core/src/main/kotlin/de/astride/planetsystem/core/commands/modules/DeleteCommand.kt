@@ -10,7 +10,7 @@ import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.player.isOnHisPlanet
 import de.astride.planetsystem.api.proxies.Owner
 import de.astride.planetsystem.api.proxies.databasePlayer
-import de.astride.planetsystem.api.proxies.planet
+import de.astride.planetsystem.api.proxies.loadedPlanet
 import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.log.MessageKeys
@@ -41,10 +41,10 @@ class DeleteCommand : PlanetCommandModule {
                 target.toPlayer()?.clear()
 
                 val owner = Owner(target)
-                owner.planet?.unload()
+                owner.loadedPlanet?.unload()
                 owner.planetPlayer?.unload()
 
-                owner.databasePlayer?.let { databaseHandler.deletePlayer(it) }
+                owner.databasePlayer?.let { databaseHandler.deletePlanet(it) }
 
                 //Don't delete the schematic
 

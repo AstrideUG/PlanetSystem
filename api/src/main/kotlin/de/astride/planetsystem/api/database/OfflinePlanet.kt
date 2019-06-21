@@ -9,7 +9,7 @@ import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.proxies.Owner
 import de.astride.planetsystem.api.proxies.UniqueID
 
-interface DatabasePlanet {
+interface OfflinePlanet {
 
     val uniqueID: UniqueID
     val owner: Owner
@@ -18,12 +18,12 @@ interface DatabasePlanet {
     val members: MutableSet<Owner>
     val banned: MutableSet<Owner>
 
-    val spawnLocation: PlanetLocation
-    val atmosphere: Atmosphere
+    var spawnLocation: PlanetLocation
+    var atmosphere: Atmosphere
 
     val metaData: Map<String, Any>
-    val locked: Boolean
+    var locked: Boolean
 
 }
 
-val DatabasePlanet.allMembers get() = members + owner
+val OfflinePlanet.allMembers get() = members + owner

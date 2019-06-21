@@ -16,5 +16,5 @@ interface UniqueID {
     val uuid: UUID
 }
 
-val UniqueID.planet get() = loadedPlanets.find { it.uniqueID == this }
-val UniqueID.databasePlanet get() = databaseHandler.findPlanet(this)
+val UniqueID.loadedPlanet get() = loadedPlanets.find { it.uniqueID == this }
+val UniqueID.planet get() = databaseHandler.findPlanet(this)

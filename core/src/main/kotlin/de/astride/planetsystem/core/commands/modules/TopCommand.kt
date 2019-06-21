@@ -6,7 +6,7 @@ package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.databasePlanet
+import de.astride.planetsystem.api.proxies.planet
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.replace
 import de.astride.planetsystem.core.log.MessageKeys
@@ -31,7 +31,7 @@ class TopCommand : PlanetCommandModule {
                 MessageKeys.COMMANDS_TOP_SUCCESSES_SIZE_INFO.toString().replace("<size>", size.toString(), true)
             )
 
-            databaseHandler.allPlayers.mapNotNull { it.planetUniqueId.databasePlanet }
+            databaseHandler.allPlayers.mapNotNull { it.planetUniqueId.planet }
                 .sortedBy { it.atmosphere.size }
                 .take(size)
                 .asReversed()

@@ -4,10 +4,10 @@
 
 package de.astride.planetsystem.core.listeners
 
+import de.astride.planetsystem.api.functions.extensions.owner
 import de.astride.planetsystem.api.functions.isNotInGameWorld
 import de.astride.planetsystem.api.functions.saveAll
 import de.astride.planetsystem.api.player.canEdit
-import de.astride.planetsystem.api.proxies.Owner
 import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.log.MessageKeys
@@ -33,7 +33,6 @@ import org.bukkit.plugin.java.JavaPlugin
  * Created by Lars Artmann | LartyHD.
  * Current Version: 1.0 (15.02.2019 - 18.03.2019)
  */
-@Suppress("unused")
 class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
     @EventHandler
@@ -70,7 +69,7 @@ class PlanetListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 private fun blockBuild(cancellable: Cancellable, block: Block, player: Player) {
     if (player.isNotInGameWorld()) return
 
-    val planetPlayer = Owner(player.uniqueId).planetPlayer ?: return
+    val planetPlayer = player.owner.planetPlayer ?: return
     if (planetPlayer.canEdit(block.location)) return
 
     cancellable.cancel()

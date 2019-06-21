@@ -1,5 +1,5 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
 dependencies {
@@ -12,6 +12,7 @@ dependencies {
 
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
     compileOnly("org.projectlombok:lombok:${versions_lombok}")
+    annotationProcessor("org.projectlombok:lombok:${versions_lombok}")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:${versions_worldedit}") {
         exclude(group: "org.sk89q.bukkit")
         exclude(group: "org.bukkit")

@@ -5,8 +5,8 @@
 package de.astride.planetsystem.core.planet
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere
+import de.astride.planetsystem.api.database.OfflinePlanet
 import de.astride.planetsystem.api.location.PlanetLocation
-import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.proxies.Owner
 import de.astride.planetsystem.api.proxies.UniqueID
 
@@ -20,4 +20,4 @@ data class DataPlanet(
     override var atmosphere: Atmosphere,
     override var locked: Boolean,
     override val metaData: Map<String, Any>
-) : Planet
+) : OfflinePlanet

@@ -4,12 +4,12 @@
 
 package de.astride.planetsystem.api.able
 
-import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.api.database.OfflinePlanet
 
 /**
  * Created on 20.06.2019 20:58.
  * @author Lars Artmann | LartyHD
  */
 interface Planetable {
-    val planet: Planet
+    val planet: OfflinePlanet
 }

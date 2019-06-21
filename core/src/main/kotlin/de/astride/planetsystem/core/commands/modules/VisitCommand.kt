@@ -6,17 +6,15 @@
 
 package de.astride.planetsystem.core.commands.modules
 
-import de.astride.planetsystem.api.database.DatabasePlanet
+import de.astride.planetsystem.api.database.OfflinePlanet
 import de.astride.planetsystem.api.database.allMembers
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.proxies.Owner
-import de.astride.planetsystem.api.proxies.databasePlanet
+import de.astride.planetsystem.api.proxies.loadedPlanet
 import de.astride.planetsystem.api.proxies.planet
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.load
-import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.listeners.teleportPlanetSpawn
 import de.astride.planetsystem.core.log.MessageKeys.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
@@ -49,13 +47,13 @@ class VisitCommand : PlanetCommandModule {
             var parameters: Array<Any?>? = null
             when (function.parameters.lastOrNull()?.type?.jvmErasure) {
                 LoadedPlanet::class -> {
-                    val loadedPlanet = owner.planet
+                    val loadedPlanet = owner.loadedPlanet
                     if (loadedPlanet != null)
                         parameters = arrayOf(loadedPlanet)
                     else logger.warn(COMMANDS_VISIT_NOT_LOADED)
                 }
-                DatabasePlanet::class -> {
-                    val databasePlanet = owner.databasePlanet
+                OfflinePlanet::class -> {
+                    val databasePlanet = owner.planet
                     if (databasePlanet != null)
                         parameters = arrayOf(databasePlanet)
                     else logger.warn(COMMANDS_VISIT_NOT_EXISTS)
@@ -74,12 +72,10 @@ class VisitCommand : PlanetCommandModule {
     }
 
     @Permission("loaded")
-    private fun PlanetPlayer.teleport(loadedPlanet: LoadedPlanet): Unit = teleport(loadedPlanet as Planet)
+    private fun PlanetPlayer.teleport(loadedPlanet: LoadedPlanet): Unit = teleport(loadedPlanet as OfflinePlanet)
 
     @Permission("unloaded")
-    private fun PlanetPlayer.teleport(databasePlanet: DatabasePlanet): Unit = teleport(databasePlanet.toPlanet())
-
-    private fun PlanetPlayer.teleport(planet: Planet) {
+    private fun PlanetPlayer.teleport(planet: OfflinePlanet) {
 
         val owner = Owner(player.uniqueId)
         if (planet.locked && owner !in planet.allMembers) {

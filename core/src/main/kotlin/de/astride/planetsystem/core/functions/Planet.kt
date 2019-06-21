@@ -4,13 +4,13 @@
 
 package de.astride.planetsystem.core.functions
 
+import de.astride.planetsystem.api.database.OfflinePlanet
 import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
 import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.api.holder.loadedPlanets
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
-import de.astride.planetsystem.api.proxies.planet
+import de.astride.planetsystem.api.proxies.loadedPlanet
 import de.astride.planetsystem.core.planet.BaseLoadedPlanet
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
 
@@ -20,13 +20,13 @@ import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
  */
 
 //TODO: suspend fun load(): LoadedPlanet
-fun Planet.load(result: (LoadedPlanet) -> Unit) {
+fun OfflinePlanet.load(result: (LoadedPlanet) -> Unit) {
 
     if (this is LoadedPlanet) {
         result(this)
         return
     }
-    uniqueID.planet?.let {
+    uniqueID.loadedPlanet?.let {
         result(it)
         return
     }

@@ -7,13 +7,14 @@
 package de.astride.planetsystem.api.planet
 
 import com.boydti.fawe.`object`.schematic.Schematic
+import de.astride.planetsystem.api.database.OfflinePlanet
 import de.astride.planetsystem.api.functions.BukkitLocation
 import de.astride.planetsystem.api.functions.BukkitWorld
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.isInside
 import org.bukkit.entity.Player
 
-interface LoadedPlanet : Planet {
+interface LoadedPlanet : OfflinePlanet {
 
     val inner: Region
     val outer: Region

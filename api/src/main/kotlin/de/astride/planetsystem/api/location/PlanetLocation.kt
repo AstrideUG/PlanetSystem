@@ -9,7 +9,7 @@ import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.proxies.UniqueID
-import de.astride.planetsystem.api.proxies.planet
+import de.astride.planetsystem.api.proxies.loadedPlanet
 import org.bukkit.Location
 import org.bukkit.util.Vector
 
@@ -48,6 +48,6 @@ fun PlanetLocation.toBukkitLocation(input: Vector): Location =
 fun PlanetLocation.toBukkitLocation(planet: LoadedPlanet): Location = toBukkitLocation(planet.middle.toVector())
 
 fun PlanetLocation.toBukkitLocation(): Location? {
-    val planet = planetID?.planet ?: return null
+    val planet = planetID?.loadedPlanet ?: return null
     return toBukkitLocation(planet)
 }

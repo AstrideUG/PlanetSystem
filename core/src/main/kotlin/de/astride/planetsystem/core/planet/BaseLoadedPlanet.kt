@@ -9,7 +9,9 @@ import com.boydti.fawe.util.EditSessionBuilder
 import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.regions.CuboidRegion
 import de.astride.planetsystem.api.atmosphere.Atmosphere
+import de.astride.planetsystem.api.database.OfflinePlanet
 import de.astride.planetsystem.api.functions.*
+import de.astride.planetsystem.api.functions.extensions.owner
 import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.api.holder.loadedPlanets
@@ -17,14 +19,13 @@ import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.planet.world
 import de.astride.planetsystem.api.proxies.Owner
 import de.astride.planetsystem.api.proxies.UniqueID
-import de.astride.planetsystem.api.proxies.planet
+import de.astride.planetsystem.api.proxies.loadedPlanet
 import de.astride.planetsystem.core.functions.delete
 import de.astride.planetsystem.core.functions.place
-import de.astride.planetsystem.core.functions.toDatabasePlanet
+import de.astride.planetsystem.core.functions.toBasicOfflinePlayer
 import de.astride.planetsystem.core.location.BaseRegion
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
 import org.bukkit.Location
@@ -46,7 +47,7 @@ class BaseLoadedPlanet(
     middle: BukkitLocation
 ) : LoadedPlanet {
 
-    constructor(planet: Planet, middle: Location) : this(
+    constructor(planet: OfflinePlanet, middle: Location) : this(
         planet.uniqueID,
         planet.owner,
         planet.name,
@@ -95,9 +96,10 @@ class BaseLoadedPlanet(
         val distance = (atmosphere.size * 2).toDouble()
         val entities: Iterable<Entity> = world.getNearbyEntities(middle, distance, distance, distance)
 
-        entities.asSequence().filter { it is Player }.forEach {
-            val planet = Owner(it.uniqueId).planet ?: return@forEach
-            it.teleport(planet.middle)
+        entities.forEach {
+            val player = it as? Player ?: return@forEach
+            val loadedPlanet = player.owner.loadedPlanet ?: return@forEach
+            it.teleport(loadedPlanet.middle)
         }
 
         gridHandler.removeEntry(gridHandler.getId(middle))
@@ -117,7 +119,7 @@ class BaseLoadedPlanet(
 
     override fun save() {
         delete()
-        databaseHandler.savePlanet(this.toDatabasePlanet())
+        databaseHandler.savePlanet(this.toBasicOfflinePlayer())
         DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
         place()
     }

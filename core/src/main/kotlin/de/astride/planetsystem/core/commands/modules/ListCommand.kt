@@ -4,25 +4,23 @@
 
 package de.astride.planetsystem.core.commands.modules
 
+import de.astride.planetsystem.api.database.OfflinePlanet
 import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.holder.loadedPlanets
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 import de.astride.planetsystem.core.functions.replace
 import de.astride.planetsystem.core.functions.replaceKeys
 import de.astride.planetsystem.core.functions.replacePlayer
-import de.astride.planetsystem.core.functions.toPlanet
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendIfNotNull
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.sendTo
 import org.bukkit.ChatColor.*
 
 /**
+ * Created on 28.02.2019 07:58.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 28.02.2019 07:58.
- * Current Version: 1.0 (28.02.2019 - 18.03.2019)
  */
 class ListCommand : PlanetCommandModule {
 
@@ -53,8 +51,7 @@ class ListCommand : PlanetCommandModule {
                 "database".equals(args[0], true) -> {
                     "${prefix}List of all database planets:".sendTo(sender)
                     //TODO replace with databaseHandler.allPlayers
-                    databaseHandler.allPlanets.forEach {
-                        val planet = it.toPlanet()
+                    databaseHandler.allPlanets.forEach { planet ->
                         val message = if (onlyPlayers)
                             onlyPlayersMessage.placeholder(prefix, planet)
                         else planet.giveMessage(prefix)
@@ -94,7 +91,7 @@ class ListCommand : PlanetCommandModule {
             .replace("Outer.Max", outer.max)
             .placeholder(prefix, this)
 
-    private fun Planet.giveMessage(prefix: String): String? = arrayOf(
+    private fun OfflinePlanet.giveMessage(prefix: String): String? = arrayOf(
         "Informationen über den Planeten von $WHITE<Owner.Name>",
         "Owner: $WHITE<Owner.UUID>",
         "Planet:",
@@ -107,7 +104,7 @@ class ListCommand : PlanetCommandModule {
         "  <Atmosphere.Lined>"
     ).joinToString("\n").placeholder(prefix, this)
 
-    private fun String?.placeholder(prefix: String, planet: Planet) = this
+    private fun String?.placeholder(prefix: String, planet: OfflinePlanet) = this
         .replacePlayer("Owner", planet.owner.uuid)
         .replace("<UUID>", planet.uniqueID.uuid)
         .replace("<Name>", planet.name)

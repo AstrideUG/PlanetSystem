@@ -5,7 +5,7 @@
 package de.astride.planetsystem.core.database.entities;
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere;
-import de.astride.planetsystem.api.database.DatabasePlanet;
+import de.astride.planetsystem.api.database.OfflinePlanet;
 import de.astride.planetsystem.api.location.PlanetLocation;
 import de.astride.planetsystem.api.proxies.Owner;
 import de.astride.planetsystem.api.proxies.UniqueID;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity(value = "planets", noClassnameStored = true)
-public class BasicDatabasePlanet implements DatabasePlanet {
+public class BasicOfflinePlanet implements OfflinePlanet {
 
     @Id
     @Indexed(options = @IndexOptions(unique = true))
@@ -39,11 +39,11 @@ public class BasicDatabasePlanet implements DatabasePlanet {
     private Map<String, Object> metaData;
 
     @SuppressWarnings("unused") //used from morphia
-    public BasicDatabasePlanet() {
+    public BasicOfflinePlanet() {
         super();
     }
 
-    public BasicDatabasePlanet(
+    public BasicOfflinePlanet(
             @NonNull final UniqueID uniqueID,
             @NonNull final Owner ownerUniqueId,
             @NonNull final String name,
@@ -51,7 +51,7 @@ public class BasicDatabasePlanet implements DatabasePlanet {
             @NonNull final Set<Owner> banned,
             @NonNull final PlanetLocation spawnLocation,
             @NonNull final Atmosphere atmosphere,
-            @NonNull final boolean locked,
+            final boolean locked,
             @NonNull final Map<String, Object> metaData
     ) {
         this.uniqueID = uniqueID.getUuid();

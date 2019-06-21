@@ -28,7 +28,7 @@ class PlayerEnterPlanetEventImplementationListener(javaPlugin: JavaPlugin) : Lis
         val player = event.player ?: return
         val planet = player.location.outerPlanet ?: return
         val called = PlayerEnterPlanetEvent(player, planet).call()
-        if (called.isCancelled) player.kickPlayer("planet.enter.is.cancelled")
+        if (called.isCancelled) player.kickPlayer("loadedPlanet.enter.is.cancelled")
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

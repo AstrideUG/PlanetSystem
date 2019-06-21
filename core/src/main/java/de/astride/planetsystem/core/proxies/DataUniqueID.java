@@ -5,6 +5,7 @@
 package de.astride.planetsystem.core.proxies;
 
 import de.astride.planetsystem.api.proxies.UniqueID;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import xyz.morphia.annotations.Id;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
  *
  * @author Lars Artmann | LartyHD
  */
+@Data
 public class DataUniqueID implements UniqueID {
 
     @Id
