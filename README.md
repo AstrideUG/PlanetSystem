@@ -23,10 +23,9 @@ Dependencies
 - DynamicMinecraftNetwork(API) (https://github.com/DevSnox/DynamicMinecraftNetwork)
 
 Changelog:
-
-v.1.1:
 -
 
+#v.1.1:
 - Added planet history (Possibility to restore planets)
 - Added planet ban and unban feature
 - Unloading visited planets after leaving
