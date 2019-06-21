@@ -82,7 +82,7 @@ class PlanetSystem : DarkPlugin() {
 
     private fun registerListeners() {
         PlanetAtmosphereCommandListener(this)
-        PlanetDeleteCommandListener(this)
+//        PlanetDeleteCommandListener(this) TODO: fix the ClassNotFoundException: net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder problem
         PlanetVisitCommandListener(this)
 
         PlayerEnterPlanetEventImplementationListener(this)
