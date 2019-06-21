@@ -17,7 +17,7 @@ import de.astride.planetsystem.core.listeners.PlayerLeavePlanetEventImplementati
 import de.astride.planetsystem.core.listeners.PlayerListener
 import de.astride.planetsystem.core.listeners.ProtectionListener
 import de.astride.planetsystem.core.listeners.commands.PlanetAtmosphereCommandListener
-import de.astride.planetsystem.core.listeners.commands.PlanetDeleteCommandListener
+import de.astride.planetsystem.core.listeners.commands.PlanetBanCommandListener
 import de.astride.planetsystem.core.listeners.commands.PlanetVisitCommandListener
 import de.astride.planetsystem.core.proxies.configs
 import de.astride.planetsystem.core.service.ConfigService
@@ -84,6 +84,7 @@ class PlanetSystem : DarkPlugin() {
         PlanetAtmosphereCommandListener(this)
 //        PlanetDeleteCommandListener(this) TODO: fix the ClassNotFoundException: net.darkdevelopers.darkbedrock.darkness.spigot.builder.InventoryBuilder problem
         PlanetVisitCommandListener(this)
+        PlanetBanCommandListener(this)
 
         PlayerEnterPlanetEventImplementationListener(this)
         PlayerLeavePlanetEventImplementationListener(this)

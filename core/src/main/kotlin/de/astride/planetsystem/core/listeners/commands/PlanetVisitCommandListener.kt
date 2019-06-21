@@ -5,8 +5,8 @@
 package de.astride.planetsystem.core.listeners.commands
 
 import de.astride.planetsystem.api.events.PlayerLeavePlanetEvent
-import de.astride.planetsystem.api.inline.player
 import de.astride.planetsystem.api.planet.isNotEmpty
+import de.astride.planetsystem.api.proxies.player
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
 import org.bukkit.event.EventHandler
 import org.bukkit.plugin.java.JavaPlugin

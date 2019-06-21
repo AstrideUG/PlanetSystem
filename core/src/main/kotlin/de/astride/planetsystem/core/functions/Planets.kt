@@ -12,12 +12,12 @@ import com.sk89q.worldedit.patterns.SingleBlockPattern
 import de.astride.planetsystem.api.atmosphere.Atmosphere
 import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.holder.players
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.planet
 import de.astride.planetsystem.core.planet.DataPlanet
 import de.astride.planetsystem.core.player.BasePlanetPlayer
 import de.astride.planetsystem.core.proxies.config
@@ -37,7 +37,8 @@ fun DatabasePlanet.toPlanet(): Planet = DataPlanet(
     uniqueID,
     name,
     owner,
-    members.toMutableSet(),
+    members,
+    banned,
     spawnLocation,
     atmosphere,
     locked,

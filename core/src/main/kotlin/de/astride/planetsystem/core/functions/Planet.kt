@@ -8,9 +8,9 @@ import de.astride.planetsystem.api.functions.toWEVector
 import de.astride.planetsystem.api.functions.toWEWorld
 import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.api.holder.loadedPlanets
-import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
+import de.astride.planetsystem.api.proxies.planet
 import de.astride.planetsystem.core.planet.BaseLoadedPlanet
 import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
 

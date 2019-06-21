@@ -5,13 +5,13 @@
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.holder.databaseHandler
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.databasePlayer
-import de.astride.planetsystem.api.inline.planet
-import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.log.Logger
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.api.player.isOnHisPlanet
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.databasePlayer
+import de.astride.planetsystem.api.proxies.planet
+import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.log.MessageKeys
 import de.astride.planetsystem.core.proxies.config

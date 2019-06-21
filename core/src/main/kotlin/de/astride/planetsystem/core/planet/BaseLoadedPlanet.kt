@@ -9,22 +9,19 @@ import com.boydti.fawe.util.EditSessionBuilder
 import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.regions.CuboidRegion
 import de.astride.planetsystem.api.atmosphere.Atmosphere
-import de.astride.planetsystem.api.functions.BukkitLocation
-import de.astride.planetsystem.api.functions.toBukkitVector
-import de.astride.planetsystem.api.functions.toWEVector
-import de.astride.planetsystem.api.functions.toWEWorld
+import de.astride.planetsystem.api.functions.*
 import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.api.holder.loadedPlanets
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
-import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.planet.world
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.UniqueID
+import de.astride.planetsystem.api.proxies.planet
 import de.astride.planetsystem.core.functions.delete
 import de.astride.planetsystem.core.functions.place
 import de.astride.planetsystem.core.functions.toDatabasePlanet
@@ -41,6 +38,7 @@ class BaseLoadedPlanet(
     override val owner: Owner,
     override val name: String,
     override val members: MutableSet<Owner>,
+    override val banned: MutableSet<Owner>,
     override var spawnLocation: PlanetLocation,
     atmosphere: Atmosphere,
     override val metaData: Map<String, Any>,
@@ -53,6 +51,7 @@ class BaseLoadedPlanet(
         planet.owner,
         planet.name,
         planet.members,
+        planet.banned,
         planet.spawnLocation,
         planet.atmosphere,
         planet.metaData,
@@ -163,10 +162,6 @@ class BaseLoadedPlanet(
     }
 
     override fun toString(): String =
-        "BaseLoadedPlanet(uniqueID=$uniqueID, owner=$owner, name='$name', members=$members, spawnLocation=$spawnLocation, metaData=$metaData, inner=$inner, outer=$outer, atmosphere=$atmosphere)"
+        "BaseLoadedPlanet(owner=$uniqueID, owner=$owner, name='$name', members=$members, spawnLocation=$spawnLocation, metaData=$metaData, inner=$inner, outer=$outer, atmosphere=$atmosphere)"
 
 }
-
-private fun Vector.generateMinAndMax() = clone().multiply(-1) to clone()
-
-

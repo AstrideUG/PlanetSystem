@@ -5,42 +5,49 @@
 package de.astride.planetsystem.core.database.entities;
 
 import de.astride.planetsystem.api.database.DatabasePlayer;
-import de.astride.planetsystem.core.database.DatabaseEntity;
+import de.astride.planetsystem.api.proxies.Owner;
+import de.astride.planetsystem.api.proxies.UniqueID;
+import de.astride.planetsystem.core.proxies.DataUniqueID;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 import xyz.morphia.annotations.Entity;
+import xyz.morphia.annotations.Id;
 import xyz.morphia.annotations.IndexOptions;
 import xyz.morphia.annotations.Indexed;
 
 import java.util.UUID;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Entity(value = "players", noClassnameStored = true)
-public class BasicDatabasePlayer extends DatabaseEntity implements DatabasePlayer {
+public class BasicDatabasePlayer implements DatabasePlayer {
 
+    @Id
+    @Indexed(options = @IndexOptions(unique = true))
+    private UUID owner;
     @Indexed(options = @IndexOptions(unique = true))
     private UUID planetUniqueId;
 
+    @SuppressWarnings("unused") //used from morphia
     public BasicDatabasePlayer() {
         super();
     }
 
-    public BasicDatabasePlayer(@NonNull final UUID uuid, @NonNull final UUID planetUniqueId) {
-        super(uuid);
-        this.planetUniqueId = planetUniqueId;
+    public BasicDatabasePlayer(@NonNull final Owner owner, @NonNull final UniqueID planetUniqueId) {
+        this.owner = owner.getUuid();
+        this.planetUniqueId = planetUniqueId.getUuid();
     }
 
     @NotNull
     @Override
-    public UUID getUniqueID() {
-        return super.getUniqueID();
+    public Owner getOwner() {
+        return new Owner(owner);
     }
 
     @NotNull
-    public UUID getPlanetUniqueId() {
-        return planetUniqueId;
+    @Override
+    public UniqueID getPlanetUniqueId() {
+        return new DataUniqueID(planetUniqueId);
     }
+
 }

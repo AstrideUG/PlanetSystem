@@ -8,6 +8,7 @@ import com.boydti.fawe.FaweAPI
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
+import org.bukkit.util.Vector
 
 /*
  * Created on 15.02.2019 03:19.
@@ -22,3 +23,5 @@ fun PlanetLocation.toWEVector(planet: LoadedPlanet): WEVector = toBukkitLocation
 
 fun BukkitWorld.toWEWorld(): WEWorld = FaweAPI.getWorld(name)
 fun BukkitLocation.toWEWorld(): WEWorld = world.toWEWorld()
+
+fun BukkitVector.generateMinAndMax(): Pair<Vector, Vector> = clone().multiply(-1) to clone()

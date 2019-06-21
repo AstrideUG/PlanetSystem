@@ -6,10 +6,10 @@ package de.astride.planetsystem.api.location
 
 import de.astride.planetsystem.api.functions.BukkitVector
 import de.astride.planetsystem.api.holder.gridHandler
-import de.astride.planetsystem.api.inline.UniqueID
-import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.UniqueID
+import de.astride.planetsystem.api.proxies.planet
 import org.bukkit.Location
 import org.bukkit.util.Vector
 

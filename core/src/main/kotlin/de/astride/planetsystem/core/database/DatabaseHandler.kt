@@ -8,16 +8,17 @@ import com.mongodb.MongoClient
 import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.database.DatabasePlayer
 import de.astride.planetsystem.api.functions.BukkitVector
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
-import de.astride.planetsystem.api.inline.databasePlanet
-import de.astride.planetsystem.api.inline.databasePlayer
 import de.astride.planetsystem.api.location.PlanetLocation
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.UniqueID
+import de.astride.planetsystem.api.proxies.databasePlanet
+import de.astride.planetsystem.api.proxies.databasePlayer
 import de.astride.planetsystem.core.PlanetSystem
 import de.astride.planetsystem.core.atmosphere.DataAtmosphere
 import de.astride.planetsystem.core.atmosphere.checkedSize
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
 import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
+import de.astride.planetsystem.core.proxies.DataUniqueID
 import xyz.morphia.Morphia
 import xyz.morphia.mapping.DefaultCreator
 
@@ -25,7 +26,7 @@ import xyz.morphia.mapping.DefaultCreator
 open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler {
 
     override val allPlayers: Set<DatabasePlayer> get() = playerDAO.find().toSet()
-    override val allPlanets: Set<BasicDatabasePlanet> get() = planetDAO.find().toSet()
+    override val allPlanets: Set<DatabasePlanet> get() = planetDAO.find().toSet()
 
     private val planetDAO: PlanetDAO
     private val playerDAO: PlayerDAO
@@ -40,6 +41,7 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
         }
         morphia.map(DatabasePlanet::class.java, DatabasePlayer::class.java)
         morphia.mapper.addMappedClass(DataAtmosphere::class.java)
+        morphia.mapper.addMappedClass(DataUniqueID::class.java)
 
         val dataStore = morphia.createDatastore(mongoClient, "cosmic")
         dataStore.ensureIndexes()
@@ -60,13 +62,14 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
 
 
     override fun findPlayerOrCreate(owner: Owner, planet: UniqueID): DatabasePlayer =
-        (owner.databasePlayer ?: BasicDatabasePlayer(owner.uuid, planet.uuid)).also(::savePlayer)
+        (owner.databasePlayer ?: BasicDatabasePlayer(owner, planet)).also(::savePlayer)
 
     override fun findPlanetOrCreate(planet: UniqueID, owner: Owner): DatabasePlanet =
         (owner.databasePlanet ?: BasicDatabasePlanet(
-            planet.uuid,
-            owner.uuid,
+            planet,
+            owner,
             "Kepler-730 c", /*TODO: Random Name*/
+            mutableSetOf(),
             mutableSetOf(),
             PlanetLocation(planet, vector = BukkitVector(0.5, 0.0, 0.5)),
             DataAtmosphere().checkedSize(),
@@ -93,7 +96,7 @@ open class DatabaseHandler : de.astride.planetsystem.api.handler.DatabaseHandler
     }
 
     companion object {
-        private val playerOwnerKey: String = DatabasePlayer::uniqueID.name
+        private val playerOwnerKey: String = DatabasePlayer::owner.name
         private val planetUniqueIDKey: String = DatabasePlanet::uniqueID.name
     }
 

@@ -5,9 +5,9 @@
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.functions.outerPlanet
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.listeners.teleportPlanetSpawn
 import de.astride.planetsystem.core.log.MessageKeys.*

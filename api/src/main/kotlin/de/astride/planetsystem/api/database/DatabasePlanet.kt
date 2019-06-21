@@ -5,9 +5,9 @@
 package de.astride.planetsystem.api.database
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
 import de.astride.planetsystem.api.location.PlanetLocation
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.UniqueID
 
 interface DatabasePlanet {
 
@@ -16,6 +16,7 @@ interface DatabasePlanet {
     val name: String
 
     val members: MutableSet<Owner>
+    val banned: MutableSet<Owner>
 
     val spawnLocation: PlanetLocation
     val atmosphere: Atmosphere

@@ -16,14 +16,15 @@ import de.astride.planetsystem.core.database.entities.BasicDatabasePlayer
  */
 
 fun Planet.toDatabasePlanet(): DatabasePlanet = BasicDatabasePlanet(
-    uniqueID.uuid,
-    owner.uuid,
+    uniqueID,
+    owner,
     name,
     members,
+    banned,
     spawnLocation,
     atmosphere,
     locked,
     metaData
 )
 
-fun Planet.toDatabasePlayer(): DatabasePlayer = BasicDatabasePlayer(owner.uuid, uniqueID.uuid)
+fun Planet.toDatabasePlayer(): DatabasePlayer = BasicDatabasePlayer(owner, uniqueID)

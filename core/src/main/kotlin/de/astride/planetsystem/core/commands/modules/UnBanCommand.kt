@@ -12,23 +12,21 @@ import de.astride.planetsystem.core.log.MessageKeys.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 
 /**
+ * Created on 21.06.2019 02:32.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD.
- * Current Version: 1.0 (15.02.2019 - 18.03.2019)
  */
-class RemoveCommand : PlanetCommandModule {
+object UnBanCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         val logger = planetPlayer.logger
         if (args.size == 1) {
             val owner = Owner(args[0].toPlayerUUID())
-            if (owner in planetPlayer.planet.members) {
-                planetPlayer.planet.members -= owner
+            planetPlayer.planet.banned -= owner
+            logger.info(COMMANDS_UN_BAN_TARGET_BANED)
 
-                logger.success(COMMANDS_REMOVE_SUCCESSES_PLAYER)
-                owner.planetPlayer?.logger?.success(COMMANDS_REMOVE_SUCCESSES_TARGET)
-            } else logger.warn(COMMANDS_REMOVE_FAILED_IS_NOT_A_PLANET_MEMBER)
-        } else logger.warn(COMMANDS_REMOVE_FAILED_ARGS_SIZE_IS_NOT_1)
+            val targetPlanetPlayer = owner.planetPlayer ?: return
+            targetPlanetPlayer.logger.info(COMMANDS_UN_BAN_YOU_ARE_BANED)
+        } else logger.warn(COMMANDS_UN_BAN_FAILED_ARGS_SIZE_IS_NOT_1)
     }
 
 }

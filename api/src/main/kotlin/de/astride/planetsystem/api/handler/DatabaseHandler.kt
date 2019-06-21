@@ -6,8 +6,8 @@ package de.astride.planetsystem.api.handler
 
 import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.database.DatabasePlayer
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.UniqueID
 
 interface DatabaseHandler {
 

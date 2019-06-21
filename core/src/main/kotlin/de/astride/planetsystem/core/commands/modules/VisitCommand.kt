@@ -8,18 +8,17 @@ package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.database.allMembers
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.databasePlanet
-import de.astride.planetsystem.api.inline.planet
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.planet.Planet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.databasePlanet
+import de.astride.planetsystem.api.proxies.planet
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.load
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.listeners.teleportPlanetSpawn
-import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_VISIT_FAILED_NO_ARGS
-import de.astride.planetsystem.core.log.MessageKeys.COMMANDS_VISIT_FAILED_PLANET_IS_LOCKED
+import de.astride.planetsystem.core.log.MessageKeys.*
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.toPlayerUUID
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.declaredFunctions
@@ -43,11 +42,6 @@ class VisitCommand : PlanetCommandModule {
 
     private fun PlanetPlayer.execute(owner: Owner) {
 
-        if (owner == Owner(player.uniqueId)) {
-            logger.warn("innerPlanet.visit.failed.can.not.visit.your.innerPlanet")
-            return
-        }
-
         VisitCommand::class.declaredFunctions.toSet().reversed().forEach { function ->
             function.findAnnotation<Permission>() ?: return@forEach
             if (!player.hasPermission(function.perm)) return@forEach
@@ -58,13 +52,13 @@ class VisitCommand : PlanetCommandModule {
                     val loadedPlanet = owner.planet
                     if (loadedPlanet != null)
                         parameters = arrayOf(loadedPlanet)
-                    else logger.warn("innerPlanet.not.loaded")
+                    else logger.warn(COMMANDS_VISIT_NOT_LOADED)
                 }
                 DatabasePlanet::class -> {
                     val databasePlanet = owner.databasePlanet
                     if (databasePlanet != null)
                         parameters = arrayOf(databasePlanet)
-                    else logger.warn("innerPlanet.not.exists")
+                    else logger.warn(COMMANDS_VISIT_NOT_EXISTS)
                 }
             }
 
@@ -93,8 +87,12 @@ class VisitCommand : PlanetCommandModule {
             return
         }
 
-        planet.load { player.teleportPlanetSpawn(it) }
-        logger.info("innerPlanet.visit.teleport.success")
+        planet.load {
+            if (player.teleportPlanetSpawn(it))
+                logger.info(COMMANDS_VISIT_TELEPORT_SUCCESS)
+            else logger.info(COMMANDS_VISIT_TELEPORT_FAILED)
+        }
+
     }
 
 }

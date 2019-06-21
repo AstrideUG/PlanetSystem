@@ -4,12 +4,12 @@
 
 package de.astride.planetsystem.api.database
 
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.UniqueID
 
 interface DatabasePlayer {
 
-    val uniqueID: Owner
+    val owner: Owner
     val planetUniqueId: UniqueID
 
 }

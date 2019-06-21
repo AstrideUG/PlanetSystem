@@ -5,8 +5,8 @@
 package de.astride.planetsystem.core.commands.modules
 
 import de.astride.planetsystem.api.holder.databaseHandler
-import de.astride.planetsystem.api.inline.databasePlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.databasePlanet
 import de.astride.planetsystem.core.commands.PlanetCommandModule
 import de.astride.planetsystem.core.functions.replace
 import de.astride.planetsystem.core.log.MessageKeys

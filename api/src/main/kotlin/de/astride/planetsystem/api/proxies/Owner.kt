@@ -2,7 +2,7 @@
  * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
-package de.astride.planetsystem.api.inline
+package de.astride.planetsystem.api.proxies
 
 import de.astride.planetsystem.api.database.DatabasePlanet
 import de.astride.planetsystem.api.database.DatabasePlayer
@@ -16,7 +16,7 @@ import java.util.*
  * Created by Lars Artmann | LartyHD on 25.02.2019 23:01.
  * Current Version: 1.0 (25.02.2019 - 25.02.2019)
  */
-inline class Owner(val uuid: UUID)
+data class Owner(val uuid: UUID)
 
 val Owner.planetPlayer get() = players.find { it.owner == this }
 val Owner.planet get() = planetPlayer?.planet

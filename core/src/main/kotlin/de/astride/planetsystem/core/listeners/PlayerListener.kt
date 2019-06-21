@@ -6,16 +6,16 @@ package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.api.functions.isNotInGameWorld
 import de.astride.planetsystem.api.holder.databaseHandler
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
-import de.astride.planetsystem.api.inline.planet
-import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.planet
+import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.functions.toPlanet
 import de.astride.planetsystem.core.functions.toPlanetPlayer
+import de.astride.planetsystem.core.proxies.DataUniqueID
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -57,8 +57,8 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
     @EventHandler
     fun onPlayerLoginEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
-        val databasePlayer = databaseHandler.findPlayerOrCreate(owner, UniqueID(UUID.randomUUID()))
-        val databasePlanet = databaseHandler.findPlanetOrCreate(databasePlayer.planetUniqueId, databasePlayer.uniqueID)
+        val databasePlayer = databaseHandler.findPlayerOrCreate(owner, DataUniqueID(UUID.randomUUID()))
+        val databasePlanet = databaseHandler.findPlanetOrCreate(databasePlayer.planetUniqueId, databasePlayer.owner)
         databasePlanet.toPlanet().toPlanetPlayer { it.teleportPlanetSpawn() }
     }
 

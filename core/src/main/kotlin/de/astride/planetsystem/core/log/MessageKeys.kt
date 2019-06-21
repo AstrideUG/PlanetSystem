@@ -42,11 +42,24 @@ enum class MessageKeys(value: String? = null) {
     COMMANDS_KICK_TARGET_NOT_ON_YOUR_PLANET,
     COMMANDS_KICK_FAILED_ARGS_SIZE_IS_NOT_1,
 
+    COMMANDS_BAN_YOU_ARE_BANED,
+    COMMANDS_BAN_TARGET_BANED,
+    COMMANDS_BAN_TARGET_FAILED_KICKING,
+    COMMANDS_BAN_FAILED_ARGS_SIZE_IS_NOT_1,
+
+    COMMANDS_UN_BAN_YOU_ARE_BANED,
+    COMMANDS_UN_BAN_TARGET_BANED,
+    COMMANDS_UN_BAN_FAILED_ARGS_SIZE_IS_NOT_1,
+
     COMMANDS_SET_HOME_SUCCESSES,
     COMMANDS_SET_HOME_NOT_IN_HIS_PLANET,
 
     COMMANDS_VISIT_FAILED_NO_ARGS,
     COMMANDS_VISIT_FAILED_PLANET_IS_LOCKED,
+    COMMANDS_VISIT_TELEPORT_SUCCESS,
+    COMMANDS_VISIT_TELEPORT_FAILED,
+    COMMANDS_VISIT_NOT_LOADED,
+    COMMANDS_VISIT_NOT_EXISTS,
 
     COMMANDS_TOP_FAILED_ARGS_SIZE_BIGGER_1,
     COMMANDS_TOP_SUCCESSES_SIZE_INFO,
@@ -59,7 +72,7 @@ enum class MessageKeys(value: String? = null) {
     ;
 
     private val value: String? = value
-        get() = (field ?: name)/*.toLowerCase()*/.replace('_', '.')
+        get() = (field ?: name).toLowerCase().replace('_', '.')
 
     override fun toString(): String = value!!
 

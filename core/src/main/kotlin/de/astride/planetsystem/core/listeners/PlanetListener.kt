@@ -6,9 +6,9 @@ package de.astride.planetsystem.core.listeners
 
 import de.astride.planetsystem.api.functions.isNotInGameWorld
 import de.astride.planetsystem.api.functions.saveAll
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.planetPlayer
 import de.astride.planetsystem.api.player.canEdit
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.flags.Flags
 import de.astride.planetsystem.core.log.MessageKeys
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel

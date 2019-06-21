@@ -4,8 +4,8 @@
 
 package de.astride.planetsystem.core.commands
 
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.planetPlayer
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.commands.modules.*
 import de.astride.planetsystem.core.commands.modules.expand.AtmosphereCommand
 import de.astride.planetsystem.core.proxies.config
@@ -29,12 +29,14 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             "|FillInner" +
             "|Lock" +
             "|List Loaded/Database [only-players]" +
+            "|Delete [<Player>]" +
             "|Top [<Size>]" +
             "|Visit <Player>" +
             "|Add <Player>" +
             "|Remove <Player>" +
             "|Kick <Player>" +
-            "|Delete [<Player>]" +
+            "|Ban <Player>" +
+            "|UnBan <Player>" +
             "|Atmosphere Info" +
             "|Atmosphere Expand [Chat/Force]" +
             "|Atmosphere Shape [Cube]" +
@@ -60,6 +62,8 @@ class PlanetCommand(javaPlugin: JavaPlugin) : Command(
             ShowInnerCommand(),
             FillInnerCommand(),
             KickCommand(),
+            BanCommand,
+            UnBanCommand,
             LockCommand,
             VisitCommand()
         ).forEach { command ->
