@@ -25,33 +25,39 @@ Dependencies
 Changelog:
 -
 
-#v.1.1:
+v.1.1.0:
 - Added planet history (Possibility to restore planets)
 - Added planet ban and unban feature
-- Unloading visited planets after leaving
 - Added planet planet enter and leave event
-- Fixed projectile launch by not members
-- ItemsFrames, Armorstands and Paintings can't be destroyen anymore from not members
-- Fixed lava and water flowing (liquids doesn't flow out of the inner region)
 - Added check on planet load if the planet isn't loaded already
-- Pistions can't anymore push blocks out of the inner region
-- Fixed some issues with Morphia
-- The atmosphere doesn't get saved anymore in the schematic
 - Added planet lock command
-- Generally improved code-style
-- Changed /planet expand to /planet atmosphere
 - Added planet kick command
-- Updated to Kotlin 1.3.40
-- Deleted a lot of old debug messages
-- Fixed planet sethome command
-- Changed default atmosphere type to cuboid
-- The database credentials are now configurable
+- Added configurable database credentials
 - Added planet visit command
+- Added command member count permissions (Planet Members (Permission) #51) 
+
+- Improved the saving of the schematic -> the atmosphere doesn't get saved anymore in the schematic
+
+- Changed default atmosphere type to cuboid
+- Changed /planet expand to /planet atmosphere
+
 - Fixed a Atmosphere Database bug 
-- add command member count permissions (Planet Members (Permission) #51) 
 - Fixed planet delete command
 - Fixed lombok
 - Fixed outer region clearing
+- Fixed planet sethome command
+- Fixed now the system unloads visited planets after leaving
+- Fixed some issues with Morphia
+- Fixed pistions can't anymore push blocks out of the inner region
+- Fixed projectile launch by not members
+- Fixed itemframes, armorstands and paintings can't be destroyen anymore from not members
+- Fixed lava and water flowing (liquids doesn't flow out of the inner region)
+
+- Removed a lot of old debug messages
+
+- Updated to Kotlin 1.3.40
+
+- Generally improved code-style
   
 v.1.0.1
 - fixed a false new line (\n) in the code 
