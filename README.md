@@ -26,38 +26,38 @@ Changelog:
 -
 
 v.1.1.0:
-- Added planet history (Possibility to restore planets)
-- Added planet ban and unban feature
-- Added planet planet enter and leave event
-- Added check on planet load if the planet isn't loaded already
-- Added planet lock command
-- Added planet kick command
-- Added configurable database credentials
-- Added planet visit command
-- Added command member count permissions (Planet Members (Permission) #51) 
+- :heavy_plus_sign: Added planet history (Possibility to restore planets)
+- :heavy_plus_sign: Added planet ban and unban feature
+- :heavy_plus_sign: Added planet planet enter and leave event
+- :heavy_plus_sign: Added check on planet load if the planet isn't loaded already
+- :heavy_plus_sign: Added planet lock command
+- :heavy_plus_sign: Added planet kick command
+- :heavy_plus_sign: Added configurable database credentials
+- :heavy_plus_sign: Added planet visit command
+- :heavy_plus_sign: Added command member count permissions (Planet Members (Permission) #51) 
 
-- Improved the saving of the schematic -> the atmosphere doesn't get saved anymore in the schematic
+- :arrow_up: Improved the saving of the schematic -> the atmosphere doesn't get saved anymore in the schematic
 
-- Changed default atmosphere type to cuboid
-- Changed /planet expand to /planet atmosphere
+- :arrows_counterclockwise: Changed default atmosphere type to cuboid
+- :arrows_counterclockwise: Changed /planet expand to /planet atmosphere
 
-- Fixed a Atmosphere Database bug 
-- Fixed planet delete command
-- Fixed lombok
-- Fixed outer region clearing
-- Fixed planet sethome command
-- Fixed now the system unloads visited planets after leaving
-- Fixed some issues with Morphia
-- Fixed pistions can't anymore push blocks out of the inner region
-- Fixed projectile launch by not members
-- Fixed itemframes, armorstands and paintings can't be destroyen anymore from not members
-- Fixed lava and water flowing (liquids doesn't flow out of the inner region)
+- :arrow_up: Updated to Kotlin 1.3.40
 
-- Removed a lot of old debug messages
+- :arrow_up: Generally improved code-style
 
-- Updated to Kotlin 1.3.40
+- :heavy_check_mark: Fixed a Atmosphere Database bug 
+- :heavy_check_mark: Fixed planet delete command
+- :heavy_check_mark: Fixed lombok
+- :heavy_check_mark: Fixed outer region clearing
+- :heavy_check_mark: Fixed planet sethome command
+- :heavy_check_mark: Fixed now the system unloads visited planets after leaving
+- :heavy_check_mark: Fixed some issues with Morphia
+- :heavy_check_mark: Fixed pistions can't anymore push blocks out of the inner region
+- :heavy_check_mark: Fixed projectile launch by not members
+- :heavy_check_mark: Fixed itemframes, armorstands and paintings can't be destroyen anymore from not members
+- :heavy_check_mark: Fixed lava and water flowing (liquids doesn't flow out of the inner region)
 
-- Generally improved code-style
+- :heavy_minus_sign: Removed a lot of old debug messages
   
 v.1.0.1
 - fixed a false new line (\n) in the code 
