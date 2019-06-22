@@ -36,13 +36,11 @@ v.1.1.0:
 - :heavy_plus_sign: Added planet visit command
 - :heavy_plus_sign: Added command member count permissions (Planet Members (Permission) #51) 
 
-- :arrow_up: Improved the saving of the schematic -> the atmosphere doesn't get saved anymore in the schematic
-
 - :arrows_counterclockwise: Changed default atmosphere type to cuboid
 - :arrows_counterclockwise: Changed /planet expand to /planet atmosphere
 
+- :arrow_up: Improved the saving of the schematic -> the atmosphere doesn't get saved anymore in the schematic
 - :arrow_up: Updated to Kotlin 1.3.40
-
 - :arrow_up: Generally improved code-style
 
 - :heavy_check_mark: Fixed a Atmosphere Database bug 
