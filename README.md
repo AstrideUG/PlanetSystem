@@ -35,6 +35,7 @@ v.1.1.0:
 - :heavy_plus_sign: Added configurable database credentials
 - :heavy_plus_sign: Added planet visit command
 - :heavy_plus_sign: Added command member count permissions (Planet Members (Permission) #51) 
+- :heavy_plus_sign: Added lava and water flowing block (liquids doesn't flow out of / outside the inner region)
 
 - :heavy_minus_sign: Removed a lot of old debug messages
 
@@ -55,7 +56,6 @@ v.1.1.0:
 - :heavy_check_mark: Fixed pistions can't anymore push blocks out of the inner region
 - :heavy_check_mark: Fixed projectile launch by not members
 - :heavy_check_mark: Fixed itemframes, armorstands and paintings can't be destroyen anymore from not members
-- :heavy_check_mark: Fixed lava and water flowing (liquids doesn't flow out of the inner region)
   
 v.1.0.1
 - fixed a false new line (\n) in the code 
