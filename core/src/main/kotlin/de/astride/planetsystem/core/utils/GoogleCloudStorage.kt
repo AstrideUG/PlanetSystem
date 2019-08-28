@@ -28,7 +28,6 @@ private val storage: Storage = StorageOptions.getDefaultInstance().service
 fun Schematic.save(uuid: UUID) {
 
     val blobInfo = BlobInfo.newBuilder(uuid.getBlobId()).setContentType("application/octet-stream").build()
-    val blob = storage.create(blobInfo)
 
     val schematicBytes = ByteArrayOutputStream().run {
         save(this, ClipboardFormat.SCHEMATIC)
@@ -37,6 +36,7 @@ fun Schematic.save(uuid: UUID) {
 
     if (schematicBytes.isEmpty()) return
 
+    val blob = storage.create(blobInfo)
     blob.writer().use {
         val byteBuffer = ByteBuffer.wrap(schematicBytes)
         it.write(byteBuffer)

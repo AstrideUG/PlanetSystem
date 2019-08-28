@@ -20,6 +20,7 @@ class PlanetVisitCommandListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) 
     @EventHandler
     fun on(event: PlayerLeavePlanetEvent) {
         val planet = event.planet
+        if (planet.isUnLoading) return
         if (planet.isNotEmpty) return
         if (planet.owner.player != null) return
         planet.unload()

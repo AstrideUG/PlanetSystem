@@ -47,6 +47,8 @@ class BaseLoadedPlanet(
     middle: BukkitLocation
 ) : LoadedPlanet {
 
+    override var isUnLoading: Boolean = false
+
     constructor(planet: OfflinePlanet, middle: Location) : this(
         planet.uniqueID,
         planet.owner,
@@ -91,6 +93,8 @@ class BaseLoadedPlanet(
     }
 
     override fun unload() {
+        isUnLoading = true
+
         save()
 
         val distance = (atmosphere.size * 2).toDouble()

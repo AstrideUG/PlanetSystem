@@ -16,6 +16,8 @@ import org.bukkit.entity.Player
 
 interface LoadedPlanet : OfflinePlanet {
 
+    var isUnLoading: Boolean
+
     val inner: Region
     val outer: Region
 
