@@ -1,6 +1,10 @@
 /*
- * © Copyright - Lars Artmann aka. LartyHD 2019.
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
 
 dependencies {
 
@@ -11,4 +15,20 @@ dependencies {
 
     compileOnly("org.spigotmc:spigot-api:${versions_spigot}")
     compileOnly("org.projectlombok:lombok:${versions_lombok}")
+}
+
+shadowJar {
+    archiveName = "$project.name-$project.version-all.jar"
+
+    dependencies {
+        include(dependency("$group:.*"))
+        include(dependency('xyz.morphia.morphia:core:.*'))
+    }
+
+    relocate 'xyz.morphia.morphia', "${group}.lib.morphia"
+
+}
+
+artifacts {
+    archives shadowJar
 }

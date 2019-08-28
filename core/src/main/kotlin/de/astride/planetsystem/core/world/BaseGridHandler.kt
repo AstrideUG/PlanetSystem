@@ -6,6 +6,7 @@ package de.astride.planetsystem.core.world
 
 import de.astride.planetsystem.api.handler.GridHandler
 import de.astride.planetsystem.core.functions.deleteWorld
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
 import java.util.*
@@ -19,7 +20,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
     init {
 
         deleteWorld(name)
-        world = generateVoidWorld(name)
+        world = Bukkit.getWorld(name) ?: generateVoidWorld(name)
 
     }
 

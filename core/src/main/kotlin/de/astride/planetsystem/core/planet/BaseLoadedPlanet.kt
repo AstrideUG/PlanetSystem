@@ -27,7 +27,7 @@ import de.astride.planetsystem.core.functions.delete
 import de.astride.planetsystem.core.functions.place
 import de.astride.planetsystem.core.functions.toBasicOfflinePlayer
 import de.astride.planetsystem.core.location.BaseRegion
-import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
+import de.astride.planetsystem.core.utils.save
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Entity
@@ -120,7 +120,8 @@ class BaseLoadedPlanet(
     override fun save() {
         delete()
         databaseHandler.savePlanet(this.toBasicOfflinePlayer())
-        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
+        schematic.save(uniqueID.uuid)
+//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
         place()
     }
 

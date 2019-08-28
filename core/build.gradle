@@ -2,9 +2,16 @@
  * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
  */
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
+
 dependencies {
 
-    jarLibs project(":PlanetSystem-Api")
+    jarLibs "xyz.morphia.morphia:core:${versions_morphia}"
+    jarLibs project(path: ':PlanetSystem-Api', configuration: 'shadow')
+
+    jarLibs 'com.google.cloud:google-cloud-storage:1.85.0'
 
     jarLibs "org.apache.logging.log4j:log4j-api:${versions_log4j}"
     annotationProcessor "org.apache.logging.log4j:log4j-api:${versions_log4j}"
@@ -25,4 +32,44 @@ dependencies {
 
     testCompile("org.spigotmc:spigot-api:${versions_spigot}")
 
+}
+
+shadowJar {
+    archiveName = "$project.name-$project.version-all.jar"
+
+    dependencies {
+        include(dependency("${project.group}:.*"))
+//        include(dependency('com.google.cloud:.*'))
+//        include(dependency('com.google.apis:.*'))
+//        include(dependency('ch.qos.logback:.*'))
+//        include(dependency('org.apache.logging.log4j:.*'))
+//        include(dependency('org.slf4j:.*'))
+//        include(dependency('xyz.morphia.morphia:.*'))
+//        include(dependency('org.mongodb:.*'))
+//        include(dependency('com.thoughtworks.proxytoys:.*'))
+        include(dependency('com.*:.*'))
+        include(dependency('org.*:.*'))
+        include(dependency('ch.*:.*'))
+        include(dependency('xyz.*:.*'))
+        include(dependency('io.*:.*'))
+    }
+
+//    relocate 'org.apache', "${project.group}.lib.org.apache"
+//    relocate 'org.bson', "${project.group}.lib.org.bson"
+//    relocate 'org.checkerframework', "${project.group}.lib.org.checkerframework"
+//    relocate 'org.codehaus', "${project.group}.lib.org.codehaus"
+//    relocate 'org.slf4j', "${project.group}.lib.org.slf4j"
+//    relocate 'org.threeten', "${project.group}.lib.org.threeten"
+    relocate 'com.google.cloud', "${project.group}.lib.com.google.cloud"
+    relocate 'com.google.common', "${project.group}.lib.com.google.common"
+//    relocate 'ch', "${project.group}.lib.ch"
+//    relocate 'xyz', "${project.group}.lib.xyz"
+//    relocate 'io', "${project.group}.lib.io"
+//    relocate 'google', "${project.group}.lib.google"
+//    relocate 'javax', "${project.group}.lib.javax"
+
+}
+
+artifacts {
+    archives shadowJar
 }

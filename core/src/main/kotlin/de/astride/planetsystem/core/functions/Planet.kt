@@ -12,35 +12,28 @@ import de.astride.planetsystem.api.holder.loadedPlanets
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.proxies.loadedPlanet
 import de.astride.planetsystem.core.planet.BaseLoadedPlanet
-import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
+import de.astride.planetsystem.core.utils.getSchematic
 
 /*
  * Created on 20.06.2019 17:47.
  * @author Lars Artmann | LartyHD
  */
 
-//TODO: suspend fun load(): LoadedPlanet
-fun OfflinePlanet.load(result: (LoadedPlanet) -> Unit) {
+fun OfflinePlanet.load(): LoadedPlanet {
 
-    if (this is LoadedPlanet) {
-        result(this)
-        return
-    }
-    uniqueID.loadedPlanet?.let {
-        result(it)
-        return
-    }
+    if (this is LoadedPlanet) return this
+    uniqueID.loadedPlanet?.let { return it }
 
     val location = gridHandler.findEmptyLocation()
 
     val loadedPlanet = BaseLoadedPlanet(this, location)
     loadedPlanets += loadedPlanet
 
-    DynamicNetworkFactory.dynamicNetworkAPI.getSchematic(uniqueID.uuid) { schematic ->
-        schematic.paste(location.toWEWorld(), location.toWEVector())
-        loadedPlanet.place()
+    val schematic = uniqueID.uuid.getSchematic()
 
-        result(loadedPlanet)
-    }
+    schematic.paste(location.toWEWorld(), location.toWEVector())
+    loadedPlanet.place()
+
+    return loadedPlanet
 
 }

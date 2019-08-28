@@ -80,19 +80,17 @@ fun String?.replace(prefix: String, planetLocation: PlanetLocation) = replace(
     "PlanetID" to spawnLocation.planetID*/
 )
 
-fun OfflinePlayer.load(planet: OfflinePlanet? = planetUniqueId.planet, request: (PlanetPlayer) -> Unit) {
+fun OfflinePlayer.load(planet: OfflinePlanet? = planetUniqueId.planet): PlanetPlayer? {
 
     if (this is PlanetPlayer) {
         players += this
-        request(this)
-        return
+        return this
     }
 
-    planet?.load planet@{ loadedPlanet ->
-        val player = owner.uuid.toPlayer() ?: return@planet
-        val planetPlayer = BasePlanetPlayer(player, loadedPlanet, history)
+    val loadedPlanet = planet?.load() ?: return null
+    val player = owner.uuid.toPlayer() ?: return null
+    val planetPlayer = BasePlanetPlayer(player, loadedPlanet, history)
 
-        players += planetPlayer
-        request(planetPlayer)
-    }
+    players += planetPlayer
+    return planetPlayer
 }

@@ -83,11 +83,10 @@ class VisitCommand : PlanetCommandModule {
             return
         }
 
-        planet.load {
-            if (player.teleportPlanetSpawn(it))
-                logger.info(COMMANDS_VISIT_TELEPORT_SUCCESS)
-            else logger.info(COMMANDS_VISIT_TELEPORT_FAILED)
-        }
+        val loadedPlanet = planet.load()
+        if (player.teleportPlanetSpawn(loadedPlanet))
+            logger.info(COMMANDS_VISIT_TELEPORT_SUCCESS)
+        else logger.info(COMMANDS_VISIT_TELEPORT_FAILED)
 
     }
 
