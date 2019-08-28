@@ -56,7 +56,10 @@ class VisitCommand : PlanetCommandModule {
                     val databasePlanet = owner.planet
                     if (databasePlanet != null)
                         parameters = arrayOf(databasePlanet)
-                    else logger.warn(COMMANDS_VISIT_NOT_EXISTS)
+                    else {
+                        logger.warn(COMMANDS_VISIT_NOT_EXISTS)
+                        return
+                    }
                 }
             }
 
