@@ -1,18 +1,21 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.listeners
 
-import de.astride.planetsystem.api.holder.find
-import de.astride.planetsystem.api.holder.isNotInGameWorld
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.functions.extensions.owner
+import de.astride.planetsystem.api.functions.isNotInGameWorld
+import de.astride.planetsystem.api.holder.databaseHandler
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
 import de.astride.planetsystem.api.player.PlanetPlayer
-import de.astride.planetsystem.api.proxies.databaseHandler
-import de.astride.planetsystem.api.proxies.loadedPlanets
-import de.astride.planetsystem.api.proxies.players
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.loadedPlanet
+import de.astride.planetsystem.api.proxies.planetPlayer
 import de.astride.planetsystem.core.flags.Flags
-import de.astride.planetsystem.core.functions.toPlanet
-import de.astride.planetsystem.core.player.BaseOfflinePlanetPlayer
+import de.astride.planetsystem.core.functions.load
+import de.astride.planetsystem.core.proxies.DataUniqueID
 import net.darkdevelopers.darkbedrock.darkness.spigot.events.PlayerDisconnectEvent
 import net.darkdevelopers.darkbedrock.darkness.spigot.functions.cancel
 import net.darkdevelopers.darkbedrock.darkness.spigot.listener.Listener
@@ -47,27 +50,30 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 //    @EventHandler
 //    fun on(event: PlayerMoveEvent) {
 //        if (event.player.isNotInGameWorld()) return
-//        val planet = loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
-//        if (!planet.inner.isInside(event.to.toVector())) event.player.teleportHome(planet)
+//        val innerPlanet = loadedPlanets.find { it.outer.isInside(PlanetLocation(it, event.to)) } ?: return
+//        if (!innerPlanet.inner.isInside(event.to.toVector())) event.player.teleportPlanetSpawn(innerPlanet)
 //    }
 
     @EventHandler
     fun onPlayerLoginEvent(event: PlayerJoinEvent) {
         val owner = Owner(event.player.uniqueId)
-        val databasePlanet = databaseHandler.getDatabasePlanet(UniqueID(UUID.randomUUID()), owner)
-        BaseOfflinePlanetPlayer(owner, databasePlanet.toPlanet()).load { it.teleportHome() }
+        val databasePlayer = databaseHandler.findPlayerOrCreate(owner, DataUniqueID(UUID.randomUUID()))
+        val databasePlanet = databaseHandler.findPlanetOrCreate(databasePlayer.planetUniqueId, databasePlayer.owner)
+        val planetPlayer = databasePlayer.load(databasePlanet)
+        planetPlayer?.teleportPlanetSpawn()
     }
 
     @EventHandler
     fun onPlayerDisconnectEvent(event: PlayerDisconnectEvent) {
-        val owner = Owner(event.player.uniqueId)
-        loadedPlanets.find(owner)?.unload()
-        players.find(owner)?.unload()
+        val owner = event.player.owner
+        val planetPlayer = owner.planetPlayer ?: return
+        planetPlayer.planet.unload()
+        planetPlayer.unload()
     }
 
     @EventHandler
     fun onPlayerRespawnEvent(event: PlayerRespawnEvent) {
-        val planet = loadedPlanets.find(Owner(event.player.uniqueId)) ?: return
+        val planet = event.player.owner.loadedPlanet ?: return
         event.respawnLocation = planet.spawnLocation.toBukkitLocation(planet)
     }
 
@@ -90,5 +96,5 @@ class PlayerListener(javaPlugin: JavaPlugin) : Listener(javaPlugin) {
 
 }
 
-fun Player.teleportHome(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
-fun PlanetPlayer.teleportHome() = player.teleportHome(planet)
+fun Player.teleportPlanetSpawn(planet: LoadedPlanet) = teleport(planet.spawnLocation.toBukkitLocation(planet))
+fun PlanetPlayer.teleportPlanetSpawn() = player.teleportPlanetSpawn(planet)

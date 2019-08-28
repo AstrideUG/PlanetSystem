@@ -1,6 +1,10 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.functions
 
-import de.astride.planetsystem.api.holder.Holder
+import de.astride.planetsystem.api.holder.gridHandler
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -104,7 +108,7 @@ fun String?.replacePlayer(prefix: String, uuid: UUID) =
  * Created by Lars Artmann | LartyHD on 07.03.2019 04:16.
  * Current Version: 1.0 (07.03.2019 - 07.03.2019)
  */
-fun deleteGameWorld() = deleteWorld(Holder.instance.gridHandler.world.name)
+fun deleteGameWorld() = deleteWorld(gridHandler.world.name)
 
 /**
  * @author Lars Artmann | LartyHD

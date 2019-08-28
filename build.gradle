@@ -6,7 +6,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     ext {
-        kotlinVersion = '1.3.21'
+        kotlinVersion = '1.3.40'
     }
     repositories {
         mavenCentral()
@@ -56,7 +56,10 @@ subprojects {
     dependencies {
 
         compileOnly(fileTree(libsDirName))
+        compileOnly(fileTree("../$libsDirName"))
+
         testCompile(fileTree(libsDirName))
+        testCompile(fileTree("../$libsDirName"))
 
         compileOnly "org.jetbrains.kotlin:kotlin-stdlib"
         compileOnly "org.jetbrains.kotlin:kotlin-reflect"
@@ -87,7 +90,7 @@ subprojects {
 
     compileKotlin {
         kotlinOptions {
-            freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xjsr305=strict"]
+            freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xuse-experimental=kotlin.ExperimentalStdlibApi", "-Xjsr305=strict"]
             jvmTarget = '1.8'
             suppressWarnings = true
         }
@@ -95,7 +98,7 @@ subprojects {
 
     compileTestKotlin {
         kotlinOptions {
-            freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xjsr305=strict"]
+            freeCompilerArgs = ["-XXLanguage:+InlineClasses", "-Xuse-experimental=kotlin.ExperimentalStdlibApi", "-Xjsr305=strict"]
             jvmTarget = '1.8'
             suppressWarnings = true
         }

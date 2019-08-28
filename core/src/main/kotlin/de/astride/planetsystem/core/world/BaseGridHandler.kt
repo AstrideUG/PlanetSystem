@@ -1,11 +1,14 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.world
 
 import de.astride.planetsystem.api.handler.GridHandler
 import de.astride.planetsystem.core.functions.deleteWorld
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
-import org.bukkit.WorldCreator
-import org.bukkit.WorldType
 import java.util.*
 
 //TODO refactor
@@ -17,7 +20,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
     init {
 
         deleteWorld(name)
-        world = generateVoidWorld(name)
+        world = Bukkit.getWorld(name) ?: generateVoidWorld(name)
 
     }
 
@@ -29,7 +32,7 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
 
     override fun findEmptyLocation(): Location {
         val x = findFreeAndAdd() * maxSize
-        return Location(world, x + 0.5, 126.0, 0.5)
+        return Location(world, x.toDouble(), 126.0, 0.0)
     }
 
     private fun findFreeAndAdd(): Int = findFree().apply { used.add(this) }
@@ -41,9 +44,3 @@ class BaseGridHandler(name: String, override val maxSize: Int) : GridHandler {
     }
 
 }
-
-private fun generateVoidWorld(name: String) = WorldCreator.name(name).type(WorldType.NORMAL)
-    .generateStructures(false)
-    .environment(World.Environment.NORMAL)
-    .generator(VoidWorldGenerator())
-    .createWorld()

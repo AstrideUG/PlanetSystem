@@ -1,20 +1,31 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.api.handler
 
-import de.astride.planetsystem.api.database.DatabasePlanet
-import de.astride.planetsystem.api.database.DatabasePlayer
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.database.OfflinePlanet
+import de.astride.planetsystem.api.database.OfflinePlayer
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.UniqueID
 
 interface DatabaseHandler {
 
-    val allPlanets: Set<DatabasePlanet>
+    val allPlayers: Set<OfflinePlayer>
+    val allPlanets: Set<OfflinePlanet>
 
+    fun findPlayer(owner: Owner): OfflinePlayer?
+    fun findPlanet(planet: UniqueID): OfflinePlanet?
 
-    fun getDatabasePlayer(planet: UniqueID, owner: Owner): DatabasePlayer
-    fun getDatabasePlanet(planet: UniqueID, owner: Owner): DatabasePlanet
+    fun findPlayerOrCreate(owner: Owner, planet: UniqueID): OfflinePlayer
+    fun findPlanetOrCreate(planet: UniqueID, owner: Owner): OfflinePlanet
 
-    fun savePlayer(databasePlayer: DatabasePlayer)
-    fun savePlanet(databasePlanet: DatabasePlanet)
+    fun savePlayer(databasePlayer: OfflinePlayer)
+    fun savePlanet(databasePlanet: OfflinePlanet)
 
-    fun deletePlanet(databasePlanet: DatabasePlanet)
+//    fun deletePlayer(databasePlayer: OfflinePlayer)
+//    fun deletePlanet(loadedPlanet: OfflinePlanet)
+
+    fun deletePlanet(databasePlayer: OfflinePlayer)
+
 }

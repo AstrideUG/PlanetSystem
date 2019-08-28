@@ -1,16 +1,22 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.api.location
 
-import de.astride.planetsystem.api.holder.Holder
-import de.astride.planetsystem.api.holder.find
-import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.functions.BukkitVector
+import de.astride.planetsystem.api.holder.gridHandler
 import de.astride.planetsystem.api.planet.LoadedPlanet
+import de.astride.planetsystem.api.player.PlanetPlayer
+import de.astride.planetsystem.api.proxies.UniqueID
+import de.astride.planetsystem.api.proxies.loadedPlanet
 import org.bukkit.Location
 import org.bukkit.util.Vector
 
 data class PlanetLocation @JvmOverloads constructor(
 //    @Transient
     var planetID: UniqueID? = null,
-    var vector: Vector = Vector(),
+    var vector: BukkitVector = BukkitVector(),
     var yaw: Float = 0f,
     var pitch: Float = 0f
 ) {
@@ -24,13 +30,17 @@ data class PlanetLocation @JvmOverloads constructor(
 
     constructor(planet: LoadedPlanet, location: Location) : this(
         planet.uniqueID,
-        location.clone().subtract(planet.middle).add(Vector(0.5, 0.0, 0.5))/* Location - middle-point */
+        /* Location - middle-point */
+        location.relativeTo(planet.middle)
     )
 
 }
 
+fun PlanetPlayer.relativeTo(): Vector = player.location.relativeTo(planet.middle).toVector()
+fun Location.relativeTo(middle: Location): Location = clone().subtract(middle)
+
 fun PlanetLocation.toBukkitLocation(input: Vector): Location =
-    vector.clone().add(input).toLocation(Holder.instance.gridHandler.world).also {
+    vector.clone().add(input).toLocation(gridHandler.world).also {
         it.yaw = yaw
         it.pitch = pitch
     }
@@ -38,9 +48,6 @@ fun PlanetLocation.toBukkitLocation(input: Vector): Location =
 fun PlanetLocation.toBukkitLocation(planet: LoadedPlanet): Location = toBukkitLocation(planet.middle.toVector())
 
 fun PlanetLocation.toBukkitLocation(): Location? {
-    val planet = Holder.instance.loadedPlanets.find(planetID ?: return null) ?: return null
+    val planet = planetID?.loadedPlanet ?: return null
     return toBukkitLocation(planet)
 }
-
-//TODO Add to Darkness
-fun Number.toBukkitVector() = toDouble().run { Vector(this, this, this) }

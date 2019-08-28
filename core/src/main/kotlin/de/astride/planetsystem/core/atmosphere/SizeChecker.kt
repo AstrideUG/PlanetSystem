@@ -1,16 +1,7 @@
 package de.astride.planetsystem.core.atmosphere
 
 import de.astride.planetsystem.api.atmosphere.Atmosphere
-import de.astride.planetsystem.core.service.ConfigService
-
-/**
- * Created by DevSnox on 12.02.18
- * Copyright (c) 2018 DevSnox
- * GitHub: https://github.com/DevSnox
- * Web: http://devsnox.me
- * Mail: me.devsnox@gmail.com
- * Discord: DevSnox#4884 | Skype: live:chaos3729
- */
+import de.astride.planetsystem.core.proxies.planets
 
 object SizeChecker {
     private const val MIN_SIZE: Byte = 2
@@ -29,7 +20,7 @@ object SizeChecker {
         checkSize(size, maxSize, "higher than maxSize($maxSize) (MAX_SIZE($MAX_SIZE))") { size > maxSize }
 
     private fun checkSize(size: Byte, check: Byte, message: String, algorithm: () -> Boolean) = if (algorithm())
-        if (!ConfigService.instance.config.planets.doNotThrowIllegalStateExceptionBySizeCheck) throw IllegalStateException(
+        if (!planets.doNotThrowIllegalStateExceptionBySizeCheck) throw IllegalStateException(
             "Size $message"
         ) else check
     else size
@@ -38,5 +29,5 @@ object SizeChecker {
 
 fun Atmosphere.checkedSize(): Atmosphere = edit(
     size = SizeChecker.checkSize(size, maxSize),
-    maxSize = SizeChecker.checkSize(size, maxSize)
+    maxSize = SizeChecker.checkSize(maxSize, maxSize)
 )

@@ -1,24 +1,27 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.api.functions
 
 import com.boydti.fawe.FaweAPI
-import com.sk89q.worldedit.Vector
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.toBukkitLocation
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import org.bukkit.Location
-import org.bukkit.World
+import org.bukkit.util.Vector
 
 /*
+ * Created on 15.02.2019 03:19.
  * @author Lars Artmann | LartyHD
- * Created by Lars Artmann | LartyHD on 15.02.2019 03:19.
- * Current Version: 1.0 (15.02.2019 - 15.02.2019)
  */
 
+fun Number.toBukkitVector(): BukkitVector = toDouble().run { BukkitVector(this, this, this) }
+fun BukkitVector.toWEVector(): WEVector = WEVector(x, y, z)
 
-fun org.bukkit.util.Vector.toWEVector(): Vector = Vector(x, y, z)
-fun Location.toWEVector(): Vector = Vector(x, y, z)
-fun PlanetLocation.toWEVector(): Vector? = toBukkitLocation()?.toWEVector()
-fun PlanetLocation.toWEVector(planet: LoadedPlanet): Vector = toBukkitLocation(planet).toWEVector()
+fun BukkitLocation.toWEVector(): WEVector = WEVector(x, y, z)
+fun PlanetLocation.toWEVector(planet: LoadedPlanet): WEVector = toBukkitLocation(planet).toWEVector()
 
-fun World.toWEWorld() = FaweAPI.getWorld(name)
-fun Location.toWEWorld() = world.toWEWorld()
+fun BukkitWorld.toWEWorld(): WEWorld = FaweAPI.getWorld(name)
+fun BukkitLocation.toWEWorld(): WEWorld = world.toWEWorld()
+
+fun BukkitVector.generateMinAndMax(): Pair<Vector, Vector> = clone().multiply(-1) to clone()

@@ -1,8 +1,12 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.commands.modules.expand.modules
 
 import de.astride.planetsystem.api.player.PlanetPlayer
 import de.astride.planetsystem.core.commands.PlanetCommandModule
-import de.astride.planetsystem.core.commands.modules.expand.ExpandCommand
+import de.astride.planetsystem.core.commands.modules.expand.AtmosphereCommand
 import de.astride.planetsystem.core.commands.modules.expand.sendUsage
 
 /**
@@ -14,15 +18,15 @@ class ShapeCommand : PlanetCommandModule {
 
     override fun execute(planetPlayer: PlanetPlayer, args: Array<String>) {
         when {
-            args.isEmpty() -> planetPlayer.player.openInventory(ExpandCommand.Inventories.INVENTORY_SHAPE)
+            args.isEmpty() -> planetPlayer.player.openInventory(AtmosphereCommand.Inventories.INVENTORY_SHAPE)
             args.size == 1 && "Cube" == args.firstOrNull() /*TODO: ADD PERMS*/ -> {
-                //                if (planet !is SpherePlanet) {
+                //                if (innerPlanet !is SpherePlanet) {
                 //                    planetPlayer.sendConfigurableMessage("Planet.Command.Shape.Cube.IsNotSpherePlanet")
                 //                    return
                 //                } else {
                 //TODO #83
                 planetPlayer.player.sendMessage("${usage.first().capitalize()} Not implemented safely yet. Sorry :(")
-                //                    planet.toCubePlanet()
+                //                    innerPlanet.toCubePlanet()
                 //TODO Add success message
                 //                }
             }

@@ -1,3 +1,7 @@
+/*
+ * © Copyright - Astride UG (haftungsbeschränkt) 2018 - 2019.
+ */
+
 package de.astride.planetsystem.core.planet
 
 import com.boydti.fawe.`object`.schematic.Schematic
@@ -5,51 +9,54 @@ import com.boydti.fawe.util.EditSessionBuilder
 import com.sk89q.worldedit.blocks.BaseBlock
 import com.sk89q.worldedit.regions.CuboidRegion
 import de.astride.planetsystem.api.atmosphere.Atmosphere
-import de.astride.planetsystem.api.functions.toWEVector
-import de.astride.planetsystem.api.functions.toWEWorld
-import de.astride.planetsystem.api.holder.Holder
-import de.astride.planetsystem.api.holder.find
-import de.astride.planetsystem.api.inline.Owner
-import de.astride.planetsystem.api.inline.UniqueID
+import de.astride.planetsystem.api.database.OfflinePlanet
+import de.astride.planetsystem.api.functions.*
+import de.astride.planetsystem.api.functions.extensions.owner
+import de.astride.planetsystem.api.holder.databaseHandler
+import de.astride.planetsystem.api.holder.gridHandler
+import de.astride.planetsystem.api.holder.loadedPlanets
 import de.astride.planetsystem.api.location.PlanetLocation
 import de.astride.planetsystem.api.location.Region
 import de.astride.planetsystem.api.location.toBukkitLocation
-import de.astride.planetsystem.api.location.toBukkitVector
 import de.astride.planetsystem.api.planet.LoadedPlanet
-import de.astride.planetsystem.api.planet.Planet
-import de.astride.planetsystem.core.database.entities.BasicDatabasePlanet
+import de.astride.planetsystem.api.planet.world
+import de.astride.planetsystem.api.proxies.Owner
+import de.astride.planetsystem.api.proxies.UniqueID
+import de.astride.planetsystem.api.proxies.loadedPlanet
+import de.astride.planetsystem.core.functions.delete
+import de.astride.planetsystem.core.functions.place
+import de.astride.planetsystem.core.functions.toBasicOfflinePlayer
 import de.astride.planetsystem.core.location.BaseRegion
-import lombok.Data
-import lombok.EqualsAndHashCode
-import me.devsnox.dynamicminecraftnetwork.api.DynamicNetworkFactory
+import de.astride.planetsystem.core.utils.save
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 class BaseLoadedPlanet(
-    uniqueID: UniqueID,
-    name: String,
-    owner: Owner,
-    members: MutableSet<Owner>,
-    spawnLocation: PlanetLocation,
+    override val uniqueID: UniqueID,
+    override val owner: Owner,
+    override val name: String,
+    override val members: MutableSet<Owner>,
+    override val banned: MutableSet<Owner>,
+    override var spawnLocation: PlanetLocation,
     atmosphere: Atmosphere,
-    metaData: Map<String, Any>,
-    middle: Location
-) : LoadedPlanet, BasePlanet(uniqueID, name, owner, members, spawnLocation, atmosphere, metaData) {
+    override val metaData: Map<String, Any>,
+    override var locked: Boolean,
+    middle: BukkitLocation
+) : LoadedPlanet {
 
-
-    constructor(planet: Planet, middle: Location) : this(
+    constructor(planet: OfflinePlanet, middle: Location) : this(
         planet.uniqueID,
-        planet.name,
         planet.owner,
+        planet.name,
         planet.members,
+        planet.banned,
         planet.spawnLocation,
         planet.atmosphere,
         planet.metaData,
+        planet.locked,
         middle
     )
 
@@ -61,7 +68,7 @@ class BaseLoadedPlanet(
     override val schematic: Schematic
         get() = Schematic(
             CuboidRegion(
-                holder.gridHandler.world.toWEWorld(),
+                gridHandler.world.toWEWorld(),
                 inner.min.toBukkitLocation(this).toWEVector(),
                 inner.max.toBukkitLocation(this).toWEVector()
             )
@@ -69,47 +76,35 @@ class BaseLoadedPlanet(
             clipboard!!.origin = middle.toWEVector()
         }
 
-    private val holder get() = Holder.instance
-
-    override var atmosphere: Atmosphere
-        get() = super.atmosphere
+    override var atmosphere: Atmosphere = atmosphere
         set(atmosphere) {
-            super.atmosphere = atmosphere
-            val (min, max) = (super.atmosphere.size - 1).toBukkitVector().generateMinAndMax()
+            field = atmosphere
+
+            val (min, max) = (field.size - 1).toBukkitVector().generateMinAndMax()
             inner.min.vector = min
             inner.max.vector = max
         }
 
     init {
-
-        println(atmosphere)
-        println(atmosphere.size)
-        println((atmosphere.size - 1).toBukkitVector())
-        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax())
-        println((atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion())
-        val region = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
-
-        inner = region
-        outer = region
-
+        inner = (atmosphere.size - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
+        outer = (atmosphere.maxSize - 1).toBukkitVector().generateMinAndMax().toBaseRegion()
     }
-
-    override fun load(result: (LoadedPlanet) -> Unit) = super<LoadedPlanet>.load(result)
 
     override fun unload() {
         save()
 
         val distance = (atmosphere.size * 2).toDouble()
-        val entities: Iterable<Entity> =
-            middle.world.getNearbyEntities(middle, distance, distance, distance)
+        val entities: Iterable<Entity> = world.getNearbyEntities(middle, distance, distance, distance)
 
-        entities.filter { it is Player }.forEach {
-            it.teleport(holder.loadedPlanets.find(Owner(it.uniqueId))?.middle ?: return@forEach)
+        entities.forEach {
+            val player = it as? Player ?: return@forEach
+            val loadedPlanet = player.owner.loadedPlanet ?: return@forEach
+            it.teleport(loadedPlanet.middle)
         }
 
-        holder.gridHandler.removeEntry(holder.gridHandler.getId(middle))
+        gridHandler.removeEntry(gridHandler.getId(middle))
 
-        EditSessionBuilder(holder.gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
+        EditSessionBuilder(gridHandler.world.toWEWorld()).limitUnlimited().build().apply {
             val cuboidRegion = CuboidRegion(
                 this.world,
                 outer.min.toWEVector(this@BaseLoadedPlanet),
@@ -119,13 +114,15 @@ class BaseLoadedPlanet(
             flushQueue()
         }
 
-        holder.loadedPlanets -= this
+        loadedPlanets -= this
     }
 
     override fun save() {
-        val databasePlanet = BasicDatabasePlanet.by(this)
-        holder.databaseHandler.savePlanet(databasePlanet)
-        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
+        delete()
+        databaseHandler.savePlanet(this.toBasicOfflinePlayer())
+        schematic.save(uniqueID.uuid)
+//        DynamicNetworkFactory.dynamicNetworkAPI.saveSchematic(uniqueID.uuid, schematic)
+        place()
     }
 
 
@@ -135,8 +132,39 @@ class BaseLoadedPlanet(
     private fun Pair<Vector, Vector>.toBaseRegion() = toPlanetLocation().toBaseRegion()
     private fun Pair<Vector, Vector>.toPlanetLocation() = first.toPlanetLocation() to second.toPlanetLocation()
     private fun Vector.toPlanetLocation() = PlanetLocation(uniqueID, this, middle.yaw, middle.pitch)
+
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BaseLoadedPlanet) return false
+
+        if (uniqueID != other.uniqueID) return false
+        if (owner != other.owner) return false
+        if (name != other.name) return false
+        if (members != other.members) return false
+        if (spawnLocation != other.spawnLocation) return false
+        if (metaData != other.metaData) return false
+        if (inner != other.inner) return false
+        if (outer != other.outer) return false
+        if (atmosphere != other.atmosphere) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = uniqueID.hashCode()
+        result = 31 * result + owner.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + members.hashCode()
+        result = 31 * result + spawnLocation.hashCode()
+        result = 31 * result + metaData.hashCode()
+        result = 31 * result + inner.hashCode()
+        result = 31 * result + outer.hashCode()
+        result = 31 * result + atmosphere.hashCode()
+        return result
+    }
+
+    override fun toString(): String =
+        "BaseLoadedPlanet(owner=$uniqueID, owner=$owner, name='$name', members=$members, spawnLocation=$spawnLocation, metaData=$metaData, inner=$inner, outer=$outer, atmosphere=$atmosphere)"
+
 }
-
-private fun Vector.generateMinAndMax() = clone().multiply(-1) to clone()
-
-

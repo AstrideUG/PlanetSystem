@@ -10,7 +10,7 @@ interface Atmosphere {
     /**
      * [size] is the radius
      * Change size
-     * and if loaded inner region and [atmosphere]
+     * and if loaded inner region and [Atmosphere]
      */
     val size: Byte
     /**

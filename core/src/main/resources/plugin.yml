@@ -5,5 +5,5 @@ authors:
 version: "@version@"
 main: de.astride.planetsystem.core.PlanetSystem
 depend:
-  - DynamicNetworkClient
+  #  - DynamicNetworkClient
   - DarkFrame
