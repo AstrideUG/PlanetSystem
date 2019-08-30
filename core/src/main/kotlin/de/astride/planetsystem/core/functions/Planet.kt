@@ -29,10 +29,17 @@ fun OfflinePlanet.load(): LoadedPlanet {
     val loadedPlanet = BaseLoadedPlanet(this, location)
     loadedPlanets += loadedPlanet
 
-    val schematic = uniqueID.uuid.getSchematic()
+    try {
 
-    schematic.paste(location.toWEWorld(), location.toWEVector())
-    loadedPlanet.place()
+        val schematic = uniqueID.uuid.getSchematic()
+        schematic.paste(location.toWEWorld(), location.toWEVector())
+        loadedPlanet.place()
+
+    } catch (exception: Exception) {
+        loadedPlanets -= loadedPlanet
+        gridHandler.removeEntry(gridHandler.getId(location))
+        throw exception
+    }
 
     return loadedPlanet
 

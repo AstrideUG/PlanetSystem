@@ -82,12 +82,14 @@ fun String?.replace(prefix: String, planetLocation: PlanetLocation) = replace(
 
 fun OfflinePlayer.load(planet: OfflinePlanet? = planetUniqueId.planet): PlanetPlayer? {
 
+    planet ?: return null
+
     if (this is PlanetPlayer) {
         players += this
         return this
     }
 
-    val loadedPlanet = planet?.load() ?: return null
+    val loadedPlanet = planet.load()
     val player = owner.uuid.toPlayer() ?: return null
     val planetPlayer = BasePlanetPlayer(player, loadedPlanet, history)
 

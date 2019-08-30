@@ -29,10 +29,7 @@ fun Schematic.save(uuid: UUID) {
 
     val blobInfo = BlobInfo.newBuilder(uuid.getBlobId()).setContentType("application/octet-stream").build()
 
-    val schematicBytes = ByteArrayOutputStream().run {
-        save(this, ClipboardFormat.SCHEMATIC)
-        toByteArray()
-    }
+    val schematicBytes = toByteArray()
 
     if (schematicBytes.isEmpty()) return
 
@@ -44,6 +41,12 @@ fun Schematic.save(uuid: UUID) {
 
 }
 
+fun Schematic.toByteArray(): ByteArray = ByteArrayOutputStream().run {
+    save(this, ClipboardFormat.SCHEMATIC)
+    toByteArray()
+}
+
+
 fun UUID.getSchematic(): Schematic {
 
     val blob = storage.get(getBlobId()) ?: storage.get("default".getBlobId())
@@ -53,6 +56,7 @@ fun UUID.getSchematic(): Schematic {
 
     val inputStream = ByteArrayInputStream(bytes)
     val clipboard = ClipboardFormat.SCHEMATIC.getReader(inputStream).read(null)
+
     return Schematic(clipboard)
 
 }
